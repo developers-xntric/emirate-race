@@ -1,0 +1,56 @@
+[
+  {
+    "width": 1920,
+    "scrollWidth": 1920,
+    "font": "leagueSpartan, \"leagueSpartan Fallback\"",
+    "broken": [],
+    "overflow": []
+  },
+  {
+    "width": 1440,
+    "scrollWidth": 1440,
+    "font": "leagueSpartan, \"leagueSpartan Fallback\"",
+    "broken": [],
+    "overflow": []
+  },
+  {
+    "width": 1024,
+    "scrollWidth": 1024,
+    "font": "leagueSpartan, \"leagueSpartan Fallback\"",
+    "broken": [],
+    "overflow": []
+  },
+  {
+    "width": 768,
+    "scrollWidth": 768,
+    "font": "leagueSpartan, \"leagueSpartan Fallback\"",
+    "broken": [],
+    "overflow": []
+  },
+  {
+    "width": 390,
+    "scrollWidth": 390,
+    "font": "leagueSpartan, \"leagueSpartan Fallback\"",
+    "broken": [],
+    "overflow": []
+  },
+  {
+    "width": 320,
+    "scrollWidth": 320,
+    "font": "leagueSpartan, \"leagueSpartan Fallback\"",
+    "broken": [],
+    "overflow": []
+  },
+  {
+    "mobileMenuVisible": true
+  },
+  {
+    "mobileMenuClosed": true
+  },
+  {
+    "faqOpens": true
+  },
+  {
+    "runtimeErrors": []
+  }
+]

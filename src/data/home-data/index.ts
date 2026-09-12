@@ -1,0 +1,366 @@
+// Homepage copy and asset assignments transcribed from Figma frame 71:3096.
+// Registration, social and legal destinations must be supplied by the organizer.
+export const homeData = {
+  brand: "Emirates Villages Run Series",
+  metadata: {
+    title: "Emirates Villages Run Series 2026",
+    description:
+      "Seven races. Seven villages. Seven emirates. Discover the UAE one run at a time with the Emirates Villages Run Series.",
+  },
+  register: { label: "Register Now", href: "" },
+  navigation: [
+    { label: "About EVRS", href: "#about" },
+    { label: "Meet Rahhal", href: "#rahhal" },
+    { label: "Race Calendar", href: "#calendar" },
+    { label: "Race Distances", href: "#distances" },
+    { label: "Medal Journey", href: "#medal" },
+    { label: "Prizes", href: "#prizes" },
+    { label: "FAQs", href: "#faqs" },
+  ],
+  ui: {
+    menu: "Open navigation",
+    closeMenu: "Close navigation",
+    skip: "Skip to content",
+    play: "Play video",
+    pause: "Pause video",
+    video: "Emirates Villages race film",
+  },
+  assets: {
+    logo: "/home/logo.svg",
+    footerLogo: "/home/footer-logo.png",
+    heroVideo: "/home/hero-video.webm",
+    heroPoster: "/home/hero-poster.jpg",
+    heroBorder: "/home/hero-bg-last.png",
+    aboutVideo: "/home/about-section-video.webm",
+    aboutPoster: "/home/about-poster.jpg",
+    recognitionRunA: "/home/run-a.mp4",
+    recognitionRunB: "/home/run-b.mp4",
+    rahhal: "/home/rahhal.png",
+    distancesBackground: "/home/distances-background.png",
+    distancesBackgroundMobile: "/home/race-mob.png",
+    quote: "/home/quote.svg",
+    nextRaceFlag: "/home/next-race-flag.svg",
+    calendarGrid: "/home/calendar-grid.svg",
+    calendarLine: "/home/calendar.svg",
+    medalPattern: "/home/medal-pattern.png",
+    ctaPattern: "/home/cta-pattern.png",
+    prizeRahhal: "/home/rahhal-prize.png",
+    prizeRunners: "/home/prizes-runners.png",
+    faqScenery: "/home/faq-scenery-2.png",
+    plus: "/home/plus.svg",
+    footerChecker: "/home/footer-checker.svg",
+    email: "/home/email.svg",
+  },
+  hero: {
+    title: ["Discover", "Emirates Villages,", "One Run at a Time"],
+    paragraphs: [
+      "Seven races. Seven villages. Seven emirates. One unforgettable journey across the UAE.",
+      "The Emirates Villages Run Series returns for its second edition, inviting you to run beyond the familiar and discover the landscapes, heritage and communities that make every village unique.",
+    ],
+    next: "NEXTRUN",
+    dates: "10 October - 5 December 2026",
+    cta: "Explore the Races",
+  },
+  about: {
+    eyebrow: "About EVRS",
+    title: "Seven Races. One Journey Across the UAE.",
+    paragraphs: [
+      "The Emirates Villages Run Series is the UAE's nationwide running challenge, connecting all seven emirates through sport, community, heritage and discovery.",
+      "Across seven races, participants journey into a different village, where every route reveals a new landscape, a local story and another side of the UAE.",
+      "Whether you are an experienced runner, joining with your family or stepping onto the start line for the first time, EVRS invites you to keep moving and keep discovering what comes next.",
+    ],
+    patronage:
+      "Held under the patronage of H.H. Sheikh Theyab bin Mohamed bin Zayed Al Nahyan",
+  },
+  rahhal: {
+    eyebrow: "Meet Rahhal",
+    title: "Competitive Spirit. Community Heart.",
+    paragraphs: [
+      "Inspired by the houbara bird, Rahhal is the official EVRS mascot. He is confident, mischievous and always ready to race, but behind his competitive spirit is a big community heart.",
+      "Rahhal will be travelling across all seven emirates. Look out for him at EVRS activities, in the villages and along the race route. He might challenge you to a race, celebrate your finish or help you win a place at the next event.",
+    ],
+    challenge: "Think you can beat Rahhal?",
+    invitation: "Meet him at the next race.",
+    follow: "Follow Rahhal's Journey",
+    register: "Register to Race with Rahhal",
+    traits: [
+      {
+        title: "Proud Houbara",
+        description: "Inspired by one of the UAE's most distinctive birds",
+        color: "bg-[#0b2d4d]",
+      },
+      {
+        title: "Born to Race",
+        description:
+          "Rahhal believes every path is a racetrack and everyone secretly wants to race him",
+        color: "bg-[#706cb5]",
+      },
+      {
+        title: "Community Champion",
+        description:
+          "He celebrates every runner, from first-time participants to experienced athletes.",
+        color: "bg-[#418fcc]",
+      },
+      {
+        title: "Race-Day Guide",
+        description:
+          "Rahhal helps runners warm up, stay hydrated, respect the route and keep every village clean.",
+        color: "bg-[#bb0054]",
+      },
+    ],
+  },
+  distances: {
+    eyebrow: "Race Distances",
+    title: "Choose Your Challenge",
+    cards: [
+      {
+        title: "10KM Competitive Run",
+        description:
+          "The flagship EVRS race: a timed challenge for experienced runners and anyone ready to test their pace across a unique village route.",
+        image: "/home/race-10km.png",
+        alt: "Runners at the start of the 10KM competitive race",
+        cta: "Register for the 10KM",
+      },
+      {
+        title: "5KM Community Run",
+        description:
+          "A timed race for running clubs, groups, recreational runners and active communities of all generations.",
+        image: "/home/race-5km.png",
+        alt: "Community runners starting their 5KM race",
+        cta: "Register for the 5KM",
+      },
+      {
+        title: "1.5KM Family Run",
+        description:
+          "A fun, inclusive distance for families, children, first-time runners and anyone who wants to experience the energy of EVRS.-49 | 50-59 | 60+",
+        image: "/home/race-family.png",
+        alt: "Families and runners at the Emirates Villages start line",
+        cta: "Register for the 1.5KM",
+      },
+    ],
+    factsLabel: "Quick Facts",
+    factsTitle: "EVRS 2026 at a Glance",
+    facts: [
+      { title: "Second Edition", detail: "Returning in 2026" },
+      { title: "Seven Races", detail: "One race in every emirate" },
+      {
+        title: "Seven Villages",
+        detail: "Seven landscapes, communities and stories",
+      },
+      { title: "Season", detail: "10 October - 5 December 2026" },
+    ],
+  },
+  calendar: {
+    eyebrow: "Race Calendar",
+    title: "Seven Villages Are Waiting",
+    register: "Register for the Series",
+    details: "View Race Details",
+    dayLabel: "Sat",
+    raceLabel: "Race",
+    races: [
+      {
+        village: "Qidfa",
+        emirate: "Fujairah",
+        day: "10",
+        month: "Oct 2026",
+        date: "2026-10-10",
+        icon: "/home/calendar-1.svg",
+        art: "/home/calendar-9.svg",
+        artWidth: 124.295,
+        artHeight: 104.179,
+        iconWidth: 64.6933,
+        iconHeight: 49.5946,
+        position: "lg:translate-y-[30px] lg:-rotate-[11.66deg]",
+      },
+      {
+        village: "Al Lehbab",
+        emirate: "Dubai",
+        day: "17",
+        month: "Oct 2026",
+        date: "2026-10-17",
+        icon: "/home/calendar-7.svg",
+        art: "/home/calendar-10.svg",
+        artWidth: 125.621,
+        artHeight: 77.3714,
+        iconWidth: 58.7324,
+        iconHeight: 40.9813,
+        position: "lg:-translate-y-[20px] lg:rotate-[-2deg]",
+      },
+      {
+        village: "Wadi Al Helo",
+        emirate: "Sharjah",
+        day: "24",
+        month: "Oct 2026",
+        date: "2026-10-24",
+        icon: "/home/calendar-2.svg",
+        art: "/home/calendar-11.svg",
+        artWidth: 136.015,
+        artHeight: 92.407,
+        iconWidth: 54.9605,
+        iconHeight: 42.3682,
+        position:
+          "lg:translate-y-[60px] lg:-rotate-[11.66deg] lg:translate-x-[10px]",
+      },
+      {
+        village: "Falaj Al Mualla",
+        emirate: "Umm Al Quwain",
+        day: "31",
+        month: "Oct 2026",
+        date: "2026-10-31",
+        icon: "/home/calendar-3.svg",
+        art: "/home/calendar-4.svg",
+        artWidth: 129.493,
+        artHeight: 77.6788,
+        iconWidth: 50.347,
+        iconHeight: 52.6105,
+        position:
+          "lg:-translate-y-[45px] lg:-rotate-[11.66deg] lg:translate-x-[-10px]",
+      },
+      {
+        village: "Masfout",
+        emirate: "Ajman",
+        day: "14",
+        month: "Nov 2026",
+        date: "2026-11-14",
+        icon: "/home/calendar-6.svg",
+        art: "/home/calendar-12.svg",
+        artWidth: 132.622,
+        artHeight: 85.4447,
+        iconWidth: 26.695,
+        iconHeight: 38.8936,
+        position: "lg:translate-y-[50px] lg:rotate-[6.53deg]",
+      },
+      {
+        village: "Al Rams",
+        emirate: "Ras Al Khaimah",
+        day: "28",
+        month: "Nov 2026",
+        date: "2026-11-28",
+        icon: "/home/calendar-5.svg",
+        art: "/home/calendar-13.svg",
+        artWidth: 107.671,
+        artHeight: 139.553,
+        iconWidth: 61.637,
+        iconHeight: 38.4802,
+        position: "lg:-translate-y-[40px] lg:-rotate-[11.66deg]",
+      },
+      {
+        village: "Al Shuwaib",
+        emirate: "Abu Dhabi",
+        day: "05",
+        month: "Dec 2026",
+        date: "2026-12-05",
+        icon: "/home/calendar-8.svg",
+        art: "/home/calendar-14.svg",
+        artWidth: 106.267,
+        artHeight: 93.8519,
+        iconWidth: 81.0342,
+        iconHeight: 26.0924,
+        position:
+          "lg:translate-y-[40px] lg:-rotate-[8deg] lg:translate-x-[14px]",
+      },
+    ],
+  },
+  medal: {
+    eyebrow: "Medal and Legacy",
+    title: "Complete the Journey",
+    paragraphs: [
+      "Every race adds another piece to your EVRS journey.",
+      "Complete all seven races to collect the full seven-piece medal, with each piece representing a village, an emirate and one chapter of the season.",
+      "Seven races. Seven medals. One complete journey.",
+    ],
+    cta: "Start Your Journey",
+  },
+  prizes: {
+    title: "AED 1,000,000 Prize Pool",
+    description:
+      "Compete for your place on the podium and a share of the AED 1 million prize pool across eligible EVRS race categories.",
+    cta: "View Prize Categories",
+    alt: "Rahhal presenting the AED 1,000,000 prize pool",
+    photoAlt: "Runners celebrating an Emirates Villages race",
+  },
+  recognition: {
+    eyebrow: "Recognition and Legacy",
+    title: "A National Journey with International Recognition",
+    cta: "Be Part of the Second Edition",
+    paragraphs: [
+      "In its inaugural year, the Emirates Villages Run Series earned international recognition through the UN Tourism Sports Tourism Award.",
+      "EVRS returns in 2026 to continue connecting sport with authentic village destinations and introduce more people to the communities, landscapes and stories found across the UAE.",
+    ],
+  },
+  faq: {
+    eyebrow: "FAQ's",
+    title: "Frequently Asked Questions",
+    // FAQ answers supplied by the organizer.
+    columns: [
+      [
+        {
+          question: "Who can participate in EVRS?",
+          answer:
+            "EVRS welcomes families, children, recreational runners, running clubs and experienced athletes. Participants can choose the distance that best suits their age and ability.",
+        },
+        {
+          question: "What distances are available?",
+          answer:
+            "EVRS offers three distances: the 1.5KM Family Run, 5KM Community Run and 10KM Competitive Run.",
+        },
+        {
+          question: "How do I register?",
+          answer:
+            "Select any Register Now button on the website to visit the official registration platform. You can register for an individual race or select an available series package.",
+        },
+        {
+          question: "Can I participate in more than one race?",
+          answer:
+            "Yes. Participants can join individual races or take on the complete seven-race journey across all seven emirates.",
+        },
+      ],
+      [
+        {
+          question: "How do I complete the seven-piece medal?",
+          answer:
+            "Complete all seven EVRS races to collect every piece and assemble the full series medal.",
+        },
+        {
+          question: "What time do the races begin?",
+          answer:
+            "All races begin at 4:00 PM. Participants should arrive by 2:30 PM for registration and race preparations.",
+        },
+        {
+          question: "Are there prizes?",
+          answer:
+            "Yes. EVRS 2026 features a total prize pool of AED 1 million across eligible race categories.",
+        },
+        {
+          question: "Where can I find race results?",
+          answer:
+            "Official results will be published on the EVRS website and shared through the official EVRS communication channels after each race.",
+        },
+        {
+          question: "Where will the 2026 races take place?",
+          answer:
+            "The series will visit Qidfa, Al Lehbab, Al-Wadi Al-Hilo, Falaj Al Mualla, Masfout, Al Rams and Al Shuwaib.",
+        },
+      ],
+    ],
+  },
+  cta: {
+    title: "Your Next Village Is Waiting",
+    paragraphs: [
+      "Run beyond the familiar and discover the UAE one village, one community and one finish line at a time.",
+      "Discover Emirates Villages, One Run at a Time.",
+    ],
+    explore: "Explore",
+  },
+  footer: {
+    description:
+      "The Emirates Villages Run Series is the UAE's nationwide running series, connecting seven villages across all seven emirates through sport, community, heritage and discovery.",
+    organizer: "Organised by the Emirates Council for Balanced Development",
+    quickLinks: "Quick Links",
+    recognition: "Recognition",
+    email: "info@emiratesvillages.ae",
+    socials: ["Instagram", "TikTok"],
+    copyright: "© 2026 Emirates Villages Run Series. All rights reserved.",
+    legal: ["Privacy Policy", "Terms and Conditions", "Registration Terms"],
+  },
+} as const;

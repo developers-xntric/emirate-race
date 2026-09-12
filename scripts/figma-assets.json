@@ -1,0 +1,206 @@
+[
+  {
+    "node": "71:3217",
+    "variable": "imgGroup",
+    "url": "https://www.figma.com/api/mcp/asset/d7ea9b8b-d644-49f4-afb1-600800060e38.svg",
+    "path": "/home/logo.svg"
+  },
+  {
+    "node": "71:3349",
+    "variable": "imgAsset34X1",
+    "url": "https://www.figma.com/api/mcp/asset/d7ce4e20-06ae-4c2f-bd9f-1e8c916838f3.png",
+    "path": "/home/rahhal.png"
+  },
+  {
+    "node": "71:3184",
+    "variable": "imgRectangle3463887",
+    "url": "https://www.figma.com/api/mcp/asset/2b5df9a1-af87-4e90-ba9a-9b29d8317058.png",
+    "path": "/home/distances-background.png"
+  },
+  {
+    "node": "71:3366",
+    "variable": "imgRectangle3463873",
+    "url": "https://www.figma.com/api/mcp/asset/2fd74a83-b80e-49b1-9843-a8cb60ad9d27.png",
+    "path": "/home/race-10km.png"
+  },
+  {
+    "node": "71:3372",
+    "variable": "imgRectangle3463871",
+    "url": "https://www.figma.com/api/mcp/asset/b1961b20-eaf8-4752-ade0-00532a437f2c.png",
+    "path": "/home/race-5km.png"
+  },
+  {
+    "node": "71:3378",
+    "variable": "imgRectangle3463874",
+    "url": "https://www.figma.com/api/mcp/asset/1e361fcd-9e30-484a-a2c3-03ab98572483.png",
+    "path": "/home/race-family.png"
+  },
+  {
+    "node": "71:3613",
+    "variable": "imgRectangle3463892",
+    "url": "https://www.figma.com/api/mcp/asset/43a1f446-aa75-439e-939b-8cbe5606d921.png",
+    "path": "/home/prizes-runners.png"
+  },
+  {
+    "node": "71:3630",
+    "variable": "imgImage43",
+    "url": "https://www.figma.com/api/mcp/asset/d3429d06-650d-474d-8552-7fe6564a11f8.png",
+    "path": "/home/medal-pattern.png"
+  },
+  {
+    "node": "71:3660",
+    "variable": "imgImage44",
+    "url": "https://www.figma.com/api/mcp/asset/0f92a85b-592c-4d2a-833f-078213a78722.png",
+    "path": "/home/cta-pattern.png"
+  },
+  {
+    "node": "71:3872",
+    "variable": "imgAsset154X1",
+    "url": "https://www.figma.com/api/mcp/asset/c3463eee-d20c-4a12-b8e9-2c8a2d9db802.png",
+    "path": "/home/footer-logo.png"
+  },
+  {
+    "node": "71:3892",
+    "variable": "imgChatGptImageSep122026022848Pm1",
+    "url": "https://www.figma.com/api/mcp/asset/d9fcf093-e757-4886-aa62-6ce666a2f4cd.png",
+    "path": "/home/rahhal-prize.png"
+  },
+  {
+    "node": "71:3205",
+    "variable": "img6A07797F9D9Afccd14417A0ARun1",
+    "url": "https://www.figma.com/api/mcp/asset/5f02a232-0fd6-4e83-b408-7c4e9589070d.svg",
+    "path": "/home/next-race-flag.svg"
+  },
+  {
+    "node": "71:3334",
+    "variable": "imgVector",
+    "url": "https://www.figma.com/api/mcp/asset/c4ef5e20-de5b-4f18-80b6-ddc9e1707941.svg",
+    "path": "/home/quote.svg"
+  },
+  {
+    "node": "71:3673",
+    "variable": "img6A07797F9D9Afccd14417A0ARun2",
+    "url": "https://www.figma.com/api/mcp/asset/a31a8962-2d42-4e81-980a-d645d30392e6.svg",
+    "path": "/home/footer-checker.svg"
+  },
+  {
+    "node": "71:3882",
+    "variable": "imgGroup1984079460",
+    "url": "https://www.figma.com/api/mcp/asset/1b81ddd2-b0cc-452f-bb00-8ee19dd5e9ed.svg",
+    "path": "/home/email.svg"
+  },
+  {
+    "node": "71:3889",
+    "variable": "imgRectangle3463908",
+    "url": "https://www.figma.com/api/mcp/asset/57b30570-34ee-4046-a32b-8913bca3dd1a.png",
+    "path": "/home/faq-scenery.png"
+  },
+  {
+    "node": "71:3889",
+    "variable": "imgChatGptImageSep122026014625Pm1",
+    "url": "https://www.figma.com/api/mcp/asset/86ddeb28-d924-4445-b536-8652e5bdeede.png",
+    "path": "/home/faq-scenery-1.png"
+  },
+  {
+    "node": "71:3403",
+    "variable": "imgVector4650",
+    "url": "https://www.figma.com/api/mcp/asset/ef116692-5b2d-49a7-a120-5d3dcf7025f8.svg",
+    "path": "/home/calendar.svg"
+  },
+  {
+    "node": "71:3403",
+    "variable": "imgGroup1984079435",
+    "url": "https://www.figma.com/api/mcp/asset/35aeaada-66da-48cf-a689-c3e8971af7c4.svg",
+    "path": "/home/calendar-1.svg"
+  },
+  {
+    "node": "71:3403",
+    "variable": "imgGroup1984079445",
+    "url": "https://www.figma.com/api/mcp/asset/1f95d3af-17ac-45f9-a621-23824a057aaa.svg",
+    "path": "/home/calendar-2.svg"
+  },
+  {
+    "node": "71:3403",
+    "variable": "imgGroup1984079446",
+    "url": "https://www.figma.com/api/mcp/asset/69535f28-51b0-45c5-8888-29034b66b6ef.svg",
+    "path": "/home/calendar-3.svg"
+  },
+  {
+    "node": "71:3403",
+    "variable": "imgGroup",
+    "url": "https://www.figma.com/api/mcp/asset/c2f1ba4d-dc91-4d13-8c9f-f44ca7666be6.svg",
+    "path": "/home/calendar-4.svg"
+  },
+  {
+    "node": "71:3403",
+    "variable": "imgGroup1984079444",
+    "url": "https://www.figma.com/api/mcp/asset/e295e631-654f-4b6a-b6ab-02039f2c472c.svg",
+    "path": "/home/calendar-5.svg"
+  },
+  {
+    "node": "71:3403",
+    "variable": "imgVector",
+    "url": "https://www.figma.com/api/mcp/asset/9f8d0ed7-6a63-4cb4-9705-0c4c535a0895.svg",
+    "path": "/home/calendar-6.svg"
+  },
+  {
+    "node": "71:3403",
+    "variable": "imgVector1",
+    "url": "https://www.figma.com/api/mcp/asset/0cd46e3e-514a-4929-b038-4f16c1c4afc1.svg",
+    "path": "/home/calendar-7.svg"
+  },
+  {
+    "node": "71:3403",
+    "variable": "imgGroup1984079447",
+    "url": "https://www.figma.com/api/mcp/asset/f5221a5e-8065-417a-b7a1-c6ca16235cc5.svg",
+    "path": "/home/calendar-8.svg"
+  },
+  {
+    "node": "71:3403",
+    "variable": "imgGroup1",
+    "url": "https://www.figma.com/api/mcp/asset/4a65cb13-6378-46e0-9702-d7057f276efe.svg",
+    "path": "/home/calendar-9.svg"
+  },
+  {
+    "node": "71:3403",
+    "variable": "imgLayer1",
+    "url": "https://www.figma.com/api/mcp/asset/709cc0f2-7948-45cf-8d66-29be81430d19.svg",
+    "path": "/home/calendar-10.svg"
+  },
+  {
+    "node": "71:3403",
+    "variable": "imgAsset91",
+    "url": "https://www.figma.com/api/mcp/asset/b6782705-afee-4a60-824a-3b9a6b250bc9.svg",
+    "path": "/home/calendar-11.svg"
+  },
+  {
+    "node": "71:3403",
+    "variable": "imgGroup2",
+    "url": "https://www.figma.com/api/mcp/asset/5ffddd26-04f6-43b0-a3cf-8a7b99a0af5c.svg",
+    "path": "/home/calendar-12.svg"
+  },
+  {
+    "node": "71:3403",
+    "variable": "imgGroup3",
+    "url": "https://www.figma.com/api/mcp/asset/b7539993-c076-46e2-b303-8f4642307f19.svg",
+    "path": "/home/calendar-13.svg"
+  },
+  {
+    "node": "71:3403",
+    "variable": "imgGroup4",
+    "url": "https://www.figma.com/api/mcp/asset/681ad631-6296-4909-8756-ea487e2ecf6f.svg",
+    "path": "/home/calendar-14.svg"
+  },
+  {
+    "node": "71:3641",
+    "variable": "imgVector",
+    "url": "https://www.figma.com/api/mcp/asset/280de195-c4a3-4073-8e64-7816d8ded317.svg",
+    "path": "/home/plus.svg"
+  },
+  {
+    "node": "71:3098",
+    "variable": "imgGroup1984079452",
+    "url": "https://www.figma.com/api/mcp/asset/4935e376-f545-4121-ad49-65d472c6482b.svg",
+    "path": "/home/calendar-grid.svg"
+  }
+]
