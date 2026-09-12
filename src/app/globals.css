@@ -3,7 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --font-heading: var(--font-cronos-pro);
+  --font-heading: var(--font-league-spartan);
 }
 
 @theme inline {

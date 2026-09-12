@@ -14,17 +14,6 @@ const leagueSpartan = localFont({
   display: "swap",
 });
 
-const cronosPro = localFont({
-  src: [
-    { path: "../../public/fonts/Cronos-Pro-Light_12448.ttf", weight: "300", style: "normal" },
-    { path: "../../public/fonts/Cronos-Pro-Semibold_12456.ttf", weight: "600", style: "normal" },
-    { path: "../../public/fonts/Cronos-Pro-Bold_12435.ttf", weight: "700", style: "normal" },
-    { path: "../../public/fonts/Cronos-Pro-Semibold-Caption-Italic_12449.ttf", weight: "600", style: "italic" },
-  ],
-  variable: "--font-cronos-pro",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   title: "Emirate Race",
   description: "Emirate Race",
@@ -37,7 +26,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${leagueSpartan.variable} ${cronosPro.variable} h-full antialiased`}
+      className={`${leagueSpartan.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
