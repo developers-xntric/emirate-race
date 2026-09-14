@@ -16,7 +16,7 @@ export default function About() {
             title={data.about.title}
           />
           <div className="md:inline-flex hidden">
-            <Button href={data.register.href} className="hidden md:inline-flex">
+            <Button href={data.register.href} tone="pink" className="hidden md:inline-flex">
               {data.register.label}
             </Button>
           </div>
@@ -28,7 +28,7 @@ export default function About() {
             ))}
           </div>
           <div className="flex items-end justify-end">
-            <Button href={data.register.href} className="mt-2 md:hidden bg-[#BB0054] text-white">
+            <Button href={data.register.href} tone="pink" className="mt-2 md:hidden">
               {data.register.label}
             </Button>
           </div>

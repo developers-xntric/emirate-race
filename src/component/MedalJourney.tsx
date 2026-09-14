@@ -32,7 +32,7 @@ export default function MedalJourney() {
             </p>
           ))}
         </div>
-        <Button href={data.register.href} tone="white" className="mt-8">
+        <Button href={data.register.href} tone="pink" className="mt-8">
           {data.medal.cta}
         </Button>
       </article>
@@ -62,7 +62,7 @@ export default function MedalJourney() {
           </div>
           <div className="relative z-10 mt-8 flex flex-wrap gap-3">
             <Button href="#prize-answer">{data.prizes.cta}</Button>
-            <Button href={data.register.href} tone="white">
+            <Button href={data.register.href} tone="pink">
               {data.register.label}
             </Button>
           </div>

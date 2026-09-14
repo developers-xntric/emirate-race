@@ -31,7 +31,7 @@ export default function Navbar() {
             {link.label}
           </a>
         ))}
-        <Button href={data.register.href} tone="white">
+        <Button href={data.register.href} tone="pink">
           {data.register.label}
         </Button>
       </nav>

@@ -168,8 +168,8 @@ export default function RaceCalendar() {
           ))}
         </div>
         <div className="mt-12 flex flex-wrap justify-center gap-2 md:gap-5">
-          <Button href={data.register.href}>{data.calendar.register}</Button>
-          <Button href="#distances" tone="pink">
+          <Button href={data.register.href} tone="pink">{data.calendar.register}</Button>
+          <Button href="#distances" tone="navy">
             {data.calendar.details}
           </Button>
         </div>

@@ -50,7 +50,7 @@ export default function Recognition() {
             <p key={text}>{text}</p>
           ))}
         </div>
-        <Button href={data.register.href} className="mt-6">
+        <Button href={data.register.href} tone="pink" className="mt-6">
           {data.recognition.cta}
         </Button>
       </div>

@@ -78,7 +78,7 @@ export default function RaceDistances() {
               </p>
               <Button
                 href={data.register.href}
-                tone="white"
+                tone="pink"
                 className="mt-auto w-full"
               >
                 {card.cta}
