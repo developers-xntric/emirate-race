@@ -27,9 +27,11 @@ export default function About() {
               <p key={text}>{text}</p>
             ))}
           </div>
-          <Button href={data.register.href} className="mt-7 md:hidden">
-            {data.register.label}
-          </Button>
+          <div className="flex items-end justify-end">
+            <Button href={data.register.href} className="mt-2 md:hidden ">
+              {data.register.label}
+            </Button>
+          </div>
           <div className="mt-7">
             <Image
               src={data.assets.quote}

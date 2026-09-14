@@ -103,7 +103,7 @@ function MobileRaceMarquee() {
       onPointerDown={stopAutoScroll}
       onPointerUp={resumeAutoScroll}
       onPointerCancel={resumeAutoScroll}
-      className="relative left-1/2 lg:mt-20 w-screen -translate-x-1/2 overflow-x-auto touch-pan-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      className="relative left-1/2 mt-3 lg:mt-20 w-screen -translate-x-1/2 overflow-x-auto touch-pan-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
     >
       <div className="flex w-max gap-4 px-4 pt-12">
         {marqueeRaces.map((race, index) => (
@@ -167,7 +167,7 @@ export default function RaceCalendar() {
             />
           ))}
         </div>
-        <div className="mt-12 flex flex-wrap justify-center gap-5">
+        <div className="mt-12 flex flex-wrap justify-center gap-2 md:gap-5">
           <Button href={data.register.href}>{data.calendar.register}</Button>
           <Button href="#distances" tone="pink">
             {data.calendar.details}

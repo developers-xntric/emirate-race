@@ -51,12 +51,19 @@ function SocialIcon({ label }: { label: string }) {
       </div>
       <div className="bg-[#072f4f]">
         <div className="mx-auto w-[90%] pt-10 2xl:max-w-[1440px]">
-          <div className="grid gap-10 md:grid-cols-2 md:gap-[90px]">
+          <div className="grid gap-5 md:gap-10 md:grid-cols-2 md:gap-[90px]">
             <div className="max-w-[620px]">
-              <p className="text-lg leading-tight lg:text-base 2xl:text-lg">
+              <Image
+                src={data.assets.footerLogo}
+                alt={data.brand}
+                width={486}
+                height={107}
+                className="mb-7 block h-auto w-[200px] max-w-full object-contain object-left md:hidden"
+              />
+              <p className="text-[15px] md:text-lg leading-tight lg:text-base 2xl:text-lg">
                 {data.footer.description}
               </p>
-              <p className="mt-5 text-lg leading-tight lg:text-base 2xl:text-lg">
+              <p className="mt-5 text-[15px] md:text-lg leading-tight lg:text-base 2xl:text-lg">
                 {data.footer.organizer}
               </p>
               <Image
@@ -64,12 +71,12 @@ function SocialIcon({ label }: { label: string }) {
                 alt={data.brand}
                 width={486}
                 height={107}
-                className="mt-9 md:h-[96px] w-[200px] md:w-[438px] max-w-full object-contain object-left"
+                className="mt-9 hidden w-[438px] max-w-full object-contain object-left md:block md:h-[96px]"
               />
             </div>
             <div>
               <h2 className="text-xl font-bold">{data.footer.quickLinks}</h2>
-              <div className="mt-7 grid grid-cols-3 md:gap-5">
+              <div className="mt-3 md:mt-7 grid grid-cols-3 md:gap-5">
                 {columns.map((column, index) => (
                   <ul key={index} className="space-y-2 md:space-y-4">
                     {column.map((link) => (
@@ -94,7 +101,7 @@ function SocialIcon({ label }: { label: string }) {
                   </ul>
                 ))}
               </div>
-              <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
+              <div className="mt-5 md:mt-10 flex flex-wrap items-center justify-between gap-4">
                 <a
                   href={`mailto:${data.footer.email}`}
                   className="flex items-center gap-3 text-lg font-bold hover:underline"
