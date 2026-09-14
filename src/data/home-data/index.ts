@@ -7,7 +7,10 @@ export const homeData = {
     description:
       "Seven races. Seven villages. Seven emirates. Discover the UAE one run at a time with the Emirates Villages Run Series.",
   },
-  register: { label: "Register Now", href: "" },
+  register: {
+    label: "Register Now",
+    href: "https://www.premieronline.com/emirates-villages-run",
+  },
   navigation: [
     { label: "About EVRS", href: "#about" },
     { label: "Meet Rahhal", href: "#rahhal" },
@@ -313,14 +316,14 @@ export const homeData = {
           question: "Can I participate in more than one race?",
           answer:
             "Yes. Participants can join individual races or take on the complete seven-race journey across all seven emirates.",
-        },
-      ],
-      [
-        {
+        },        {
           question: "How do I complete the seven-piece medal?",
           answer:
             "Complete all seven EVRS races to collect every piece and assemble the full series medal.",
         },
+      ],
+      [
+
         {
           question: "What time do the races begin?",
           answer:
@@ -359,7 +362,11 @@ export const homeData = {
     quickLinks: "Quick Links",
     recognition: "Recognition",
     email: "info@emiratesvillages.ae",
-    socials: ["Instagram", "TikTok"],
+    socials: [
+      { label: "Instagram", href: "https://www.instagram.com/evrsuae" },
+      { label: "TikTok", href: "https://www.tiktok.com/@evrsuae" },
+      { label: "YouTube", href: "https://www.youtube.com/@EVRS-2025" },
+    ],
     copyright: "© 2026 Emirates Villages Run Series. All rights reserved.",
     legal: ["Privacy Policy", "Terms and Conditions", "Registration Terms"],
   },

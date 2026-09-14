@@ -1,10 +1,13 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { homeData as data } from "@/data/home-data";
 import SectionHeading from "./SectionHeading";
 import Button from "./Button";
 function ChallengeMessage({ className = "" }: { className?: string }) {
   return (
-    <div className={`mt-8 2xl:mt-16 ${className}`}>
+    <div className={`md:mt-8 flex flex-col items-center 2xl:mt-16 lg:items-start ${className}`}>
       <p className="w-fit bg-[#0b2d4d] px-4 py-3  md:text-xl leading-none font-bold text-white uppercase 2xl:text-[28px]">
         {data.rahhal.challenge}
       </p>
@@ -16,8 +19,33 @@ function ChallengeMessage({ className = "" }: { className?: string }) {
 }
 
 export default function Rahhal() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [animationCycle, setAnimationCycle] = useState(0);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          setAnimationCycle((current) => current + 1);
+        } else {
+          setIsVisible(false);
+        }
+      },
+      { threshold: 0.25 },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id="rahhal"
       className="relative mx-auto w-[90%] scroll-mt-8 pb-16 2xl:max-w-[1440px] 2xl:pb-[82px]"
     >
@@ -61,23 +89,21 @@ export default function Rahhal() {
           <ChallengeMessage className="lg:hidden" />
         </div>
         <div className="grid grid-cols-2">
-  {data.rahhal.traits.map((trait, i) => (
-    <article
-      key={trait.title}
-      className={`flex min-h-[235px] flex-col ${
-        i === 0 || i === 2 ? "justify-start" : "justify-end"
-      } gap-3 rounded-[20px] p-5 text-white 2xl:min-h-[253px] ${trait.color}`}
-    >
-      <h3 className="text-xl leading-none font-bold uppercase 2xl:text-[24px]">
-        {trait.title}
-      </h3>
-
-      <p className="text-base font-light leading-[1.25] 2xl:text-lg">
-        {trait.description}
-      </p>
-    </article>
-  ))}
-</div>
+          {data.rahhal.traits.map((trait, i) => (
+            <article
+              key={`${trait.title}-${animationCycle}`}
+              className={`flex min-h-[235px] flex-col justify-center gap-3 rounded-[20px] p-5 text-white transition-[opacity,transform] duration-500 ${isVisible ? "motion-safe:animate-rahhal-trait-reveal" : "opacity-0 scale-0"} motion-reduce:opacity-100 motion-reduce:scale-100 2xl:min-h-[253px] ${trait.color}`}
+              style={{ animationDelay: `${i * 0.18}s` }}
+            >
+              <h3 className="text-xl leading-none font-bold uppercase 2xl:text-[24px]">
+                {trait.title}
+              </h3>
+              <p className="text-base font-light leading-[1.25] 2xl:text-lg">
+                {trait.description}
+              </p>
+            </article>
+          ))}
+        </div>
       </div>
       <div className="mt-10 flex flex-wrap justify-center gap-5">
         <Button href="#calendar">{data.rahhal.follow}</Button>

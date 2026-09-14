@@ -15,7 +15,11 @@ export default function About() {
             eyebrow={data.about.eyebrow}
             title={data.about.title}
           />
-          <Button href={data.register.href}>{data.register.label}</Button>
+          <div className="md:inline-flex hidden">
+            <Button href={data.register.href} className="hidden md:inline-flex">
+              {data.register.label}
+            </Button>
+          </div>
         </div>
         <div>
           <div className="space-y-5 text-lg leading-[1.25] text-black lg:text-base 2xl:text-lg">
@@ -23,6 +27,9 @@ export default function About() {
               <p key={text}>{text}</p>
             ))}
           </div>
+          <Button href={data.register.href} className="mt-7 md:hidden">
+            {data.register.label}
+          </Button>
           <div className="mt-7">
             <Image
               src={data.assets.quote}

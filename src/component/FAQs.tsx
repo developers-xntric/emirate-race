@@ -41,19 +41,6 @@ export default function FAQs() {
                   )}
                 </details>
               ))}
-              {index === 0 && (
-                <div className="relative bottom-3 h-[96px] rounded-[10px] md:block hidden">
-                  <div className="absolute inset-0 overflow-hidden rounded-[16px]">
-                    <Image
-                      src={data.assets.faqScenery}
-                      alt=""
-                      fill
-                      sizes="45vw"
-                      className=""
-                    />
-                  </div>
-                </div>
-              )}
             </div>
           ))}
         </div>
