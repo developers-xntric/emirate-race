@@ -28,7 +28,7 @@ export default function About() {
             ))}
           </div>
           <div className="flex items-end justify-end">
-            <Button href={data.register.href} className="mt-2 md:hidden ">
+            <Button href={data.register.href} className="mt-2 md:hidden bg-[#BB0054] text-white">
               {data.register.label}
             </Button>
           </div>
