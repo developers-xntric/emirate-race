@@ -316,15 +316,14 @@ export const homeData = {
           question: "Can I participate in more than one race?",
           answer:
             "Yes. Participants can join individual races or take on the complete seven-race journey across all seven emirates.",
-        },        {
-          question: "How do I complete the seven-piece medal?",
-          answer:
-            "Complete all seven EVRS races to collect every piece and assemble the full series medal.",
         },
       ],
       [
-
         {
+          question: "How do I complete the seven-piece medal?",
+          answer:
+            "Complete all seven EVRS races to collect every piece and assemble the full series medal.",
+        },        {
           question: "What time do the races begin?",
           answer:
             "All races begin at 4:00 PM. Participants should arrive by 2:30 PM for registration and race preparations.",
