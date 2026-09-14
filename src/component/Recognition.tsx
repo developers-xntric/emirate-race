@@ -38,7 +38,7 @@ export default function Recognition() {
       <p className="text-center text-sm font-bold text-[#bb0054] uppercase 2xl:text-lg">
         {data.recognition.eyebrow}
       </p>
-      <h2 className="mt-6 text-center text-[40px] leading-[1.12] font-bold uppercase md:text-[40px] lg:text-[65px] 2xl:text-[80px]">
+      <h2 className="mt-6 text-center text-[40px] leading-[1] font-bold uppercase md:text-[40px] lg:text-[65px] 2xl:text-[80px]">
         A
 
         National Journey with International
