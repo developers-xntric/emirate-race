@@ -22,7 +22,7 @@ export default function FAQs() {
                       ? "prize-answer"
                       : undefined
                   }
-                  className="group scroll-mt-8 rounded-[10px] border border-[#bb0054] open:bg-white"
+                  className="group scroll-mt-8 rounded-[10px] border border-[#bb0054] open:min-h-[168px] open:bg-white"
                 >
                   <summary className="flex min-h-[74px] cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-base leading-tight font-bold uppercase focus-visible:outline-2 focus-visible:outline-[#072f4f] 2xl:text-lg [&::-webkit-details-marker]:hidden">
                     {item.question}
