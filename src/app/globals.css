@@ -1,5 +1,28 @@
 @import "tailwindcss";
 
+/* Direction overrides only: English typography, colors and artwork stay intact. */
+html[dir="rtl"] body {
+  text-align: right;
+}
+
+/* Inherit RTL alignment while preserving explicit and inherited centering. */
+html[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+html[dir="rtl"] .object-left {
+  object-position: right;
+}
+
+html[dir="rtl"] .motion-safe\:animate-quick-facts {
+  animation-name: quick-facts-rtl;
+}
+
+@keyframes quick-facts-rtl {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(50% + 8px)); }
+}
+
 @theme inline {
   --color-background: #ffffff;
   --color-foreground: #0b2d4d;

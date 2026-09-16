@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { homeData as data } from "@/data/home-data";
+import { useHomeData } from "./LanguageProvider";
 import SectionHeading from "./SectionHeading";
 import Button from "./Button";
 function ChallengeMessage({ className = "" }: { className?: string }) {
+  const data = useHomeData();
   return (
     <div className={`md:mt-8 flex flex-col items-center 2xl:mt-16 lg:items-start ${className}`}>
       <p className="w-fit bg-[#0b2d4d] px-4 py-3  md:text-xl leading-none font-bold text-white uppercase 2xl:text-[28px]">
@@ -19,6 +20,7 @@ function ChallengeMessage({ className = "" }: { className?: string }) {
 }
 
 export default function Rahhal() {
+  const data = useHomeData();
   const sectionRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [animationCycle, setAnimationCycle] = useState(0);
@@ -75,8 +77,12 @@ export default function Rahhal() {
               aria-hidden="true"
               className="pointer-events-none absolute top-[20%] left-1/2 z-0 w-max text-center -translate-x-1/2 -translate-y-1/2 text-[25vw] leading-none font-bold text-[#bb0054]/20 uppercase lg:hidden"
             >
-              <span className="block">Meet</span>
-              <span className="block">Rahhal</span>
+              {data.rahhal.eyebrow === "Meet Rahhal" ? <>
+                <span className="block">Meet</span>
+                <span className="block">Rahhal</span>
+              </> : data.rahhal.eyebrow.split(/ (?=\S+$)/).map((line) => (
+                <span key={line} className="block">{line}</span>
+              ))}
             </p>
             <Image
               src={data.assets.rahhal}

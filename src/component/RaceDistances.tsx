@@ -1,12 +1,14 @@
+"use client";
+
 import Image from "next/image";
-import { homeData as data } from "@/data/home-data";
+import { useHomeData } from "./LanguageProvider";
 import SectionHeading from "./SectionHeading";
 import Button from "./Button";
 
 function QuickFactCard({
   fact,
 }: {
-  fact: (typeof data.distances.facts)[number];
+  fact: ReturnType<typeof useHomeData>["distances"]["facts"][number];
 }) {
   return (
     <article className="flex min-h-[100px] w-[250px] shrink-0 flex-col items-center justify-center rounded-[5px] border border-[#bb0054]/20 bg-black/30 p-2 text-center backdrop-blur-md lg:w-[300px]">
@@ -21,6 +23,7 @@ function QuickFactCard({
 }
 
 export default function RaceDistances() {
+  const data = useHomeData();
   const marqueeFacts = [...data.distances.facts, ...data.distances.facts];
 
   return (
@@ -95,7 +98,7 @@ export default function RaceDistances() {
         className="mt-5 w-full overflow-hidden"
         aria-label={data.distances.factsTitle}
       >
-        <div className="flex w-max gap-4 pr-4 motion-safe:animate-quick-facts motion-reduce:translate-x-0 lg:gap-[30px] lg:pr-[30px]">
+        <div className="flex w-max gap-4 pe-4 motion-safe:animate-quick-facts motion-reduce:translate-x-0 lg:gap-[30px] lg:pe-[30px]">
           {marqueeFacts.map((fact, index) => (
             <QuickFactCard key={`${fact.title}-${index}`} fact={fact} />
           ))}

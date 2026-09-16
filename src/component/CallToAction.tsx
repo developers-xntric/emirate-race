@@ -1,12 +1,15 @@
+"use client";
+
 import Image from "next/image";
-import { homeData as data } from "@/data/home-data";
+import { useHomeData } from "./LanguageProvider";
 import Button from "./Button";
 export default function CallToAction() {
+  const data = useHomeData();
   return (
     <section className="bg-[#f8f8f8] py-16 md:py-20">
       <div className="relative isolate mx-auto w-[90%] overflow-hidden rounded-[10px] bg-[#072f4f] p-4 md:p-7 text-white md:p-8 2xl:min-h-[258px] 2xl:max-w-[1440px]">
-        <div className="absolute top-0 right-0 -z-10 h-full w-[47%] overflow-hidden max-md:opacity-35">
-          <div className="relative md:block hidden bottom-0 md:-top-[117.15%] h-[100%] md:h-[362.87%] md:w-[132.36%]">
+        <div className="absolute top-0 end-0 -z-10 h-full w-[47%] overflow-hidden max-md:opacity-35">
+          <div className="relative md:block hidden bottom-0 md:-top-[117.15%] h-[100%] md:h-[362.87%] md:w-[132.36%] rtl:rotate-80 rtl:translate-y-4 ">
             <Image
               src={data.assets.ctaPattern}
               alt=""

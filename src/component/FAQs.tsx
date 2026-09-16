@@ -1,7 +1,10 @@
+"use client";
+
 import Image from "next/image";
-import { homeData as data } from "@/data/home-data";
+import { useHomeData } from "./LanguageProvider";
 import SectionHeading from "./SectionHeading";
 export default function FAQs() {
+  const data = useHomeData();
   return (
     <section id="faqs" className="bg-[#f8f8f8] pt-16 md:pt-20">
       <div className="mx-auto w-[90%] 2xl:max-w-[1440px]">
@@ -18,7 +21,7 @@ export default function FAQs() {
                   key={item.question}
                   open={index === 0 && itemIndex === 0}
                   id={
-                    item.question === "Are there prizes?"
+                    index === 1 && itemIndex === 2
                       ? "prize-answer"
                       : undefined
                   }

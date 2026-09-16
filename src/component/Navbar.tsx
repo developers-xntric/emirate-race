@@ -1,13 +1,36 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import { homeData as data } from "@/data/home-data";
+import { useLanguage } from "./LanguageProvider";
+import { languageLabels } from "@/data/home-data/arabic-index";
 import Button from "./Button";
 
 export default function Navbar() {
+  const { data, language, toggleLanguage } = useLanguage();
   const [open, setOpen] = useState(false);
+  const languageSwitch = (
+    <div dir="ltr" className="flex shrink-0 items-center gap-2 py-2.5 text-[13px] font-bold 2xl:text-[15px] mr-2 md:mr-0 rtl:ml-3 md:rtl:ml-0">
+      {(["en", "ar"] as const).map((locale, index) => (
+        <span key={locale} className="flex items-center gap-2 ">
+          {index > 0 && <span aria-hidden="true" className="text-gray-500">|</span>}
+          <button
+            type="button"
+            lang={locale}
+            aria-pressed={language === locale}
+            onClick={() => {
+              if (language !== locale) toggleLanguage();
+              setOpen(false);
+            }}
+            className={`cursor-pointer rounded focus-visible:outline-2 focus-visible:outline-offset-4 ${language === locale ? "text-white" : "text-gray-400"}`}
+          >
+            {languageLabels[locale]}
+          </button>
+        </span>
+      ))}
+    </div>
+  );
   return (
-    <header className="relative z-30 mx-auto flex w-[90%] items-center justify-between gap-6 pt-6 2xl:max-w-[1440px] 2xl:pt-[34px]">
+    <header className="relative z-30 mx-auto flex w-[90%] items-center justify-between gap-6 max-sm:gap-2 pt-6 2xl:max-w-[1440px] 2xl:pt-[34px]">
       <a href="#" aria-label={data.brand}>
         <Image
           src={data.assets.logo}
@@ -19,8 +42,8 @@ export default function Navbar() {
         />
       </a>
       <nav
-        aria-label="Main navigation"
-        className="hidden items-center gap-5 rounded-[5px] bg-black/30 p-2.5 pl-5 backdrop-blur-[22px] xl:flex 2xl:gap-6"
+        aria-label={"mainNavigation" in data.ui ? data.ui.mainNavigation : "Main navigation"}
+        className="hidden items-center gap-5 rounded-[5px] bg-black/30 p-2.5 ps-5 backdrop-blur-[22px] xl:flex rtl:flex-wrap rtl:justify-center 2xl:gap-6"
       >
         {data.navigation.map((link) => (
           <a
@@ -31,10 +54,13 @@ export default function Navbar() {
             {link.label}
           </a>
         ))}
+        {languageSwitch}
         <Button href={data.register.href} tone="pink">
           {data.register.label}
         </Button>
       </nav>
+      <div className="flex shrink-0 items-center gap-1 sm:gap-3 xl:hidden">
+        {languageSwitch}
       <button
         type="button"
         aria-label={open ? data.ui.closeMenu : data.ui.menu}
@@ -45,10 +71,11 @@ export default function Navbar() {
       >
         {open ? "×" : "☰"}
       </button>
+      </div>
       {open && (
         <nav
           id="mobile-navigation"
-          aria-label="Mobile navigation"
+          aria-label={"mobileNavigation" in data.ui ? data.ui.mobileNavigation : "Mobile navigation"}
           onKeyDown={(event) => {
             if (event.key === "Escape") setOpen(false);
           }}

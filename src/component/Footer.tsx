@@ -1,5 +1,7 @@
+"use client";
+
 import Image from "next/image";
-import { homeData as data } from "@/data/home-data";
+import { useHomeData } from "./LanguageProvider";
 
 function SocialIcon({ label }: { label: string }) {
   if (label === "Instagram") {
@@ -26,6 +28,7 @@ function SocialIcon({ label }: { label: string }) {
     </svg>
   );
 }export default function Footer() {
+  const data = useHomeData();
   const columns = [
     data.navigation.slice(0, 3),
     data.navigation.slice(3, 6),
@@ -45,7 +48,7 @@ function SocialIcon({ label }: { label: string }) {
             alt=""
             width={110}
             height={75}
-            className="-mr-[22px] h-[75px] w-[110px] shrink-0"
+            className="-me-[22px] h-[75px] w-[110px] shrink-0"
           />
         ))}
       </div>
@@ -135,10 +138,11 @@ function SocialIcon({ label }: { label: string }) {
           <div className="mt-8 flex flex-wrap justify-between gap-4 border-t border-white/30 py-6 text-[12px] md:text-sm 2xl:text-base">
             <p>{data.footer.copyright}</p>
             <div className="flex flex-wrap gap-4">
+              {"legalLabel" in data.footer && <span>{data.footer.legalLabel}</span>}
               {data.footer.legal.map((label, index) => (
                 <span key={label}>
                   {index > 0 && (
-                    <span aria-hidden="true" className="mr-4">
+                    <span aria-hidden="true" className="me-4">
                       |
                     </span>
                   )}

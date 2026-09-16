@@ -1,21 +1,24 @@
+"use client";
+
 import Image from "next/image";
-import { homeData as data } from "@/data/home-data";
+import { useHomeData } from "./LanguageProvider";
 import Button from "./Button";
 export default function MedalJourney() {
+  const data = useHomeData();
   return (
     <section
       id="medal"
       className="mx-auto grid w-[90%] scroll-mt-8 gap-[30px] md:grid-cols-2 2xl:max-w-[1440px]"
     >
       <article className="relative isolate min-h-[500px] md:min-h-[610px] 2xl:min-h-[650px] overflow-hidden rounded-[10px] bg-[#072f4f] p-3 md:p-6 text-white  2xl:p-[38px]">
-        <div className="absolute right-0 bottom-0 -z-10 aspect-[606.69/616.3] w-[78%] overflow-hidden">
-          <div className="relative h-[137.35%] w-[132.36%]">
+        <div className="absolute end-0 bottom-0 -z-10 aspect-[606.69/616.3] w-[70%] overflow-hidden ">
+          <div className="relative h-[130.35%] w-[132.36%]">
             <Image
               src={data.assets.medalPattern}
               alt=""
               fill
               sizes="50vw"
-              className="object-fill"
+              className="object-fill rtl:scale-x-[-1]"
             />
           </div>
         </div>
@@ -41,7 +44,7 @@ export default function MedalJourney() {
           id="prizes"
           className="relative isolate scroll-mt-8 overflow-hidden rounded-[10px] bg-[#706cb5]  p-4 md:p-6 text-white 2xl:p-[20px]"
         >
-          <div className="relative z-10 max-w-[68%]">
+          <div className="relative z-10 max-w-[68%] ">
             <h2 className="text-[32px] leading-[1.02] font-bold uppercase lg:text-[36px] 2xl:text-[44px]">
               {data.prizes.title}
             </h2>
@@ -49,8 +52,8 @@ export default function MedalJourney() {
               {data.prizes.description}
             </p>
           </div>
-          <div className="absolute right-3 bottom-[24%] md:bottom-5 -z-0 aspect-[294.26/322.25] w-[37%] overflow-hidden">
-            <div className="relative -top-[10.1%] h-[110.1%] w-full">
+          <div className="absolute end-3 bottom-[24%] md:bottom-5 -z-0 aspect-[294.26/322.25] w-[37%] overflow-hidden">
+            <div className="relative -top-[10.1%] h-[110.1%] w-full rtl:-left-4.5 md:rtl:-left-7">
               <Image
                 src={data.assets.prizeRahhal}
                 alt={data.prizes.alt}

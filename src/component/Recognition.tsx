@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { homeData as data } from "@/data/home-data";
+import { useHomeData } from "./LanguageProvider";
 import Button from "./Button";
 
 function InlineRunVideo({ src }: { src: string }) {
@@ -30,6 +30,7 @@ function InlineRunVideo({ src }: { src: string }) {
 }
 
 export default function Recognition() {
+  const data = useHomeData();
   return (
     <section
       id="recognition"
@@ -39,10 +40,7 @@ export default function Recognition() {
         {data.recognition.eyebrow}
       </p>
       <h2 className="mt-6 text-center text-[40px] leading-[1] font-bold uppercase md:text-[40px] lg:text-[65px] 2xl:text-[80px]">
-        A
-
-        National Journey with International
-        Recognition
+        {data.recognition.title}
       </h2>
       <div className="mx-auto mt-4 flex md:max-w-[80%] flex-col items-center text-center">
         <div className="space-y-3 text-base leading-tight text-black 2xl:text-lg">

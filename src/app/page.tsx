@@ -1,3 +1,5 @@
+"use client";
+
 import Hero from "@/component/Hero";
 import About from "@/component/About";
 import Rahhal from "@/component/Rahhal";
@@ -8,9 +10,10 @@ import Recognition from "@/component/Recognition";
 import FAQs from "@/component/FAQs";
 import CallToAction from "@/component/CallToAction";
 import Footer from "@/component/Footer";
-import { homeData } from "@/data/home-data";
+import { useHomeData } from "@/component/LanguageProvider";
 
 export default function Home() {
+  const homeData = useHomeData();
   return (
     <>
       <a

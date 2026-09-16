@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { homeData as data } from "@/data/home-data";
+import { useHomeData } from "./LanguageProvider";
 
 export default function Video({
   src,
@@ -10,6 +10,7 @@ export default function Video({
   poster: string;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
+  const data = useHomeData();
   useEffect(() => {
     const video = ref.current;
     if (!video) return;

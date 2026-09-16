@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { homeData as data } from "@/data/home-data";
+import { useHomeData } from "./LanguageProvider";
 import SectionHeading from "./SectionHeading";
 import Button from "./Button";
 
@@ -12,11 +12,12 @@ function RaceCard({
   className = "",
   animated = false,
 }: {
-  race: (typeof data.calendar.races)[number];
+  race: ReturnType<typeof useHomeData>["calendar"]["races"][number];
   index: number;
   className?: string;
   animated?: boolean;
 }) {
+  const data = useHomeData();
   return (
     <article
       aria-label={`${data.calendar.raceLabel} ${index + 1}: ${race.village}, ${race.day} ${race.month}`}
@@ -28,7 +29,7 @@ function RaceCard({
         alt=""
         width={race.artWidth * 0.75}
         height={race.artHeight * 0.75}
-        className="absolute -top-12 left-4 object-contain"
+        className="absolute -top-12 start-4 object-contain"
       />
       <div className="relative pt-5 text-xs leading-tight font-bold 2xl:text-sm">
         <p className="uppercase">
@@ -60,6 +61,7 @@ function RaceCard({
 }
 
 function MobileRaceMarquee() {
+  const data = useHomeData();
   const marqueeRef = useRef<HTMLDivElement>(null);
   const isInteracting = useRef(false);
 
@@ -76,8 +78,9 @@ function MobileRaceMarquee() {
 
       if (!isInteracting.current) {
         const loopWidth = marquee.scrollWidth / 2;
-        marquee.scrollLeft += elapsed * 0.08;
-        if (marquee.scrollLeft >= loopWidth) marquee.scrollLeft -= loopWidth;
+        const direction = getComputedStyle(marquee).direction === "rtl" ? -1 : 1;
+        marquee.scrollLeft += elapsed * 0.08 * direction;
+        if (Math.abs(marquee.scrollLeft) >= loopWidth) marquee.scrollLeft -= loopWidth * direction;
       }
 
       frameId = window.requestAnimationFrame(move);
@@ -103,7 +106,7 @@ function MobileRaceMarquee() {
       onPointerDown={stopAutoScroll}
       onPointerUp={resumeAutoScroll}
       onPointerCancel={resumeAutoScroll}
-      className="relative left-1/2 mt-3 lg:mt-20 w-screen -translate-x-1/2 overflow-x-auto touch-pan-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      className="relative start-1/2 mt-3 lg:mt-20 w-screen -translate-x-1/2 rtl:translate-x-1/2 overflow-x-auto touch-pan-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
     >
       <div className="flex w-max gap-4 px-4 pt-12">
         {marqueeRaces.map((race, index) => (
@@ -120,6 +123,7 @@ function MobileRaceMarquee() {
 }
 
 export default function RaceCalendar() {
+  const data = useHomeData();
   return (
     <section
       id="calendar"

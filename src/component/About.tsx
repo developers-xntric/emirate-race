@@ -1,9 +1,12 @@
+"use client";
+
 import Image from "next/image";
-import { homeData as data } from "@/data/home-data";
+import { useHomeData } from "./LanguageProvider";
 import SectionHeading from "./SectionHeading";
 import Button from "./Button";
 import Video from "./Video";
 export default function About() {
+  const data = useHomeData();
   return (
     <section
       id="about"

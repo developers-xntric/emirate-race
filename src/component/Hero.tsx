@@ -1,10 +1,13 @@
+"use client";
+
 import Image from "next/image";
-import { homeData as data } from "@/data/home-data";
+import { useHomeData } from "./LanguageProvider";
 import Navbar from "./Navbar";
 import Video from "./Video";
 import Button from "./Button";
 
 export default function Hero() {
+  const data = useHomeData();
   return (
     <section className="relative isolate min-h-[780px] overflow-hidden p-[8px] text-white lg:h-svh lg:min-h-0">
       <Image
