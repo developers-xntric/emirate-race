@@ -83,14 +83,15 @@ export default function RacePage({ race }: { race: RacePageData }) {
         </section>
 
         <section aria-label={`${race.name} location and registration`} className={`${container} grid gap-5 py-12 md:grid-cols-2 md:gap-7 md:py-20 2xl:py-24`}>
-          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(race.location.query)}`} target='_blank' rel='noreferrer' aria-label={`Open ${race.location.name} in Google Maps`} className='relative block aspect-[775.543/710.496] overflow-hidden rounded-[10px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#bb0054]'>
-            <Image src={race.assets.location} alt={`Map showing ${race.location.name}`} fill sizes='(max-width: 767px) (min-width: 1536px) 706px, (min-width: 768px) 44vw, 90vw' className='object-cover' />
-            <div className='absolute top-[3.84%] left-[2.64%] flex aspect-[416.414/135.006] w-[70%] items-center justify-between gap-2 px-[3%] text-white sm:w-[53.69%]'>
-              <Image src='/races/location-label.svg' alt='' fill className='object-contain' sizes='25vw' />
-              <div className='relative min-w-0 leading-tight'><span className='block text-base font-bold md:text-lg 2xl:text-[28px]'>{race.location.name}</span><span className='mt-1 block text-xs md:text-sm 2xl:text-lg'>{race.location.address}</span></div>
-              <Image src='/races/location-arrow.svg' alt='' width={46} height={54} className='relative h-[30px] w-[25px] shrink-0 object-contain 2xl:h-[54px] 2xl:w-[46px]' />
-            </div>
-          </a>
+          <div className='relative block aspect-[775.543/710.496] overflow-hidden rounded-[10px] border border-[#d7d7d7] bg-[#e8e8e8]'>
+            <iframe
+              title={`${race.location.name} location map`}
+              src={`https://www.google.com/maps?q=${encodeURIComponent(race.location.query)}&output=embed`}
+              loading='lazy'
+              referrerPolicy='no-referrer-when-downgrade'
+              className='absolute inset-0 size-full border-0'
+            />
+          </div>
           <div className='relative isolate flex min-h-[400px] flex-col overflow-hidden rounded-[10px] bg-[#072f4f] p-6 text-white lg:p-8 2xl:p-10'>
             <h2 className='relative z-10 max-w-[650px] text-[32px] leading-[1.02] font-bold uppercase lg:text-[40px] 2xl:text-[55px]'>{race.journey.title}</h2>
             <p className='relative z-10 mt-4 max-w-[650px] text-lg leading-snug 2xl:text-[25px]'>{race.journey.description}</p>
