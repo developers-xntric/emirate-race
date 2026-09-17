@@ -5,7 +5,7 @@ import { useLanguage } from "./LanguageProvider";
 import { languageLabels } from "@/data/home-data/arabic-index";
 import Button from "./Button";
 
-export default function Navbar() {
+export default function Navbar({ homeHrefPrefix = '' }: { homeHrefPrefix?: string }) {
   const { data, language, toggleLanguage } = useLanguage();
   const [open, setOpen] = useState(false);
   const languageSwitch = (
@@ -48,7 +48,7 @@ export default function Navbar() {
         {data.navigation.map((link) => (
           <a
             key={link.href}
-            href={link.href}
+            href={link.href.startsWith('#') ? `${homeHrefPrefix}${link.href}` : link.href}
             className="whitespace-nowrap text-[13px] uppercase hover:text-white/70 focus-visible:outline-2 2xl:text-[15px]"
           >
             {link.label}
@@ -84,7 +84,7 @@ export default function Navbar() {
           {data.navigation.map((link) => (
             <a
               key={link.href}
-              href={link.href}
+              href={link.href.startsWith('#') ? `${homeHrefPrefix}${link.href}` : link.href}
               onClick={() => setOpen(false)}
               className="border-b border-white/15 py-3 uppercase"
             >

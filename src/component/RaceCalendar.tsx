@@ -3,7 +3,7 @@
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useHomeData } from "./LanguageProvider";
 import SectionHeading from "./SectionHeading";
 import Button from "./Button";
@@ -15,18 +15,28 @@ function RaceCard({
   index,
   className = "",
   visible = true,
+  active = true,
+  mobileStackCard = false,
 }: {
   race: ReturnType<typeof useHomeData>["calendar"]["races"][number];
   index: number;
   className?: string;
   visible?: boolean;
+  active?: boolean;
+  mobileStackCard?: boolean;
 }) {
   const data = useHomeData();
   return (
-    <article
-      aria-label={`${data.calendar.raceLabel} ${index + 1}: ${race.village}, ${race.day} ${race.month}`}
-      className={`relative z-10 flex aspect-[7/5] md:aspect-square w-20 md:w-full flex-col justify-end rounded-[9px] bg-[#072f4f] p-3 text-white transition-[opacity,transform] duration-700 ease-out hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#bb0054] ${visible ? "opacity-100" : "pointer-events-none opacity-0"} ${className}`}
+    <a
+      href={race.href}
+      target="_blank"
+      rel="noreferrer"      aria-label={`${data.calendar.raceLabel} ${index + 1}: ${race.village}, ${race.day} ${race.month}`}
+      data-active={active}
+      data-mobile-stack-card={mobileStackCard || undefined}
+      className={`calendar-race-card relative z-10 flex aspect-[7/5] md:aspect-square w-20 md:w-full flex-col justify-end rounded-[9px] bg-[#072f4f] p-3 text-white cursor-pointer transition-[opacity,transform] duration-700 ease-out hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#bb0054] ${visible ? "opacity-100" : "pointer-events-none opacity-0"} ${className}`}
     >
+      {(!mobileStackCard || active) && (
+        <>
       <Image
         src={race.art}
         alt=""
@@ -59,72 +69,128 @@ function RaceCard({
       <h3 className="mt-2 text-[17px] leading-none font-bold 2xl:text-xl">
         {race.village}
       </h3>
-    </article>
+        </>
+      )}
+    </a>
   );
 }
 
-function MobileRaceMarquee() {
+function MobileCalendarSequence() {
   const data = useHomeData();
-  const marqueeRef = useRef<HTMLDivElement>(null);
-  const isInteracting = useRef(false);
+  const sequenceRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const timelinePathRef = useRef<SVGPathElement>(null);
+  const timelineDotRef = useRef<SVGCircleElement>(null);
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
 
   useEffect(() => {
-    const marquee = marqueeRef.current;
-    if (!marquee || window.matchMedia("(prefers-reduced-motion: reduce)").matches)
-      return;
+    const sequence = sequenceRef.current;
+    const panel = panelRef.current;
+    if (!sequence || !panel || window.innerWidth >= 1024) return;
 
-    let frameId = 0;
-    let previousTime = performance.now();
-    const move = (time: number) => {
-      const elapsed = time - previousTime;
-      previousTime = time;
+    const context = gsap.context(() => {
+      const cards = cardRefs.current.filter(
+        (card): card is HTMLDivElement => card !== null,
+      );
+      const timelinePath = timelinePathRef.current;
+      const timelineDot = timelineDotRef.current;
+      if (!cards.length || !timelinePath || !timelineDot) return;
 
-      if (!isInteracting.current) {
-        const loopWidth = marquee.scrollWidth / 2;
-        const direction = getComputedStyle(marquee).direction === "rtl" ? -1 : 1;
-        marquee.scrollLeft += elapsed * 0.08 * direction;
-        if (Math.abs(marquee.scrollLeft) >= loopWidth) marquee.scrollLeft -= loopWidth * direction;
-      }
+      const pathLength = timelinePath.getTotalLength();
+      const drawTimeline = (progress: number) => {
+        const clampedProgress = Math.min(1, Math.max(0, progress));
+        timelinePath.style.strokeDasharray = `${pathLength}`;
+        timelinePath.style.strokeDashoffset = `${pathLength * (1 - clampedProgress)}`;
+        const point = timelinePath.getPointAtLength(pathLength * clampedProgress);
+        timelineDot.setAttribute("cx", `${point.x}`);
+        timelineDot.setAttribute("cy", `${point.y}`);
+      };
 
-      frameId = window.requestAnimationFrame(move);
-    };
+      gsap.set(cards, { opacity: 0.35, zIndex: 0 });
+      gsap.set(cards[0], { opacity: 1, zIndex: 20 });
+      drawTimeline(0);
+      let activeCard = 0;
 
-    frameId = window.requestAnimationFrame(move);
-    return () => window.cancelAnimationFrame(frameId);
-  }, []);
+      ScrollTrigger.create({
+        trigger: panel,
+        start: "top top",
+        end: "+=220%",
+        pin: true,
+        pinReparent: true,
+        pinType: "fixed",
+        pinSpacing: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onUpdate: (trigger) => {
+          drawTimeline(trigger.progress);
+          const nextCard = Math.min(
+            data.calendar.races.length - 1,
+            Math.floor(trigger.progress * (data.calendar.races.length - 1) + 0.0001),
+          );
+          if (nextCard === activeCard) return;
 
-  const stopAutoScroll = () => {
-    isInteracting.current = true;
-  };
-  const resumeAutoScroll = () => {
-    isInteracting.current = false;
-  };
+          gsap.to(cards[activeCard], {
+            opacity: 0.35,
+            zIndex: 0,
+            duration: 0.2,
+            ease: "power2.out",
+            overwrite: "auto",
+          });
+          gsap.to(cards[nextCard], {
+            opacity: 1,
+            zIndex: 20,
+            duration: 0.25,
+            ease: "power2.out",
+            overwrite: "auto",
+          });
+          activeCard = nextCard;
+          setActiveCardIndex(nextCard);
+        },
+      });
+    }, sequence);
 
-  const marqueeRaces = [...data.calendar.races, ...data.calendar.races];
+    return () => context.revert();
+  }, [data.calendar.races.length]);
+
+  const mobileStops = [34, 142, 250, 358, 466, 574, 686];
 
   return (
-    <div
-      ref={marqueeRef}
-      aria-label={data.calendar.title}
-      onPointerDown={stopAutoScroll}
-      onPointerUp={resumeAutoScroll}
-      onPointerCancel={resumeAutoScroll}
-      className="relative start-1/2 mt-3 lg:mt-20 w-screen -translate-x-1/2 rtl:translate-x-1/2 overflow-x-auto touch-pan-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-    >
-      <div className="flex w-max gap-4 px-4 pt-12">
-        {marqueeRaces.map((race, index) => (
-          <RaceCard
-            key={`${race.date}-${index}`}
-            race={race}
-            index={index % data.calendar.races.length}
-            className="w-[250px] shrink-0"
-          />
-        ))}
+    <div ref={sequenceRef} className="relative ml-[calc((100vw-95vw)/-2)] w-screen lg:hidden">
+      <div
+        ref={panelRef}
+        className="relative isolate flex min-h-[100svh] flex-col overflow-hidden rounded-[20px] border border-[#bb0054]/10 px-5 py-6"
+      >
+        <Image src={data.assets.calendarGrid} alt="" fill className="-z-10 object-cover" sizes="95vw" />
+        <SectionHeading eyebrow={data.calendar.eyebrow} title={data.calendar.title} centered />
+        <div className="relative flex flex-1 items-center justify-center">
+          <svg aria-hidden="true" viewBox="0 0 44 720" preserveAspectRatio="xMidYMid meet" className="absolute inset-y-5 -left-5 h-[calc(100%-2.5rem)] w-11 overflow-visible">
+            <path d="M22 34 V686" fill="none" stroke="#072F4F" strokeOpacity="0.32" strokeWidth="3" strokeDasharray="8 8" />
+            {mobileStops.map((y, index) => (
+              <g key={index}>
+                <circle className="calendar-stop-pulse" cx="22" cy={y} r="6" fill="none" stroke="#bb0054" strokeWidth="2" style={{ animationDelay: `${index * 0.16}s` }} />
+                <circle cx="22" cy={y} r="6" fill="#bb0054" stroke="white" strokeWidth="2" />
+              </g>
+            ))}
+            <path ref={timelinePathRef} d="M22 34 V686" fill="none" stroke="#bb0054" strokeWidth="4" strokeLinecap="round" />
+            <circle ref={timelineDotRef} r="8" fill="#bb0054" stroke="white" strokeWidth="3" />
+          </svg>
+          <div className="relative h-[350px] w-full max-w-[260px]">
+            {data.calendar.races.map((race, index) => (
+              <div key={race.date} ref={(element) => { cardRefs.current[index] = element; }} className="absolute inset-x-0 opacity-100"
+                style={{ top: `${index * 10}px`, zIndex: data.calendar.races.length - index }}>
+                <RaceCard race={race} index={index} active={index === activeCardIndex} mobileStackCard className="mx-auto w-[100%] border-b-[3px] border-b-[#bb0054] md:w-[250px]" />
+              </div>
+            ))}
+          </div>        </div>
+        <div className="flex flex-wrap justify-center gap-1.5">
+          <Button href={data.register.href} tone="pink">{data.calendar.register}</Button>
+          <Button href="#distances" tone="navy">{data.calendar.details}</Button>
+        </div>
       </div>
     </div>
   );
 }
-
 function DesktopCalendarSequence() {
   const data = useHomeData();
   const sequenceRef = useRef<HTMLDivElement>(null);
@@ -307,27 +373,7 @@ export default function RaceCalendar() {
       id="calendar"
       className="mx-auto w-[95%] scroll-mt-8 py-6 md:py-16 2xl:max-w-[1600px] "
     >
-      <div className="relative isolate overflow-visible rounded-[20px] border border-[#bb0054]/10 px-5 py-6  lg:hidden">
-        <Image
-          src={data.assets.calendarGrid}
-          alt=""
-          fill
-          className="-z-10 object-cover"
-          sizes="90vw"
-        />
-        <SectionHeading
-          eyebrow={data.calendar.eyebrow}
-          title={data.calendar.title}
-          centered
-        />
-        <MobileRaceMarquee />
-        <div className="mt-8 flex flex-wrap justify-center gap-1.5 md:gap-5">
-          <Button href={data.register.href} tone="pink">{data.calendar.register}</Button>
-          <Button href="#distances" tone="navy">
-            {data.calendar.details}
-          </Button>
-        </div>
-      </div>
+      <MobileCalendarSequence />
       <DesktopCalendarSequence />
     </section>
   );

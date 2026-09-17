@@ -119,3 +119,6 @@ html.lenis body {
     transform: scale(3);
   }
 }
+.calendar-race-card[data-mobile-stack-card="true"][data-active="false"] > * {
+  opacity: 0;
+}

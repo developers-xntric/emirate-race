@@ -27,7 +27,7 @@ function SocialIcon({ label }: { label: string }) {
       <path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.7 4.6 12 4.6 12 4.6s-5.7 0-7.5.5a3 3 0 0 0-2.1 2.1C1.9 9 1.9 12 1.9 12s0 3 .5 4.8a3 3 0 0 0 2.1 2.1c1.8.5 7.5.5 7.5.5s5.7 0 7.5-.5a3 3 0 0 0 2.1-2.1c.5-1.8.5-4.8.5-4.8s0-3-.5-4.8ZM10.1 15.2V8.8l5.5 3.2-5.5 3.2Z" />
     </svg>
   );
-}export default function Footer() {
+}export default function Footer({ homeHrefPrefix = '' }: { homeHrefPrefix?: string }) {
   const data = useHomeData();
   const columns = [
     data.navigation.slice(0, 3),
@@ -86,7 +86,7 @@ function SocialIcon({ label }: { label: string }) {
                       <li key={link.href}>
                         {link.href ? (
                           <a
-                            href={link.href}
+                            href={link.href.startsWith('#') ? `${homeHrefPrefix}${link.href}` : link.href}
                             className="text-sm md:text-base hover:underline 2xl:text-[22px]"
                           >
                             {link.label}
