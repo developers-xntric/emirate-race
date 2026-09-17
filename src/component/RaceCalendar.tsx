@@ -127,9 +127,9 @@ export default function RaceCalendar() {
   return (
     <section
       id="calendar"
-      className="mx-auto w-[95%] scroll-mt-8 py-16 md:py-20 2xl:max-w-[1600px] 2xl:py-[90px]"
+      className="mx-auto w-[95%] scroll-mt-8 py-6 md:py-20 2xl:max-w-[1600px] 2xl:py-[90px]"
     >
-      <div className="relative isolate overflow-visible rounded-[20px] border border-[#bb0054]/10 px-5 py-12 lg:overflow-hidden lg:px-8">
+      <div className="relative isolate overflow-visible rounded-[20px] border border-[#bb0054]/10 px-5 py-6 md:py-12 lg:overflow-hidden lg:px-8">
         <Image
           src={data.assets.calendarGrid}
           alt=""
@@ -171,7 +171,7 @@ export default function RaceCalendar() {
             />
           ))}
         </div>
-        <div className="mt-12 flex flex-wrap justify-center gap-2 md:gap-5">
+        <div className="mt-8 md:mt-12 flex flex-wrap justify-center gap-1.5 md:gap-5">
           <Button href={data.register.href} tone="pink">{data.calendar.register}</Button>
           <Button href="#distances" tone="navy">
             {data.calendar.details}

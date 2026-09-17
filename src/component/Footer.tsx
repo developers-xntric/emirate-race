@@ -40,7 +40,7 @@ function SocialIcon({ label }: { label: string }) {
   ];
   return (
     <footer className="overflow-hidden bg-[#f8f8f8] text-white">
-      <div aria-hidden="true" className="flex h-[60px] w-full overflow-hidden">
+      <div aria-hidden="true" className="flex h-[45px] md:h-[60px] w-full overflow-hidden">
         {Array.from({ length: 30 }, (_, index) => (
           <Image
             key={index}
@@ -61,12 +61,12 @@ function SocialIcon({ label }: { label: string }) {
                 alt={data.brand}
                 width={486}
                 height={107}
-                className="mb-7 block h-auto w-[200px] max-w-full object-contain object-left md:hidden"
+                className="mb-4 md:mb-7 block h-auto w-[200px] max-w-full object-contain object-left md:hidden"
               />
-              <p className="text-[15px] md:text-lg leading-tight lg:text-base 2xl:text-lg">
+              <p className="text-[12px] md:text-lg leading-tight lg:text-base 2xl:text-lg">
                 {data.footer.description}
               </p>
-              <p className="mt-5 text-[15px] md:text-lg leading-tight lg:text-base 2xl:text-lg">
+              <p className="mt-3 md:mt-5 text-[12px] md:text-lg leading-tight lg:text-base 2xl:text-lg">
                 {data.footer.organizer}
               </p>
               <Image
@@ -135,7 +135,7 @@ function SocialIcon({ label }: { label: string }) {
               </div>
             </div>
           </div>
-          <div className="mt-8 flex flex-wrap justify-between gap-4 border-t border-white/30 py-6 text-[12px] md:text-sm 2xl:text-base">
+          <div className="mt-4 md:mt-8 flex flex-wrap justify-between gap-4 border-t border-white/30 py-6 text-[12px] md:text-sm 2xl:text-base">
             <p>{data.footer.copyright}</p>
             <div className="flex flex-wrap gap-4">
               {"legalLabel" in data.footer && <span>{data.footer.legalLabel}</span>}

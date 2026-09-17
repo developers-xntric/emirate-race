@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { useHomeData } from "./LanguageProvider";
 import SectionHeading from "./SectionHeading";
 import Button from "./Button";
@@ -11,11 +12,11 @@ function QuickFactCard({
   fact: ReturnType<typeof useHomeData>["distances"]["facts"][number];
 }) {
   return (
-    <article className="flex min-h-[100px] w-[250px] shrink-0 flex-col items-center justify-center rounded-[5px] border border-[#bb0054]/20 bg-black/30 p-2 text-center backdrop-blur-md lg:w-[300px]">
-      <h3 className="text-xl font-bold uppercase 2xl:text-[28px]">
+    <article className="flex min-h-[100px] w-[250px] shrink-0 flex-col items-center justify-center rounded-[5px] bg-white/16 p-2 text-center backdrop-blur-md lg:w-[300px]">
+      <h3 className="text-xl font-bold uppercase 2xl:text-[25px]">
         {fact.title}
       </h3>
-      <p className="mt-2 max-w-[230px] text-lg leading-tight lg:text-base 2xl:text-lg">
+      <p className="mt-1 max-w-[230px] text-lg leading-tight lg:text-base 2xl:text-lg">
         {fact.detail}
       </p>
     </article>
@@ -24,12 +25,31 @@ function QuickFactCard({
 
 export default function RaceDistances() {
   const data = useHomeData();
+  const cardsRef = useRef<HTMLDivElement>(null);
+  const [cardsVisible, setCardsVisible] = useState(false);
+  const [animationCycle, setAnimationCycle] = useState(0);
+
+  useEffect(() => {
+    const cards = cardsRef.current;
+    if (!cards) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setCardsVisible(entry.isIntersecting);
+        if (entry.isIntersecting) setAnimationCycle((current) => current + 1);
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -10% 0px" },
+    );
+
+    observer.observe(cards);
+    return () => observer.disconnect();
+  }, []);
   const marqueeFacts = [...data.distances.facts, ...data.distances.facts];
 
   return (
     <section
       id="distances"
-      className="relative isolate overflow-hidden py-16 text-white md:py-20 2xl:py-[85px]"
+      className="relative isolate overflow-hidden py-10 md:py-16 text-white "
     >
       <div className="absolute inset-0 -z-20 overflow-hidden">
         <div className="relative md:block hidden -top-[11.55%] h-[111.54%] w-full">
@@ -51,18 +71,22 @@ export default function RaceDistances() {
           />
         </div>
       </div>
-      <div className="absolute inset-0 -z-10 bg-black/50" />
+      <div className="absolute inset-0 -z-10 bg-black/80 md:bg-[#000]/90" />
       <div className="mx-auto w-[90%] 2xl:max-w-[1440px]">
         <SectionHeading
           eyebrow={data.distances.eyebrow}
           title={data.distances.title}
           light
         />
-        <div className="mt-12 grid gap-[30px] md:grid-cols-3 2xl:mt-[62px]">
-          {data.distances.cards.map((card) => (
+        <div
+          ref={cardsRef}
+          className="mt-3 grid gap-3 md:gap-[30px] md:grid-cols-3 "
+        >
+          {data.distances.cards.map((card, index) => (
             <article
-              key={card.title}
-              className="flex flex-col rounded-[10px] bg-white/10 p-4 backdrop-blur-[6px] md:backdrop-blur-[12px]"
+              key={`${card.title}-${animationCycle}`}
+              className={`flex flex-col rounded-[10px] bg-white/16 p-4 backdrop-blur-[6px] md:backdrop-blur-[12px] transition-transform duration-500 hover:-translate-y-1 ${cardsVisible ? "motion-safe:animate-distance-card-enter" : "opacity-0 translate-y-6"} motion-reduce:translate-y-0 motion-reduce:opacity-100`}
+              style={{ animationDelay: `${index * 180}ms` }}
             >
               <div className="relative aspect-[473.38/320.86] overflow-hidden rounded-[5px]">
                 <Image
@@ -89,7 +113,7 @@ export default function RaceDistances() {
             </article>
           ))}
         </div>
-        <div className="mt-12 flex flex-wrap justify-between gap-2 text-sm font-bold uppercase 2xl:mt-[54px] 2xl:text-lg">
+        <div className="mt-6 flex flex-wrap justify-between gap-2 text-sm font-bold uppercase 2xl:text-lg">
           <p>{data.distances.factsLabel}</p>
           <p>{data.distances.factsTitle}</p>
         </div>

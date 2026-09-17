@@ -10,9 +10,9 @@ export default function About() {
   return (
     <section
       id="about"
-      className="mx-auto w-[90%] scroll-mt-8 py-16 md:py-20 2xl:max-w-[1440px] 2xl:py-[90px]"
+      className="mx-auto w-[90%] scroll-mt-8 py-7 md:py-20 2xl:max-w-[1440px] 2xl:py-[90px]"
     >
-      <div className="grid gap-8 md:grid-cols-2 md:gap-[30px]">
+      <div className="grid gap-3 md:grid-cols-2 md:gap-[30px]">
         <div className="flex flex-col items-start justify-between gap-8">
           <SectionHeading
             eyebrow={data.about.eyebrow}
@@ -25,7 +25,7 @@ export default function About() {
           </div>
         </div>
         <div>
-          <div className="space-y-5 text-lg leading-[1.25] text-black lg:text-base 2xl:text-lg">
+          <div className="space-y-3 md:space-y-5 text-lg leading-[1.25] text-black lg:text-base 2xl:text-lg">
             {data.about.paragraphs.map((text) => (
               <p key={text}>{text}</p>
             ))}
@@ -35,7 +35,7 @@ export default function About() {
               {data.register.label}
             </Button>
           </div>
-          <div className="mt-7">
+          <div className=" mt-2 md:mt-7">
             <Image
               src={data.assets.quote}
               alt=""
@@ -49,7 +49,7 @@ export default function About() {
           </div>
         </div>
       </div>
-      <div className="relative mt-12 aspect-[1590/728] overflow-hidden rounded-[10px] bg-[#072f4f] max-sm:aspect-[4/3] 2xl:mt-[72px]">
+      <div className="relative mt-4 md:mt-12 aspect-[1590/728] overflow-hidden rounded-[10px] bg-[#072f4f] max-sm:aspect-[4/3] 2xl:mt-[72px]">
         <Video src={data.assets.aboutVideo} poster={data.assets.aboutPoster} />
       </div>
     </section>

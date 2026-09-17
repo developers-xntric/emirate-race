@@ -8,9 +8,9 @@ export default function MedalJourney() {
   return (
     <section
       id="medal"
-      className="mx-auto grid w-[90%] scroll-mt-8 gap-[30px] md:grid-cols-2 2xl:max-w-[1440px]"
+      className="mx-auto grid w-[90%] scroll-mt-8 gap-5 md:gap-[30px] md:grid-cols-2 2xl:max-w-[1440px]"
     >
-      <article className="relative isolate min-h-[500px] md:min-h-[610px] 2xl:min-h-[650px] overflow-hidden rounded-[10px] bg-[#072f4f] p-3 md:p-6 text-white  2xl:p-[38px]">
+      <article className="relative isolate min-h-[500px] md:min-h-[610px] 2xl:min-h-[650px] overflow-hidden rounded-[10px] bg-[#072f4f] p-3 md:p-6 text-white">
         <div className="absolute end-0 bottom-0 -z-10 aspect-[606.69/616.3] w-[70%] overflow-hidden ">
           <div className="relative h-[130.35%] w-[132.36%]">
             <Image
@@ -22,7 +22,7 @@ export default function MedalJourney() {
             />
           </div>
         </div>
-        <p className="mb-3 text-sm font-bold text-[#bb0054] uppercase 2xl:text-lg">
+        <p className="mb-1 md:mb-3 text-sm font-bold text-[#bb0054] uppercase 2xl:text-lg">
           {data.medal.eyebrow}
         </p>
         <h2 className="text-[34px] leading-[1.02] font-bold uppercase md:text-[40px] lg:text-[36px] 2xl:text-[44px]">
@@ -30,12 +30,12 @@ export default function MedalJourney() {
         </h2>
         <div className="mt-2 2xl:mt-4 max-w-[630px] text-lg leading-[1.25] lg:text-base 2xl:text-lg">
           {data.medal.paragraphs.map((text, index) => (
-            <p key={text} className={index === 2 ? "mt-5" : ""}>
+            <p key={text} className={"mt-2"}>
               {text}
             </p>
           ))}
         </div>
-        <Button href={data.register.href} tone="pink" className="mt-8">
+        <Button href={data.register.href} tone="pink" className="mt-4 md:mt-8">
           {data.medal.cta}
         </Button>
       </article>
@@ -63,7 +63,7 @@ export default function MedalJourney() {
               />
             </div>
           </div>
-          <div className="relative z-10 mt-8 flex flex-wrap gap-3">
+          <div className="relative z-10 mt-8 flex flex-wrap gap-1 md:gap-3">
             <Button href="#prize-answer">{data.prizes.cta}</Button>
             <Button href={data.register.href} tone="pink">
               {data.register.label}

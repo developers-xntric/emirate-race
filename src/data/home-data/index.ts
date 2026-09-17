@@ -39,6 +39,7 @@ export const homeData = {
     recognitionRunA: "/home/run-a.mp4",
     recognitionRunB: "/home/run-b.mp4",
     rahhal: "/home/rahhal.png",
+    rahhalDefaultVideo: "/home/rahhal-default2.webm",
     distancesBackground: "/home/distances-background.png",
     distancesBackgroundMobile: "/home/race-mob.png",
     quote: "/home/quote.svg",
@@ -89,23 +90,27 @@ export const homeData = {
     traits: [
       {
         title: "Proud Houbara",
+        video: "/home/rahhal-proud.webm",
         description: "Inspired by one of the UAE's most distinctive birds",
         color: "bg-[#0b2d4d]",
       },
       {
         title: "Born to Race",
+        video: "/home/rahhal-born.webm",
         description:
           "Rahhal believes every path is a racetrack and everyone secretly wants to race him",
         color: "bg-[#706cb5]",
       },
       {
         title: "Community Champion",
+        video: "/home/rahhal-cha.webm",
         description:
           "He celebrates every runner, from first-time participants to experienced athletes.",
         color: "bg-[#418fcc]",
       },
       {
         title: "Race-Day Guide",
+        video: "/home/rahhal-race.webm",
         description:
           "Rahhal helps runners warm up, stay hydrated, respect the route and keep every village clean.",
         color: "bg-[#bb0054]",
