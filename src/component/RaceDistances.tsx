@@ -85,7 +85,7 @@ export default function RaceDistances() {
           {data.distances.cards.map((card, index) => (
             <article
               key={`${card.title}-${animationCycle}`}
-              className={`flex flex-col rounded-[10px] bg-white/16 p-4 backdrop-blur-[6px] md:backdrop-blur-[12px] transition-transform duration-500 hover:-translate-y-1 ${cardsVisible ? "motion-safe:animate-distance-card-enter" : "opacity-0 translate-y-6"} motion-reduce:translate-y-0 motion-reduce:opacity-100`}
+              className={`flex flex-col rounded-[10px] border border-transparent bg-white/16 p-4 backdrop-blur-[6px] md:backdrop-blur-[12px] transition-[border-color,transform] duration-500 hover:-translate-y-1 hover:border-[#bb0054] ${cardsVisible ? "motion-safe:animate-distance-card-enter" : "opacity-0 translate-y-6"} motion-reduce:translate-y-0 motion-reduce:opacity-100`}
               style={{ animationDelay: `${index * 180}ms` }}
             >
               <div className="relative aspect-[473.38/320.86] overflow-hidden rounded-[5px]">

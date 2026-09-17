@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { homeData } from "@/data/home-data";
 import { LanguageProvider } from "@/component/LanguageProvider";
+import SmoothScroll from "@/component/SmoothScroll";
 
 const leagueSpartan = localFont({
   src: [
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" dir="ltr" className={`${leagueSpartan.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-background font-sans text-foreground">
+        <SmoothScroll />
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>

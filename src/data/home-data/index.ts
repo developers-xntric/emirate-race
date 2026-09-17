@@ -103,7 +103,7 @@ export const homeData = {
       },
       {
         title: "Community Champion",
-        video: "/home/rahhal-cha.webm",
+        video: "/home/rahhal-chamnew.webm",
         description:
           "He celebrates every runner, from first-time participants to experienced athletes.",
         color: "bg-[#418fcc]",
@@ -236,7 +236,7 @@ export const homeData = {
         artHeight: 85.4447,
         iconWidth: 26.695,
         iconHeight: 38.8936,
-        position: "lg:translate-y-[50px] lg:rotate-[6.53deg]",
+        position: "lg:translate-y-[30px] lg:rotate-[3deg]",
       },
       {
         village: "Al Rams",

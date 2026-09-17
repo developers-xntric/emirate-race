@@ -1,35 +1,38 @@
 "use client";
 
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import { useHomeData } from "./LanguageProvider";
 import SectionHeading from "./SectionHeading";
 import Button from "./Button";
 
+gsap.registerPlugin(ScrollTrigger);
+
 function RaceCard({
   race,
   index,
   className = "",
-  animated = false,
+  visible = true,
 }: {
   race: ReturnType<typeof useHomeData>["calendar"]["races"][number];
   index: number;
   className?: string;
-  animated?: boolean;
+  visible?: boolean;
 }) {
   const data = useHomeData();
   return (
     <article
       aria-label={`${data.calendar.raceLabel} ${index + 1}: ${race.village}, ${race.day} ${race.month}`}
-      style={animated ? { animationDelay: `${index * 0.8}s` } : undefined}
-      className={`relative z-10 flex aspect-[7/5] md:aspect-square w-20 md:w-full flex-col justify-end rounded-[9px] bg-[#072f4f] p-3 text-white transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#bb0054] ${animated ? "motion-safe:animate-calendar-card-pop" : ""} ${className}`}
+      className={`relative z-10 flex aspect-[7/5] md:aspect-square w-20 md:w-full flex-col justify-end rounded-[9px] bg-[#072f4f] p-3 text-white transition-[opacity,transform] duration-700 ease-out hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#bb0054] ${visible ? "opacity-100" : "pointer-events-none opacity-0"} ${className}`}
     >
       <Image
         src={race.art}
         alt=""
-        width={race.artWidth * 0.75}
+        width={race.artWidth * 0.80}
         height={race.artHeight * 0.75}
-        className="absolute -top-12 start-4 object-contain"
+        className="absolute -top-8 left-1/2 -translate-x-1/2 object-contain"
       />
       <div className="relative pt-5 text-xs leading-tight font-bold 2xl:text-sm">
         <p className="uppercase">
@@ -122,14 +125,83 @@ function MobileRaceMarquee() {
   );
 }
 
-export default function RaceCalendar() {
+function DesktopCalendarSequence() {
   const data = useHomeData();
+  const sequenceRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const timelinePathRef = useRef<SVGPathElement>(null);
+  const timelineDotRef = useRef<SVGCircleElement>(null);
+
+  useEffect(() => {
+    const sequence = sequenceRef.current;
+    const panel = panelRef.current;
+    if (!sequence || !panel || window.innerWidth < 1024) return;
+
+    const context = gsap.context(() => {
+      const cards = cardRefs.current.filter(
+        (card): card is HTMLDivElement => card !== null,
+      );
+      const timelinePath = timelinePathRef.current;
+      const timelineDot = timelineDotRef.current;
+      if (!cards.length || !timelinePath || !timelineDot) return;
+
+      const pathLength = timelinePath.getTotalLength();
+      const drawTimeline = (progress: number) => {
+        const clampedProgress = Math.min(1, Math.max(0, progress));
+        timelinePath.style.strokeDasharray = `${pathLength}`;
+        timelinePath.style.strokeDashoffset = `${pathLength * (1 - clampedProgress)}`;
+        const point = timelinePath.getPointAtLength(pathLength * clampedProgress);
+        timelineDot.setAttribute("cx", `${point.x}`);
+        timelineDot.setAttribute("cy", `${point.y}`);
+      };
+
+      drawTimeline(0);
+
+      gsap.set(cards, { opacity: 0 });
+      gsap.set(cards[0], { opacity: 1 });
+
+      const cardStops = [0, 0.184, 0.336, 0.482, 0.675, 0.814, 1];
+      const cardVisibility = cards.map((_, index) => index === 0);
+      const updateCardVisibility = (progress: number) => {
+        cards.forEach((card, index) => {
+          const shouldShow = progress >= cardStops[index];
+          if (cardVisibility[index] === shouldShow) return;
+
+          cardVisibility[index] = shouldShow;
+          gsap.to(card, {
+            opacity: shouldShow ? 1 : 0,
+            duration: 0.55,
+            ease: "power2.inOut",
+            overwrite: "auto",
+          });
+        });
+      };
+
+      ScrollTrigger.create({
+        trigger: sequence,
+        start: "top top",
+        end: "+=200%",
+        pin: panel,
+        pinSpacing: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onUpdate: (trigger) => {
+          drawTimeline(trigger.progress);
+          updateCardVisibility(trigger.progress);
+        },
+      });
+    }, sequence);
+
+    return () => context.revert();
+  }, []);
+
   return (
-    <section
-      id="calendar"
-      className="mx-auto w-[95%] scroll-mt-8 py-6 md:py-20 2xl:max-w-[1600px] 2xl:py-[90px]"
-    >
-      <div className="relative isolate overflow-visible rounded-[20px] border border-[#bb0054]/10 px-5 py-6 md:py-12 lg:overflow-hidden lg:px-8">
+    <div ref={sequenceRef} className="hidden lg:block">
+      <div
+        ref={panelRef}
+        className="relative isolate flex min-h-screen flex-col justify-center overflow-hidden rounded-[20px] border border-[#bb0054]/10 px-8 py-12"
+      >
         <Image
           src={data.assets.calendarGrid}
           alt=""
@@ -142,10 +214,7 @@ export default function RaceCalendar() {
           title={data.calendar.title}
           centered
         />
-        <div className="lg:hidden">
-          <MobileRaceMarquee />
-        </div>
-        <div className="relative mt-[115px] mb-[125px] hidden grid-cols-7 gap-2 lg:grid">
+        <div className="relative mt-[115px] mb-[125px] grid grid-cols-7 gap-2">
           <svg
             aria-hidden="true"
             viewBox="0 0 1500 220"
@@ -160,24 +229,106 @@ export default function RaceCalendar() {
               strokeWidth="4.8"
               strokeDasharray="9.6 9.6"
             />
+            {[
+              { x: 0, y: 186 },
+              { x: 286, y: 86 },
+              { x: 513, y: 191 },
+              { x: 715, y: 61 },
+              { x: 1013, y: 171 },
+              { x: 1217, y: 66 },
+              { x: 1500, y: 186 },
+            ].map((stop, index) => (
+              <g key={index}>
+                <circle
+                  className="calendar-stop-pulse"
+                  cx={stop.x}
+                  cy={stop.y}
+                  r="7"
+                  fill="none"
+                  stroke="#bb0054"
+                  strokeWidth="2.5"
+                  style={{ animationDelay: `${index * 0.05}s` }}
+                />
+                <circle
+                  cx={stop.x}
+                  cy={stop.y}
+                  r="7"
+                  fill="#bb0054"
+                  stroke="white"
+                  strokeWidth="2"
+                />
+              </g>
+            ))}
+            <path
+              ref={timelinePathRef}
+              d="M0 186 L286 86 L513 191 L715 61 L1013 171 L1217 66 L1500 186"
+              fill="none"
+              stroke="#bb0054"
+              strokeWidth="5"
+              strokeLinecap="round"
+            />
+            <circle
+              ref={timelineDotRef}
+              r="9"
+              fill="#bb0054"
+              stroke="white"
+              strokeWidth="3"
+            />
           </svg>
           {data.calendar.races.map((race, index) => (
-            <RaceCard
+            <div
               key={race.date}
-              race={race}
-              index={index}
-              animated
-              className={`mx-auto max-w-[195px] ${race.position}`}
-            />
+              ref={(element) => { cardRefs.current[index] = element; }}
+              className={index === 0 ? "opacity-100" : "opacity-0"}
+            >
+              <RaceCard
+                race={race}
+                index={index}
+                className={`mx-auto max-w-[195px] ${race.position}`}
+              />
+            </div>
           ))}
         </div>
-        <div className="mt-8 md:mt-12 flex flex-wrap justify-center gap-1.5 md:gap-5">
+        <div className="flex flex-wrap justify-center gap-5">
           <Button href={data.register.href} tone="pink">{data.calendar.register}</Button>
           <Button href="#distances" tone="navy">
             {data.calendar.details}
           </Button>
         </div>
       </div>
+    </div>
+  );
+}
+
+export default function RaceCalendar() {
+  const data = useHomeData();
+  return (
+    <section
+      id="calendar"
+      className="mx-auto w-[95%] scroll-mt-8 py-6 md:py-16 2xl:max-w-[1600px] "
+    >
+      <div className="relative isolate overflow-visible rounded-[20px] border border-[#bb0054]/10 px-5 py-6  lg:hidden">
+        <Image
+          src={data.assets.calendarGrid}
+          alt=""
+          fill
+          className="-z-10 object-cover"
+          sizes="90vw"
+        />
+        <SectionHeading
+          eyebrow={data.calendar.eyebrow}
+          title={data.calendar.title}
+          centered
+        />
+        <MobileRaceMarquee />
+        <div className="mt-8 flex flex-wrap justify-center gap-1.5 md:gap-5">
+          <Button href={data.register.href} tone="pink">{data.calendar.register}</Button>
+          <Button href="#distances" tone="navy">
+            {data.calendar.details}
+          </Button>
+        </div>
+      </div>
+      <DesktopCalendarSequence />
     </section>
   );
 }

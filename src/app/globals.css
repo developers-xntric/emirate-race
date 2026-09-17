@@ -92,3 +92,30 @@ html[dir="rtl"] .motion-safe\:animate-quick-facts {
     font-size: 15px;
   }
 }
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.calendar-stop-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: calendar-stop-ripple 1s ease-out infinite;
+}
+
+@keyframes calendar-stop-ripple {
+  0% {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+
+  75%,
+  100% {
+    opacity: 0;
+    transform: scale(3);
+  }
+}
