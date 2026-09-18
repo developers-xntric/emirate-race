@@ -137,10 +137,10 @@ export default function Navbar({
           </button>
           <div
             id="race-navigation"
-            className={`absolute start-1/2 top-full mt w-60 -translate-x-1/2 origin-top rounded-lg border border-white/15 bg-black/30 p-2 shadow-2xl backdrop-blur-3xl transition duration-200 ${racesOpen ? "visible scale-100 opacity-100" : "invisible scale-95 opacity-0"}`}
+            className={`absolute start-1/2 top-full w-52 2xl:w-64 -translate-x-1/2 origin-top rounded-[5px] border border-white/15 bg-black/45 backdrop-blur-[22px] p-2 shadow-2xl transition duration-200 ${racesOpen ? "visible scale-100 opacity-100" : "invisible scale-95 opacity-0"}`}
           >
            
-            {raceList()}
+            {raceList()} 
           </div>
         </div>
         <Link

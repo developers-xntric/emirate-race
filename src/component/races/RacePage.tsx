@@ -5,6 +5,8 @@ import Button from "@/component/Button";
 import SectionHeading from "@/component/SectionHeading";
 import RouteMaps from "@/component/races/RouteMaps";
 import RaceReveal from "@/component/races/RaceReveal";
+import RaceAboutImage from "@/component/races/RaceAboutImage";
+import RaceDistanceCards from "@/component/races/RaceDistanceCards";
 import type { RacePageData } from "@/data/races/types";
 
 const container = "mx-auto w-[90%] 2xl:max-w-[1440px]";
@@ -25,8 +27,8 @@ export default function RacePage({ race }: { race: RacePageData }) {
           />
           <div className="absolute inset-0 -z-10 bg-black/50" />
           <Navbar homeHrefPrefix="/" />
-          <div className="mx-auto mt-auto grid w-[90%] 2xl:max-w-[1440px] gap-6 pt-28 pb-7 md:pb-10 lg:grid-cols-[1.3fr_1fr] lg:items-end lg:gap-16">
-            <h1 className="max-w-[960px] text-[clamp(42px,4.3vw,102px)] leading-[.98] font-bold uppercase">
+          <div className="mx-auto mt-auto grid w-[90%] 2xl:max-w-[1440px] gap-3 md:gap-6 pt-28 pb-7 md:pb-10 lg:grid-cols-[1.3fr_1fr] lg:items-end lg:gap-16">
+            <h1 className="max-w-[960px] text-[clamp(32px,2.3vw,102px)]  md:text-[clamp(42px,4.3vw,102px)] leading-[.98] font-bold uppercase">
               {race.heroTitle.map((line) => (
                 <span key={line} className="block">
                   {line}
@@ -64,16 +66,19 @@ export default function RacePage({ race }: { race: RacePageData }) {
           aria-label="About the race"
           className={`${container} grid gap-5 py-6 md:grid-cols-2 md:gap-7 md:py-10 `}
         >
-          <RaceReveal className="relative min-h-[290px] overflow-hidden rounded-[10px] md:min-h-0 order-2 md:order-1">
-            <Image
+          <RaceReveal className="relative min-h-[290px] overflow-hidden rounded-[10px] order-2 md:order-1">
+            <RaceAboutImage
               src={race.assets.about}
+              video="/home/rahhal-default2.webm"
               alt={race.aboutAlt}
-              fill
               sizes="(min-width: 1536px) 706px, (min-width: 768px) 44vw, 90vw"
-              className="scale-105 object-cover object-bottom transition-transform duration-1000 ease-out group-data-[revealed=true]:scale-100"
             />
           </RaceReveal>
-          <RaceReveal delay={140} className="relative isolate flex min-h-[400px] flex-col overflow-hidden rounded-[10px] bg-[#072f4f] p-4 md:p-6 text-white lg:min-h-[450px] order-1 md:order-2">
+          <div className="[perspective:1200px] order-1 md:order-2">
+            <RaceReveal
+              delay={140}
+              className="relative isolate flex h-full min-h-[400px] flex-col overflow-hidden rounded-[10px] bg-[#072f4f] p-4 md:p-6 text-white lg:min-h-[450px] motion-safe:hover:animate-about-card-flip [backface-visibility:hidden]"
+            >
             <Image
               src={race.assets.pattern}
               alt=""
@@ -118,6 +123,7 @@ export default function RacePage({ race }: { race: RacePageData }) {
               </dl>
             </div>
           </RaceReveal>
+          </div>
         </section>
 
         <section
@@ -130,28 +136,7 @@ export default function RacePage({ race }: { race: RacePageData }) {
               Register Now
             </Button>
           </div>
-          <div className="grid gap-3 md:grid-cols-3 md:gap-5">
-            {race.distances.map((item, index) => (
-              <RaceReveal
-                key={item.distance}
-                delay={index * 130}
-                effect="scale"
-                className="h-full"
-              >
-                <article className="h-full rounded-[8px] border border-dashed border-[#bb0054] bg-white p-3 md:p-4">
-                  <h3 className="md:text-2xl leading-tight font-bold uppercase 2xl:text-[35px]">
-                    <span className="block text-[#bb0054]">
-                      {item.distance}
-                    </span>
-                    {item.title}
-                  </h3>
-                  <p className="text-base leading-snug text-[#303030] 2xl:text-xl">
-                    {item.description}
-                  </p>
-                </article>
-              </RaceReveal>
-            ))}
-          </div>
+          <RaceDistanceCards distances={race.distances} />
         </section>
 
         <section
