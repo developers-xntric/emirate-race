@@ -99,7 +99,7 @@ export default function Navbar({
           {data.ui.nav.home}
         </Link>
         <Link
-          href={section("#about")}
+          href="/about"
           className="whitespace-nowrap transition-colors hover:text-white/70 focus-visible:outline-2"
         >
           {data.ui.nav.about}
@@ -156,7 +156,7 @@ export default function Navbar({
           {data.ui.nav.faqs}
         </Link>
         <Link
-          href={section("#contact")}
+          href="/contact"
           className="whitespace-nowrap transition-colors hover:text-white/70 focus-visible:outline-2"
         >
           {data.ui.nav.contact}
@@ -211,7 +211,7 @@ export default function Navbar({
               {data.ui.nav.home}
             </Link>
             <Link
-              href={section("#about")}
+              href="/about"
               onClick={closeMobile}
               className="border-b border-white/15 py-3 uppercase"
             >
@@ -263,7 +263,7 @@ export default function Navbar({
               {data.ui.nav.faqs}
             </Link>
         <Link
-              href={section("#contact")}
+              href="/contact"
               onClick={closeMobile}
               className="border-b border-white/15 py-3 uppercase"
             >

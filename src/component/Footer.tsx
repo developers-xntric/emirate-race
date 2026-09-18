@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import { useHomeData } from "./LanguageProvider";
+import { useState } from "react";
+import PressKitModal from "./PressKitModal";
 
 function SocialIcon({ label }: { label: string }) {
   if (label === "Instagram") {
@@ -29,14 +31,25 @@ function SocialIcon({ label }: { label: string }) {
   );
 }export default function Footer({ homeHrefPrefix = '' }: { homeHrefPrefix?: string }) {
   const data = useHomeData();
+  const [pressKitOpen, setPressKitOpen] = useState(false);
+  const raceLinks = [
+    { label: "Qidfa", href: "/races/qidfa" },
+    { label: "Al Lehbab", href: "/races/al-lehbab" },
+    { label: "Wadi Al Helo", href: "/races/wadi-al-hilo" },
+    { label: "Falaj Al Mualla", href: "/races/falaj-al-mualla" },
+    { label: "Masfout", href: "/races/masfout" },
+    { label: "Al Rams", href: "/races/al-rams" },
+    { label: "Al Shuwaib", href: "/races/al-shuwaib" },
+  ];
   const columns = [
-    data.navigation.slice(0, 3),
-    data.navigation.slice(3, 6),
     [
-      { label: data.footer.recognition, href: "#recognition" },
-      data.navigation[6],
-      data.register,
+      { label: "Home", href: `${homeHrefPrefix}/` },
+      { label: "About", href: `${homeHrefPrefix}/about` },
+      { label: "Contact Us", href: `${homeHrefPrefix}/contact` },
+      { label: "FAQs", href: `${homeHrefPrefix}/faqs` },
     ],
+    raceLinks,
+    [{ label: "Press Kit", pressKit: true }],
   ];
   return (
     <footer id="contact" className="overflow-hidden bg-[#f8f8f8] text-white">
@@ -79,12 +92,12 @@ function SocialIcon({ label }: { label: string }) {
             </div>
             <div>
               <h2 className="text-xl font-bold">{data.footer.quickLinks}</h2>
-              <div className="mt-3 md:mt-7 grid grid-cols-3 md:gap-5">
+              <div className="mt-3 md:mt-7 grid grid-cols-3 gap-8 md:gap-12">
                 {columns.map((column, index) => (
                   <ul key={index} className="space-y-2 md:space-y-4">
-                    {column.map((link) => (
-                      <li key={link.href}>
-                        {link.href ? (
+                    {column.map((link, linkIndex) => (
+                      <li key={linkIndex}>
+                        {"href" in link ? (
                           <a
                             href={link.href.startsWith('#') ? `${homeHrefPrefix}${link.href}` : link.href}
                             className="text-sm md:text-base hover:underline 2xl:text-[22px]"
@@ -94,6 +107,7 @@ function SocialIcon({ label }: { label: string }) {
                         ) : (
                           <button
                             type="button"
+                            onClick={() => "pressKit" in link && link.pressKit && setPressKitOpen(true)}
                             className="text-left text-sm md:text-base 2xl:text-[22px]"
                           >
                             {link.label}
@@ -153,6 +167,7 @@ function SocialIcon({ label }: { label: string }) {
           </div>
         </div>
       </div>
+      <PressKitModal open={pressKitOpen} onClose={() => setPressKitOpen(false)} />
     </footer>
   );
 }

@@ -1,0 +1,2 @@
+import nodemailer from "nodemailer";
+export function smtpConfig(){const host=process.env.SMTP_HOST,port=Number(process.env.SMTP_PORT||587),user=process.env.SMTP_USER,pass=process.env.SMTP_PASSWORD,from=process.env.CONTACT_FROM_EMAIL,admin=process.env.CONTACT_ADMIN_EMAIL;if(!host||!Number.isInteger(port)||port<1||port>65535||!user||!pass||!from||!admin)return null;return{transporter:nodemailer.createTransport({host,port,secure:port===465,auth:{user,pass},requireTLS:port!==465}),from,admin}}

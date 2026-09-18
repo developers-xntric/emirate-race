@@ -1,0 +1,51 @@
+import { createHash } from "node:crypto";
+import { contactEmails, pressKitEmails } from "@/lib/contact/email";
+import { isEmail, validateContact } from "@/lib/contact/validation";
+import { smtpConfig } from "@/lib/contact/smtp";
+
+export const runtime = "nodejs";
+const attempts = new Map<string, { count: number; expires: number }>();
+function allowed(key: string) { const now = Date.now(); for (const [id, entry] of attempts) if (entry.expires <= now) attempts.delete(id); const previous = attempts.get(key); if (previous && previous.count >= 5) return false; attempts.set(key, { count: (previous?.count ?? 0) + 1, expires: previous?.expires ?? now + 900000 }); return true; }
+const out = (body: object, status = 200) => Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
+const requestIdOk = (id: unknown) => typeof id === "string" && /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
+const text = (value: unknown, max: number) => typeof value === "string" && value.trim().length > 0 && value.length <= max && !/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/.test(value);
+
+export async function POST(request: Request) {
+  if (request.headers.get("origin") && request.headers.get("origin") !== new URL(request.url).origin) return out({ message: "Please send your enquiry from this website." }, 403);
+  if (!request.headers.get("content-type")?.includes("application/json")) return out({ message: "Please submit the form again." }, 415);
+  let input: unknown; try { input = await request.json(); } catch { return out({ message: "We could not read your request. Please try again." }, 400); }
+  if (!input || typeof input !== "object" || Array.isArray(input)) return out({ message: "Please complete the form." }, 400);
+  const raw = input as Record<string, unknown>;
+  if (raw.website) return out({ message: "Please complete the form." }, 400);
+  if (!requestIdOk(raw.requestId)) return out({ message: "Please refresh and submit again." }, 400);
+  const config = smtpConfig();
+  const requestId = raw.requestId as string;
+
+  if (raw.kind === "press-kit") {
+    const name = typeof raw.name === "string" ? raw.name.trim() : "";
+    const email = typeof raw.email === "string" ? raw.email.trim().toLowerCase() : "";
+    const channelLink = typeof raw.channelLink === "string" ? raw.channelLink.trim() : "";
+    const errors: Record<string, string> = {};
+    if (!text(name, 100) || name.length < 2) errors.name = "Please enter your full name.";
+    if (!isEmail(email)) errors.email = "Please enter a valid email address.";
+    if (channelLink && !text(channelLink, 500)) errors.channelLink = "Please enter a valid channel link.";
+    if (Object.keys(errors).length) return out({ message: "Please review the highlighted fields.", errors }, 422);
+    const key = createHash("sha256").update(email).digest("hex");
+    if (!allowed(key)) return out({ message: "Please wait 15 minutes before requesting another press kit." }, 429);
+    const reference = `EVRS-PK-${requestId.slice(0, 8).toUpperCase()}`;
+    if (!config || !isEmail(config.admin)) {
+      console.warn("Press Kit submitted without SMTP configuration", { reference });
+      return out({ message: "Thank you. Your press kit is ready to download.", reference });
+    }
+    try { const [admin] = pressKitEmails({ name, email, channelLink }, { from: config.from, admin: config.admin }, reference); await config.transporter.sendMail(admin); return out({ message: "Thank you. Your press kit is ready to download.", reference }); }
+    catch (error) { console.error("Press Kit SMTP delivery failed", { reference, error: error instanceof Error ? error.message : "unknown" }); return out({ message: "Your details were received, but the admin notification could not be sent. Your press kit is ready to download.", reference }); }
+  }
+  if (!config || !isEmail(config.admin)) return out({ message: "Our form is temporarily unavailable. Please email info@emiratesvillages.ae." }, 503);
+  const { data, errors } = validateContact(input);
+  if (Object.keys(errors).length) return out({ message: "Please review the highlighted fields.", errors }, 422);
+  const key = createHash("sha256").update(data.email).digest("hex");
+  if (!allowed(key)) return out({ message: "Please wait 15 minutes before sending another enquiry." }, 429);
+  const reference = `EVRS-${requestId.slice(0, 8).toUpperCase()}`;
+  try { const [admin, visitor] = contactEmails(data, { from: config.from, admin: config.admin }, reference); await config.transporter.sendMail(admin); await config.transporter.sendMail(visitor); return out({ message: "Thank you! Your enquiry has been sent to our team. A confirmation email is on its way to you.", reference }); }
+  catch (error) { console.error("Contact SMTP delivery failed", { reference, error: error instanceof Error ? error.message : "unknown" }); return out({ message: "We could not send your enquiry right now. Please try again shortly or email info@emiratesvillages.ae." }, 502); }
+}
