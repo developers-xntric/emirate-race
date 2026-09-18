@@ -131,21 +131,25 @@ export default function RacePage({ race }: { race: RacePageData }) {
             </Button>
           </div>
           <div className="grid gap-3 md:grid-cols-3 md:gap-5">
-            {race.distances.map((item) => (
-              <article
+            {race.distances.map((item, index) => (
+              <RaceReveal
                 key={item.distance}
-                className="rounded-[8px] border border-dashed border-[#bb0054] bg-white p-3 md:p-4"
+                delay={index * 130}
+                effect="scale"
+                className="h-full"
               >
-                <h3 className=" md:text-2xl leading-tight font-bold uppercase 2xl:text-[35px]">
-                  <span className=" block text-[#bb0054]">
-                    {item.distance}
-                  </span>
-                  {item.title}
-                </h3>
-                <p className="text-base leading-snug text-[#303030] 2xl:text-xl">
-                  {item.description}
-                </p>
-              </article>
+                <article className="h-full rounded-[8px] border border-dashed border-[#bb0054] bg-white p-3 md:p-4">
+                  <h3 className="md:text-2xl leading-tight font-bold uppercase 2xl:text-[35px]">
+                    <span className="block text-[#bb0054]">
+                      {item.distance}
+                    </span>
+                    {item.title}
+                  </h3>
+                  <p className="text-base leading-snug text-[#303030] 2xl:text-xl">
+                    {item.description}
+                  </p>
+                </article>
+              </RaceReveal>
             ))}
           </div>
         </section>

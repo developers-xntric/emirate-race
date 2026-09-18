@@ -21,6 +21,19 @@ export const arabicData = {
     play: "تشغيل الفيديو", pause: "إيقاف الفيديو مؤقتاً",
     video: "فيلم سلسلة سباقات قرى الإمارات للجري",
     mainNavigation: "التنقل الرئيسي", mobileNavigation: "التنقل عبر الهاتف",
+    nav: {
+      home: "الرئيسية",
+      about: "عن السلسلة",
+      races: "السباقات",
+      gallery: "المعرض",
+      faqs: "الأسئلة الشائعة",
+      contact: "تواصل معنا",
+      race: "السباق",
+    },
+    navRaces: [...homeData.ui.navRaces].map((race, index) => ({
+      ...race,
+      label: ["قدفع", "الهباب", "وادي الحلو", "فلج المعلا", "مصفوت", "الرمس", "الشويب"][index],
+    })),
   },
   hero: {
     title: ["اكتشف", "قرى الإمارات،", "سباقاً تلو الآخر"],

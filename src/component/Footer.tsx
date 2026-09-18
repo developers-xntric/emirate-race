@@ -39,7 +39,7 @@ function SocialIcon({ label }: { label: string }) {
     ],
   ];
   return (
-    <footer className="overflow-hidden bg-[#f8f8f8] text-white">
+    <footer id="contact" className="overflow-hidden bg-[#f8f8f8] text-white">
       <div aria-hidden="true" className="flex h-[45px] md:h-[60px] w-full overflow-hidden">
         {Array.from({ length: 30 }, (_, index) => (
           <Image

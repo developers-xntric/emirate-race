@@ -33,7 +33,7 @@ export default function Recognition() {
   const data = useHomeData();
   return (
     <section
-      id="recognition"
+      id="gallery"
       className="mx-auto w-[90%] scroll-mt-8 py-8 md:py-16 2xl:max-w-[1440px] 2xl:py-[60px]"
     >
       <p className="text-center text-sm font-bold text-[#bb0054] uppercase 2xl:text-lg">

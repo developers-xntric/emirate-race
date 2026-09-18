@@ -68,7 +68,7 @@ export default function RouteMaps({
           tabIndex={0}
           className="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#bb0054]"
         >
-          <div className="relative aspect-[5/4] md:aspect-[1500/763.449] overflow-hidden bg-[#072f4f]">
+          <div className="relative aspect-[5/4] md:aspect-[9/4] overflow-hidden bg-[#072f4f]">
             <div
               className="absolute inset-x-0"
               style={{ height: route.imageHeight, top: route.imageTop ?? "0%" }}
