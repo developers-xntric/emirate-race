@@ -150,7 +150,7 @@ export default function Navbar({
           {data.ui.nav.gallery}
         </Link>
         <Link
-          href={section("#faqs")}
+          href="/faqs"
           className="whitespace-nowrap transition-colors hover:text-white/70 focus-visible:outline-2"
         >
           {data.ui.nav.faqs}
@@ -256,7 +256,7 @@ export default function Navbar({
               {data.ui.nav.gallery}
             </Link>
             <Link
-              href={section("#faqs")}
+              href="/faqs"
               onClick={closeMobile}
               className="border-b border-white/15 py-3 uppercase"
             >
