@@ -15,7 +15,6 @@ export default function Navbar({
   const [mobileOpen, setMobileOpen] = useState(false);
   const [racesOpen, setRacesOpen] = useState(false);
   const home = homeHrefPrefix || "/";
-  const section = (id: string) => `${homeHrefPrefix}${id}`;
   const closeMobile = () => {
     setMobileOpen(false);
     setRacesOpen(false);
@@ -144,12 +143,6 @@ export default function Navbar({
           </div>
         </div>
         <Link
-          href={section("#gallery")}
-          className="whitespace-nowrap transition-colors hover:text-white/70 focus-visible:outline-2"
-        >
-          {data.ui.nav.gallery}
-        </Link>
-        <Link
           href="/faqs"
           className="whitespace-nowrap transition-colors hover:text-white/70 focus-visible:outline-2"
         >
@@ -248,13 +241,6 @@ export default function Navbar({
                 {raceList(true)}
               </div>
             )}
-            <Link
-              href={section("#gallery")}
-              onClick={closeMobile}
-              className="border-b border-white/15 py-3 uppercase"
-            >
-              {data.ui.nav.gallery}
-            </Link>
             <Link
               href="/faqs"
               onClick={closeMobile}

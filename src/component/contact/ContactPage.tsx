@@ -79,7 +79,7 @@ export default function ContactPage() {
             Contact Us
           </h1>
         </section>
-        <section className="mx-auto grid w-[90%] max-w-[1590px] gap-8 py-14 md:grid-cols-[510px_1fr] md:py-20">
+        <section className="mx-auto grid w-[90%] max-w-[1590px] gap-8 py-14 md:grid-cols-[450px_1fr] md:py-20">
           <div className="order-2 md:order-1">
             <p className="text-sm font-bold uppercase text-[#bb0054] md:text-base">
               Contact Us
@@ -100,13 +100,13 @@ export default function ContactPage() {
               />
               info@emiratesvillages.ae
             </a>
-            <div className="relative mt-8 h-[400px] overflow-hidden rounded-[10px] md:h-[550px] 2xl:h-[600px]">
+            <div className="relative mt-8 h-[400px] overflow-hidden rounded-[10px] bg-[#eef0f2] md:h-[550px] 2xl:h-[600px]">
               <Image
-                src="/contact/rahhal.png"
+                src="/contact/rahhal2.png"
                 alt="Rahhal mascot"
                 fill
                 sizes="30vw"
-                className="object-contain w-32"
+                className="object-contain"
               />
             </div>
           </div>
