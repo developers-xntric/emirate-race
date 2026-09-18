@@ -47,9 +47,9 @@ function SocialIcon({ label }: { label: string }) {
       { label: "About", href: `${homeHrefPrefix}/about` },
       { label: "Contact Us", href: `${homeHrefPrefix}/contact` },
       { label: "FAQs", href: `${homeHrefPrefix}/faqs` },
+      { label: "Press Kit", pressKit: true },
     ],
     raceLinks,
-    [{ label: "Press Kit", pressKit: true }],
   ];
   return (
     <footer id="contact" className="overflow-hidden bg-[#f8f8f8] text-white">
@@ -92,14 +92,14 @@ function SocialIcon({ label }: { label: string }) {
             </div>
             <div>
               <h2 className="text-xl font-bold">{data.footer.quickLinks}</h2>
-              <div className="mt-3 md:mt-7 grid grid-cols-3 gap-8 md:gap-12">
+              <div className="mt-3 md:mt-7 grid grid-cols-2 gap-8 md:gap-16">
                 {columns.map((column, index) => (
-                  <ul key={index} className="space-y-2 md:space-y-4">
+                  <ul key={index} className="space-y-2 ">
                     {column.map((link, linkIndex) => (
                       <li key={linkIndex}>
                         {"href" in link ? (
                           <a
-                            href={link.href.startsWith('#') ? `${homeHrefPrefix}${link.href}` : link.href}
+                            href={(link.href ?? "").startsWith('#') ? `${homeHrefPrefix}${link.href ?? ""}` : link.href}
                             className="text-sm md:text-base hover:underline 2xl:text-[22px]"
                           >
                             {link.label}
@@ -108,6 +108,7 @@ function SocialIcon({ label }: { label: string }) {
                           <button
                             type="button"
                             onClick={() => "pressKit" in link && link.pressKit && setPressKitOpen(true)}
+                            title={"pressKit" in link && link.pressKit ? "Download the official EVRS press kit" : undefined}
                             className="text-left text-sm md:text-base 2xl:text-[22px]"
                           >
                             {link.label}
