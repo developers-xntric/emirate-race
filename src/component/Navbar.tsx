@@ -31,7 +31,7 @@ export default function Navbar({ homeHrefPrefix = '' }: { homeHrefPrefix?: strin
   );
   return (
     <header className="relative z-30 mx-auto flex w-[90%] items-center justify-between gap-6 max-sm:gap-2 pt-6 2xl:max-w-[1440px] 2xl:pt-[34px]">
-      <a href="#" aria-label={data.brand}>
+      <a href="/" aria-label={data.brand}>
         <Image
           src={data.assets.logo}
           alt={data.brand}
