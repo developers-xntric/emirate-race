@@ -18,6 +18,7 @@ export const homeData = {
     { label: "Race Distances", href: "#distances" },
     { label: "Medal Journey", href: "#medal" },
     { label: "Prizes", href: "#prizes" },
+    { label: "Gallery", href: "#gallery" },
     { label: "FAQs", href: "#faqs" },
   ],
   ui: {
@@ -31,6 +32,7 @@ export const homeData = {
       home: "Home",
       about: "About",
       races: "Races",
+      partners: "Partners",
       gallery: "Gallery",
       faqs: "FAQs",
       contact: "Contact Us",
@@ -173,6 +175,19 @@ export const homeData = {
       { name: "Emirates Villages Run Series", logo: "/home/logo.svg" },
       { name: "Emirates Villages Run Series", logo: "/home/logo.svg" },
       { name: "Emirates Villages Run Series", logo: "/home/logo.svg" },
+    ],
+  },
+  gallery: {
+    eyebrow: "EVRS Gallery",
+    title: "Moments From the Journey",
+    items: [
+      { image: "/gallery/1.jpg", label: "Qidfa", link: "/races/qidfa" },
+      { image: "/gallery/2.jpg", label: "Al Lehbab", link: "/races/al-lehbab" },
+      { image: "/gallery/3.jpg", label: "Wadi Al Helo", link: "/races/wadi-al-hilo" },
+      { image: "/gallery/4.jpg", label: "Falaj Al Mualla", link: "/races/falaj-al-mualla" },
+      { image: "/gallery/5.jpg", label: "Masfout", link: "/races/masfout" },
+      { image: "/gallery/6.jpg", label: "Al Rams", link: "/races/al-rams" },
+      { image: "/gallery/7.jpg", label: "Al Shuwaib", link: "/races/al-shuwaib" },
     ],
   },
   calendar: {

@@ -2,6 +2,7 @@ export type RaceRoute = {
   id: string;
   label: string;
   image: string;
+  images?: string[];
   imageHeight: string;
   imageTop?: string;
   logoLeft: string;

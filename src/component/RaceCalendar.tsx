@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { useHomeData, useLanguage } from "./LanguageProvider";
 import SectionHeading from "./SectionHeading";
 import Button from "./Button";
+import DesktopNewCalendar from "./DesktopNewCalendar";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -374,8 +375,8 @@ export default function RaceCalendar() {
       id="calendar"
       className="mx-auto w-[95%] scroll-mt-8 py-6 md:py-16 2xl:max-w-[1600px] "
     >
-      <MobileCalendarSequence />
-      <DesktopCalendarSequence />
+      <MobileCalendarSequence />.     <DesktopNewCalendar />
+      {/* <DesktopCalendarSequence /> */}
     </section>
   );
 }

@@ -7,6 +7,7 @@ import RaceDistances from "@/component/RaceDistances";
 import RaceCalendar from "@/component/RaceCalendar";
 import MedalJourney from "@/component/MedalJourney";
 import Recognition from "@/component/Recognition";
+import Gallery from "@/component/Gallery";
 import FAQs from "@/component/FAQs";
 import CallToAction from "@/component/CallToAction";
 import Footer from "@/component/Footer";
@@ -30,6 +31,7 @@ export default function Home() {
         <RaceCalendar />
         <MedalJourney />
         <Recognition />
+        <Gallery />
         <FAQs />
         <CallToAction />
       </main>

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useHomeData } from "./LanguageProvider";
 import SectionHeading from "./SectionHeading";
@@ -12,7 +13,11 @@ function PartnerCard({
   partner: ReturnType<typeof useHomeData>["distances"]["partners"][number];
 }) {
   return (
-    <article className="flex min-h-[100px] w-[240px] shrink-0 items-center justify-center rounded-[5px] border-2 border-transparent bg-white/16 p-4 backdrop-blur-md transition-colors duration-300 hover:border-[#bb0054] lg:w-[300px]">
+    <Link
+      href="/partners"
+      aria-label={`${partner.name} - Partners`}
+      className="flex min-h-[100px] w-[240px] shrink-0 items-center justify-center rounded-[5px] border-2 border-transparent bg-white/16 p-4 backdrop-blur-md transition-colors duration-300 hover:border-[#bb0054] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#bb0054] lg:w-[300px]"
+    >
       <Image
         src={partner.logo}
         alt={partner.name}
@@ -20,7 +25,7 @@ function PartnerCard({
         height={54}
         className="h-[44px] w-auto max-w-full object-contain 2xl:h-[54px]"
       />
-    </article>
+    </Link>
   );
 }
 

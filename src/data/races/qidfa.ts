@@ -78,19 +78,12 @@ export const qidfa: RacePageData = {
     },
     {
       id: "lap-1",
-      label: "10 KM 1ST-LAP",
+      label: "10KM Competitive Run",
       image: "/races/route-10km.png",
+      images: ["/races/route-10km.png", "/races/route-10km-lap22.png"],
       imageHeight: "106.9%",
       logoLeft: "78.05%",
       logoTop: "7.61%",
-    },
-    {
-      id: "lap-2",
-      label: "10 KM 2ND-LAP",
-      image: "/races/route-10km-lap22.png",
-      imageHeight: "100%",
-      logoLeft: "76.54%",
-      logoTop: "8.21%",
     },
   ],
 };

@@ -68,20 +68,40 @@ export default function RouteMaps({
           tabIndex={0}
           className="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#bb0054]"
         >
-          <div className="relative aspect-[5/4] md:aspect-[9/4] overflow-hidden bg-[#072f4f]">
-            <div
-              className="absolute inset-x-0"
-              style={{ height: route.imageHeight, top: route.imageTop ?? "0%" }}
-            >
-              <Image
-                src={route.image}
-                alt={`${route.label} route in ${raceName}, showing the start, finish and course markers`}
-                fill
-                sizes="(min-width: 1536px) 1440px, 90vw"
-                className="object-cover"
-              />
+          {route.images ? (
+            <div className="grid grid-cols-1 gap-3  md:grid-cols-2 md:gap-4">
+              {route.images.map((image, imageIndex) => (
+                <div key={image} className="2">
+                  <div className="relative aspect-[1590/764] overflow-hidden rounded-[6px]">
+                    <Image
+                      src={image}
+                      alt={`${route.label} route ${imageIndex + 1} in ${raceName}, showing the start, finish and course markers`}
+                      fill
+                      loading="eager"
+                      unoptimized
+                      sizes="(min-width: 768px) 45vw, 90vw"
+                      className="object-cover"
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
+          ) : (
+            <div className="relative aspect-[5/4] overflow-hidden bg-[#072f4f] md:aspect-[9/4]">
+              <div
+                className="absolute inset-x-0"
+                style={{ height: route.imageHeight, top: route.imageTop ?? "0%" }}
+              >
+                <Image
+                  src={route.image}
+                  alt={`${route.label} route in ${raceName}, showing the start, finish and course markers`}
+                  fill
+                  sizes="(min-width: 1536px) 1440px, 90vw"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          )}
         </div>
       ))}
     </div>

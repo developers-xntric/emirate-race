@@ -14,7 +14,7 @@ export const arabicData = {
   register: { ...homeData.register, label: "سجّل الآن" },
   navigation: homeData.navigation.map((link, index) => ({
     ...link,
-    label: ["عن سلسلة سباقات قرى الإمارات للجري", "تعرّف على رحّال", "جدول السباقات", "مسافات السباق", "رحلة الميدالية", "الجوائز", "الأسئلة الشائعة"][index],
+    label: ["عن سلسلة سباقات قرى الإمارات للجري", "تعرّف على رحّال", "جدول السباقات", "مسافات السباق", "رحلة الميدالية", "الجوائز", "المعرض", "الأسئلة الشائعة"][index],
   })),
   ui: {
     menu: "فتح القائمة", closeMenu: "إغلاق القائمة", skip: "انتقل إلى المحتوى",
@@ -25,6 +25,7 @@ export const arabicData = {
       home: "الرئيسية",
       about: "عن السلسلة",
       races: "السباقات",
+      partners: "الشركاء",
       gallery: "المعرض",
       faqs: "الأسئلة الشائعة",
       contact: "تواصل معنا",
@@ -100,6 +101,19 @@ export const arabicData = {
       { name: "سلسلة سباقات قرى الإمارات للجري", logo: "/home/logo.svg" },
       { name: "سلسلة سباقات قرى الإمارات للجري", logo: "/home/logo.svg" },
       { name: "سلسلة سباقات قرى الإمارات للجري", logo: "/home/logo.svg" },
+    ],
+  },
+  gallery: {
+    eyebrow: "معرض السلسلة",
+    title: "سبع قرى، رحلة واحدة",
+    items: [
+      { ...homeData.gallery.items[0], label: "قدفع" },
+      { ...homeData.gallery.items[1], label: "الهباب" },
+      { ...homeData.gallery.items[2], label: "وادي الحلو" },
+      { ...homeData.gallery.items[3], label: "فلج المعلا" },
+      { ...homeData.gallery.items[4], label: "مصفوت" },
+      { ...homeData.gallery.items[5], label: "الرمس" },
+      { ...homeData.gallery.items[6], label: "الشويب" },
     ],
   },
   calendar: {
