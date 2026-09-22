@@ -152,11 +152,11 @@ export default function PartnersPage() {
   return (
     <>
       <main id="main-content" className="bg-white" lang={language} dir={language === "ar" ? "rtl" : "ltr"}>
-        <section className="relative isolate mx-2 mt-2 h-[min(100svh,760px)] min-h-[560px] overflow-hidden rounded-[10px] text-white">
+        <section className="relative isolate mx-2 mt-2  min-h-[660px] overflow-hidden rounded-[10px] text-white">
           <Image src="/partners/hero.png" alt="" fill priority sizes="100vw" className="-z-20 object-cover" />
           <div className="absolute inset-0 -z-10 bg-black/50" />
           <Navbar homeHrefPrefix="/" />
-          <h1 className="absolute inset-x-4 top-1/2 -translate-y-1/2 text-center text-[clamp(42px,4.7vw,90px)] leading-none font-bold uppercase">
+          <h1 className="absolute inset-x-4 top-1/2 -translate-y-1/2 text-center text-[clamp(42px,4.7vw,90px)] md:text-[clamp(40px,4vw,90px)] leading-none font-bold uppercase">
             {copy.hero}
           </h1>
         </section>

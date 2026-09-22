@@ -83,11 +83,11 @@ export default function ContactPage() {
           />
           <div className="absolute inset-0 -z-10 bg-black/50" />
           <Navbar homeHrefPrefix="/" />
-          <h1 className="mx-auto mt-auto mb-24 w-[90%] text-center text-[clamp(48px,6vw,90px)] font-bold uppercase leading-none md:mb-32">
+          <h1 className="absolute inset-0 z-10 flex items-center justify-center px-4 text-center text-[clamp(42px,4.7vw,90px)] md:text-[clamp(40px,4vw,90px)] font-bold uppercase leading-none">
             {copy.contact}
           </h1>
         </section>
-        <section className="mx-auto grid w-[90%] max-w-[1590px] gap-8 py-14 lg:grid-cols-[450px_1fr] md:py-20">
+        <section className="mx-auto grid w-[90%] max-w-[1440px] gap-8 py-14 lg:grid-cols-[450px_1fr] md:py-20">
           <div className="order-2 lg:order-1">
             <p className="text-sm font-bold uppercase text-[#bb0054] md:text-base">
               {copy.contact}
