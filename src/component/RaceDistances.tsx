@@ -119,13 +119,13 @@ export default function RaceDistances() {
             </article>
           ))}
         </div>
-        <div className="mt-6 flex flex-wrap justify-between gap-2 text-sm font-bold uppercase 2xl:text-lg">
+        <div className="mt-6 flex flex-wrap justify-between gap-2 text-sm font-bold uppercase 2xl:text-lg hidden">
           <p>{data.distances.partnersLabel}</p>
           <p>{data.distances.partnersTitle}</p>
         </div>
       </div>
       <div
-        className="mt-5 w-full overflow-hidden"
+        className="mt-5 w-full overflow-hidden hidden"
         aria-label={data.distances.partnersTitle}
       >
         <div className="flex w-max gap-4 pe-4 motion-safe:animate-quick-facts motion-reduce:translate-x-0 lg:gap-[30px] lg:pe-[30px]">
