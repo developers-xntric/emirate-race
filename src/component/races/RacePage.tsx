@@ -66,18 +66,17 @@ export default function RacePage({ race }: { race: RacePageData }) {
           aria-label="About the race"
           className={`${container} grid gap-5 py-6 md:grid-cols-2 md:gap-7 md:py-10 `}
         >
-          <RaceReveal className="relative min-h-[290px] overflow-hidden rounded-[10px] order-2 md:order-1">
+          <RaceReveal className="relative h-full min-h-[290px] overflow-hidden rounded-[10px] order-2 md:order-1">
             <RaceAboutImage
               src={race.assets.about}
-              video="/home/rahhal-default2.webm"
               alt={race.aboutAlt}
               sizes="(min-width: 1536px) 706px, (min-width: 768px) 44vw, 90vw"
             />
           </RaceReveal>
-          <div className="[perspective:1200px] order-1 md:order-2">
+          <div className="order-1 md:order-2">
             <RaceReveal
               delay={140}
-              className="relative isolate flex h-full min-h-[400px] flex-col overflow-hidden rounded-[10px] bg-[#072f4f] p-4 md:p-6 text-white lg:min-h-[450px] motion-safe:hover:animate-about-card-flip [backface-visibility:hidden]"
+              className="relative isolate flex h-full min-h-[400px] flex-col overflow-hidden rounded-[10px] bg-[#072f4f] p-4 md:p-6 text-white lg:min-h-[450px]"
             >
             <Image
               src={race.assets.pattern}
