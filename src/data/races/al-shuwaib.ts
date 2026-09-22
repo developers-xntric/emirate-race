@@ -10,7 +10,7 @@ export const alShuwaib: RacePageData = {
     "https://www.premieronline.com/event/emirates_villages_run_series_race_7_alain_8820",
   date: "Saturday, 5 December 2026",
   introduction:
-    "EVRS 2026 concludes in Al Shuwaib, where the seven-race journey reaches its final finish line.",
+    "EVRS 2026 concludes in Al Shuwaib, where the seven race journey reaches its final finish line.",
   paragraphs: [
     "The final EVRS race brings participants to Al Shuwaib for the last chapter of a nationwide running series that connects all seven emirates.",
     "For those completing all seven races, this is where the full journey comes together.",

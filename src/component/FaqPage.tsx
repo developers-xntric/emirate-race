@@ -31,7 +31,7 @@ export default function FaqPage() {
           <div className="mx-auto mt-auto w-[90%] pb-8 pt-28 2xl:max-w-[1440px] md:pb-12">
            
             <h1 className="max-w-[960px] text-[clamp(32px,2.3vw,102px)]  md:text-[clamp(42px,4.3vw,102px)] leading-[.98] font-bold uppercase">
-              Frequently Asked Questions
+              {data.faq.title}
             </h1>
            
           </div>

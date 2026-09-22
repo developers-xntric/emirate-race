@@ -55,7 +55,7 @@ export default function PressKitModal({
         return;
       }
       setStatus("success");
-      setMessage(result.message || "Your press kit is ready to download.");
+      setMessage(result.message || "Thank you. Your press kit is ready to download.");
     } catch {
       setStatus("error");
       setMessage("We could not connect to the server. Please try again.");
@@ -75,7 +75,7 @@ export default function PressKitModal({
           type="button"
           onClick={onClose}
           aria-label="Close press kit form"
-          className="absolute right-5 top-4 text-3xl font-light leading-none text-[#072f4f] transition-transform hover:rotate-90"
+          className="absolute right-5 top-4 text-3xl font-light cursor-pointer leading-none text-[#072f4f] transition-transform hover:rotate-90"
         >
           x
         </button>

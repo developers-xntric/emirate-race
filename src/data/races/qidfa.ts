@@ -37,7 +37,7 @@ export const qidfa: RacePageData = {
     "Start EVRS 2026 in Qidfa and discover Fujairah through a race experience shaped by coastline, community and movement.",
   paragraphs: [
     "Qidfa opens the Emirates Villages Run Series 2026 as the first of seven races across the UAE.",
-    "From the shoreline to the village setting, this race introduces the spirit of EVRS — running beyond the familiar and discovering places through sport, heritage and community.",
+    "From the shoreline to the village setting, this race introduces the spirit of EVRS running beyond the familiar and discovering places through sport, heritage and community.",
     "Whether you are racing for a personal best, running with friends or joining with family, Qidfa is where the journey begins.",
   ],
   distances: [
@@ -56,7 +56,7 @@ export const qidfa: RacePageData = {
       distance: "1.5KM",
       title: "Family Run",
       description:
-        "A fun and inclusive run for families, children and first-time runners.",
+        "A fun and inclusive run for families, children and first time runners.",
     },
   ],
   routes: [

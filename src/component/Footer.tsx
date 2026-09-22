@@ -1,14 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { useHomeData } from "./LanguageProvider";
+import { useLanguage } from "./LanguageProvider";
 import { useState } from "react";
 import PressKitModal from "./PressKitModal";
 
 function SocialIcon({ label }: { label: string }) {
   if (label === "Instagram") {
     return (
-      <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5 fill-none stroke-current stroke-2">
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        className="size-5 fill-none stroke-current stroke-2"
+      >
         <rect x="3" y="3" width="18" height="18" rx="5" />
         <circle cx="12" cy="12" r="4" />
         <circle cx="17.5" cy="6.5" r="1" className="fill-current stroke-none" />
@@ -18,7 +22,11 @@ function SocialIcon({ label }: { label: string }) {
 
   if (label === "TikTok") {
     return (
-      <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5 fill-current">
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        className="size-5 fill-current"
+      >
         <path d="M15.5 3c.4 2.3 1.8 3.7 4.5 4v3.2c-1.6.1-3.1-.4-4.5-1.3v6.3c0 4-3.2 5.8-6.1 5.8-3.1 0-5.4-2.2-5.4-5.1 0-3.6 3.2-5.9 7-5.2v3.2c-1.7-.5-3.5.3-3.5 2 0 1.1.8 1.9 1.9 1.9 1.5 0 2.3-1 2.3-2.7V3h3.8Z" />
       </svg>
     );
@@ -29,31 +37,41 @@ function SocialIcon({ label }: { label: string }) {
       <path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.7 4.6 12 4.6 12 4.6s-5.7 0-7.5.5a3 3 0 0 0-2.1 2.1C1.9 9 1.9 12 1.9 12s0 3 .5 4.8a3 3 0 0 0 2.1 2.1c1.8.5 7.5.5 7.5.5s5.7 0 7.5-.5a3 3 0 0 0 2.1-2.1c.5-1.8.5-4.8.5-4.8s0-3-.5-4.8ZM10.1 15.2V8.8l5.5 3.2-5.5 3.2Z" />
     </svg>
   );
-}export default function Footer({ homeHrefPrefix = '' }: { homeHrefPrefix?: string }) {
-  const data = useHomeData();
+}
+export default function Footer({
+  homeHrefPrefix = "",
+}: {
+  homeHrefPrefix?: string;
+}) {
+  const { data, language } = useLanguage();
   const [pressKitOpen, setPressKitOpen] = useState(false);
   const raceLinks = [
     { label: "Qidfa", href: "/races/qidfa" },
     { label: "Al Lehbab", href: "/races/al-lehbab" },
-    { label: "Wadi Al Helo", href: "/races/wadi-al-hilo" },
+    { label: "Wadi Al Hilo", href: "/races/wadi-al-hilo" },
     { label: "Falaj Al Mualla", href: "/races/falaj-al-mualla" },
     { label: "Masfout", href: "/races/masfout" },
     { label: "Al Rams", href: "/races/al-rams" },
     { label: "Al Shuwaib", href: "/races/al-shuwaib" },
   ];
+  const localizedRaceLinks = raceLinks.map((race, index) => ({ ...race, label: data.ui.navRaces[index]?.label ?? race.label }));
+  const pressKitLabel = language === "ar" ? "\u0627\u0644\u062d\u0642\u064a\u0628\u0629 \u0627\u0644\u0625\u0639\u0644\u0627\u0645\u064a\u0629" : "Press Kit";
   const columns = [
     [
-      { label: "Home", href: `${homeHrefPrefix}/` },
-      { label: "About", href: `${homeHrefPrefix}/about` },
-      { label: "Contact Us", href: `${homeHrefPrefix}/contact` },
-      { label: "FAQs", href: `${homeHrefPrefix}/faqs` },
-      { label: "Press Kit", pressKit: true },
+      { label: data.ui.nav.home, href: `${homeHrefPrefix}/` },
+      { label: data.ui.nav.about, href: `${homeHrefPrefix}/about` },
+      { label: data.ui.nav.contact, href: `${homeHrefPrefix}/contact` },
+      { label: data.ui.nav.faqs, href: `${homeHrefPrefix}/faqs` },
+      { label: pressKitLabel, pressKit: true },
     ],
-    raceLinks,
+    localizedRaceLinks,
   ];
   return (
     <footer id="contact" className="overflow-hidden bg-[#f8f8f8] text-white">
-      <div aria-hidden="true" className="flex h-[45px] md:h-[60px] w-full overflow-hidden">
+      <div
+        aria-hidden="true"
+        className="flex h-[45px] md:h-[60px] w-full overflow-hidden"
+      >
         {Array.from({ length: 30 }, (_, index) => (
           <Image
             key={index}
@@ -99,7 +117,11 @@ function SocialIcon({ label }: { label: string }) {
                       <li key={linkIndex}>
                         {"href" in link ? (
                           <a
-                            href={(link.href ?? "").startsWith('#') ? `${homeHrefPrefix}${link.href ?? ""}` : link.href}
+                            href={
+                              (link.href ?? "").startsWith("#")
+                                ? `${homeHrefPrefix}${link.href ?? ""}`
+                                : link.href
+                            }
                             className="text-sm md:text-base hover:underline 2xl:text-[22px]"
                           >
                             {link.label}
@@ -107,9 +129,17 @@ function SocialIcon({ label }: { label: string }) {
                         ) : (
                           <button
                             type="button"
-                            onClick={() => "pressKit" in link && link.pressKit && setPressKitOpen(true)}
-                            title={"pressKit" in link && link.pressKit ? "Download the official EVRS press kit" : undefined}
-                            className="text-left text-sm md:text-base 2xl:text-[22px]"
+                            onClick={() =>
+                              "pressKit" in link &&
+                              link.pressKit &&
+                              setPressKitOpen(true)
+                            }
+                            title={
+                              "pressKit" in link && link.pressKit
+                                ? pressKitLabel
+                                : undefined
+                            }
+                            className="text-left text-sm md:text-base 2xl:text-[22px] cursor-pointer"
                           >
                             {link.label}
                           </button>
@@ -153,7 +183,9 @@ function SocialIcon({ label }: { label: string }) {
           <div className="mt-4 md:mt-8 flex flex-wrap justify-between gap-4 border-t border-white/30 py-6 text-[12px] md:text-sm 2xl:text-base">
             <p>{data.footer.copyright}</p>
             <div className="flex flex-wrap gap-4">
-              {"legalLabel" in data.footer && <span>{data.footer.legalLabel}</span>}
+              {"legalLabel" in data.footer && (
+                <span>{data.footer.legalLabel}</span>
+              )}
               {data.footer.legal.map((label, index) => (
                 <span key={label}>
                   {index > 0 && (
@@ -168,7 +200,10 @@ function SocialIcon({ label }: { label: string }) {
           </div>
         </div>
       </div>
-      <PressKitModal open={pressKitOpen} onClose={() => setPressKitOpen(false)} />
+      <PressKitModal
+        open={pressKitOpen}
+        onClose={() => setPressKitOpen(false)}
+      />
     </footer>
   );
 }

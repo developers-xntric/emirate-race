@@ -51,7 +51,7 @@ export default function Hero() {
               height={34}
               className="h-[27px] w-[41px] object-contain"
             />
-            <p className="flex-1 text-xs font-bold uppercase">
+            <p className="flex-1 text-xs xl:text-[1vw] 2xl:text-[1vw] font-bold uppercase">
               {data.hero.dates}
             </p>
             <Button href="#calendar" tone="white" className="max-sm:w-full">

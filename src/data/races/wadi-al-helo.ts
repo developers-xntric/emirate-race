@@ -30,7 +30,7 @@ export const wadiAlHelo: RacePageData = {
       distance: "1.5KM",
       title: "Family Run",
       description:
-        "A fun and inclusive run for families, children and first-time runners.",
+        "A fun and inclusive run for families, children and first time runners.",
     },
   ],
   assets: {

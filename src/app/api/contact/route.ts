@@ -37,8 +37,15 @@ export async function POST(request: Request) {
       console.warn("Press Kit submitted without SMTP configuration", { reference });
       return out({ message: "Thank you. Your press kit is ready to download.", reference });
     }
-    try { const [admin] = pressKitEmails({ name, email, channelLink }, { from: config.from, admin: config.admin }, reference); await config.transporter.sendMail(admin); return out({ message: "Thank you. Your press kit is ready to download.", reference }); }
-    catch (error) { console.error("Press Kit SMTP delivery failed", { reference, error: error instanceof Error ? error.message : "unknown" }); return out({ message: "Your details were received, but the admin notification could not be sent. Your press kit is ready to download.", reference }); }
+    try {
+      const [admin, visitor] = pressKitEmails({ name, email, channelLink }, { from: config.from, admin: config.admin }, reference);
+      await config.transporter.sendMail(admin);
+      await config.transporter.sendMail(visitor);
+      return out({ message: "Thank you. Your press kit is ready to download.", reference });
+    } catch (error) {
+      console.error("Press Kit SMTP delivery failed", { reference, error: error instanceof Error ? error.message : "unknown" });
+      return out({ message: "Your details were received, but we could not send the confirmation email. Please use the download below.", reference });
+    }
   }
   if (!config || !isEmail(config.admin)) return out({ message: "Our form is temporarily unavailable. Please email info@emiratesvillages.ae." }, 503);
   const { data, errors } = validateContact(input);
@@ -46,6 +53,6 @@ export async function POST(request: Request) {
   const key = createHash("sha256").update(data.email).digest("hex");
   if (!allowed(key)) return out({ message: "Please wait 15 minutes before sending another enquiry." }, 429);
   const reference = `EVRS-${requestId.slice(0, 8).toUpperCase()}`;
-  try { const [admin, visitor] = contactEmails(data, { from: config.from, admin: config.admin }, reference); await config.transporter.sendMail(admin); await config.transporter.sendMail(visitor); return out({ message: "Thank you! Your enquiry has been sent to our team. A confirmation email is on its way to you.", reference }); }
+  try { const [admin, visitor] = contactEmails(data, { from: config.from, admin: config.admin }, reference); await config.transporter.sendMail(admin); await config.transporter.sendMail(visitor); return out({ message: "Thank you. Your enquiry has been received by our team.", reference }); }
   catch (error) { console.error("Contact SMTP delivery failed", { reference, error: error instanceof Error ? error.message : "unknown" }); return out({ message: "We could not send your enquiry right now. Please try again shortly or email info@emiratesvillages.ae." }, 502); }
 }

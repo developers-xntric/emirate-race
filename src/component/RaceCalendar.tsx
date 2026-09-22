@@ -4,7 +4,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef, useState } from "react";
-import { useHomeData } from "./LanguageProvider";
+import { useHomeData, useLanguage } from "./LanguageProvider";
 import SectionHeading from "./SectionHeading";
 import Button from "./Button";
 
@@ -193,6 +193,7 @@ function MobileCalendarSequence() {
 }
 function DesktopCalendarSequence() {
   const data = useHomeData();
+  const { language } = useLanguage();
   const sequenceRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -260,7 +261,7 @@ function DesktopCalendarSequence() {
     }, sequence);
 
     return () => context.revert();
-  }, []);
+  }, [language]);
 
   return (
     <div ref={sequenceRef} className="hidden lg:block">
@@ -285,7 +286,7 @@ function DesktopCalendarSequence() {
             aria-hidden="true"
             viewBox="0 0 1500 220"
             preserveAspectRatio="none"
-            className="pointer-events-none absolute inset-x-0 -top-24 z-0 aspect-[1500/220] w-full overflow-visible"
+            className={`pointer-events-none absolute inset-x-0 -top-24 z-0 aspect-[1500/220] w-full overflow-visible ${language === "ar" ? "-scale-x-100" : ""}`}
           >
             <path
               d="M0 186 L286 86 L513 191 L715 61 L1013 171 L1217 66 L1500 186"

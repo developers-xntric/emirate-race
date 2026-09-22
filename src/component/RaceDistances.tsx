@@ -6,19 +6,20 @@ import { useHomeData } from "./LanguageProvider";
 import SectionHeading from "./SectionHeading";
 import Button from "./Button";
 
-function QuickFactCard({
-  fact,
+function PartnerCard({
+  partner,
 }: {
-  fact: ReturnType<typeof useHomeData>["distances"]["facts"][number];
+  partner: ReturnType<typeof useHomeData>["distances"]["partners"][number];
 }) {
   return (
-    <article className="flex min-h-[100px] w-[250px] shrink-0 flex-col items-center justify-center rounded-[5px] bg-white/16 p-2 text-center backdrop-blur-md lg:w-[300px]">
-      <h3 className="text-xl font-bold uppercase 2xl:text-[25px]">
-        {fact.title}
-      </h3>
-      <p className="mt-1 max-w-[230px] text-lg leading-tight lg:text-base 2xl:text-lg">
-        {fact.detail}
-      </p>
+    <article className="flex min-h-[100px] w-[240px] shrink-0 items-center justify-center rounded-[5px] border-2 border-transparent bg-white/16 p-4 backdrop-blur-md transition-colors duration-300 hover:border-[#bb0054] lg:w-[300px]">
+      <Image
+        src={partner.logo}
+        alt={partner.name}
+        width={160}
+        height={54}
+        className="h-[44px] w-auto max-w-full object-contain 2xl:h-[54px]"
+      />
     </article>
   );
 }
@@ -44,7 +45,7 @@ export default function RaceDistances() {
     observer.observe(cards);
     return () => observer.disconnect();
   }, []);
-  const marqueeFacts = [...data.distances.facts, ...data.distances.facts];
+  const marqueePartners = [...data.distances.partners, ...data.distances.partners];
 
   return (
     <section
@@ -114,17 +115,17 @@ export default function RaceDistances() {
           ))}
         </div>
         <div className="mt-6 flex flex-wrap justify-between gap-2 text-sm font-bold uppercase 2xl:text-lg">
-          <p>{data.distances.factsLabel}</p>
-          <p>{data.distances.factsTitle}</p>
+          <p>{data.distances.partnersLabel}</p>
+          <p>{data.distances.partnersTitle}</p>
         </div>
       </div>
       <div
         className="mt-5 w-full overflow-hidden"
-        aria-label={data.distances.factsTitle}
+        aria-label={data.distances.partnersTitle}
       >
         <div className="flex w-max gap-4 pe-4 motion-safe:animate-quick-facts motion-reduce:translate-x-0 lg:gap-[30px] lg:pe-[30px]">
-          {marqueeFacts.map((fact, index) => (
-            <QuickFactCard key={`${fact.title}-${index}`} fact={fact} />
+          {marqueePartners.map((partner, index) => (
+            <PartnerCard key={`${partner.name}-${index}`} partner={partner} />
           ))}
         </div>
       </div>

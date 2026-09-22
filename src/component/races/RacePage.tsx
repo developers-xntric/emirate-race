@@ -47,7 +47,7 @@ export default function RacePage({ race }: { race: RacePageData }) {
                   height={34}
                   className="h-[27px] w-[41px] shrink-0 object-contain"
                 />
-                <p className="flex-1 text-sm font-bold uppercase xl:text-md">
+                <p className="flex-1 text-sm xl:text-[1.2vw] 2xl:text-[1.10vw] font-bold uppercase xl:text-md">
                   {race.date}
                 </p>
                 <Button

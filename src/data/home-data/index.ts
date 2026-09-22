@@ -123,11 +123,11 @@ export const homeData = {
         title: "Community Champion",
         video: "/home/rahhal-chamnew.webm",
         description:
-          "He celebrates every runner, from first-time participants to experienced athletes.",
+          "He celebrates every runner, from first time participants to experienced athletes.",
         color: "bg-[#418fcc]",
       },
       {
-        title: "Race-Day Guide",
+        title: "Race Day Guide",
         video: "/home/rahhal-race.webm",
         description:
           "Rahhal helps runners warm up, stay hydrated, respect the route and keep every village clean.",
@@ -158,22 +158,21 @@ export const homeData = {
       {
         title: "1.5KM Family Run",
         description:
-          "A fun, inclusive distance for families, children, first-time runners and anyone who wants to experience the energy of EVRS.-49 | 50-59 | 60+",
+          "A fun, inclusive distance for families, children, first time runners and anyone who wants to experience the energy of EVRS. 49 | 50-59 | 60+",
         image: "/home/race-family.png",
         alt: "Families and runners at the Emirates Villages start line",
         cta: "Register for the 1.5KM",
       },
     ],
-    factsLabel: "Quick Facts",
-    factsTitle: "EVRS 2026 at a Glance",
-    facts: [
-      { title: "Second Edition", detail: "Returning in 2026" },
-      { title: "Seven Races", detail: "One race in every emirate" },
-      {
-        title: "Seven Villages",
-        detail: "Seven landscapes, communities and stories",
-      },
-      { title: "Season", detail: "10 October - 5 December 2026" },
+    partnersLabel: "Our Partners",
+    partnersTitle: "Emirates Villages Run Series",
+    partners: [
+      { name: "Emirates Villages Run Series", logo: "/home/logo.svg" },
+      { name: "Emirates Villages Run Series", logo: "/home/logo.svg" },
+      { name: "Emirates Villages Run Series", logo: "/home/logo.svg" },
+      { name: "Emirates Villages Run Series", logo: "/home/logo.svg" },
+      { name: "Emirates Villages Run Series", logo: "/home/logo.svg" },
+      { name: "Emirates Villages Run Series", logo: "/home/logo.svg" },
     ],
   },
   calendar: {
@@ -345,12 +344,12 @@ export const homeData = {
         {
           question: "Can I participate in more than one race?",
           answer:
-            "Yes. Participants can join individual races or take on the complete seven-race journey across all seven emirates.",
+            "Yes. Participants can join individual races or take on the complete seven race journey across all seven emirates.",
         },
       ],
       [
         {
-          question: "How do I complete the seven-piece medal?",
+          question: "How do I complete the seven piece medal?",
           answer:
             "Complete all seven EVRS races to collect every piece and assemble the full series medal.",
         },        {

@@ -54,7 +54,7 @@ export const alRams: RacePageData = {
     eyebrow: "Al Rams, Ras Al Khaimah",
     title: "One Race From the Final",
     description:
-      "Take on race six in Al Rams and keep your seven-race journey moving forward.",
+      "Take on race six in Al Rams and keep your seven race journey moving forward.",
     button: "Join Race",
   },
   location: {

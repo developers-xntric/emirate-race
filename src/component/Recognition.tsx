@@ -23,7 +23,7 @@ function InlineRunVideo({ src }: { src: string }) {
         playsInline
         preload="auto"
         aria-hidden="true"
-        className="size-full object-cover"
+        className="size-full object-cover rounded-[14px]"
       />
     </span>
   );
