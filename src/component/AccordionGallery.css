@@ -223,3 +223,37 @@
   border: 0;
   background: transparent;
 }
+
+@media (max-width: 520px) {
+  .gallery-slider__knob {
+    width: 36px;
+    height: 36px;
+  }
+
+  .gallery-slider__knob svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .gallery-image-slider {
+    inset: -5px 0;
+    height: 20px;
+  }
+
+  .gallery-image-slider::-webkit-slider-thumb,
+  .gallery-image-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 520px) {
+  .gallery-slider__track {
+    height: 8px;
+  }
+
+  .gallery-image-slider::-webkit-slider-runnable-track,
+  .gallery-image-slider::-moz-range-track {
+    height: 8px;
+  }
+}

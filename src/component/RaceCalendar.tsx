@@ -31,45 +31,49 @@ function RaceCard({
     <a
       href={race.href}
       target="_blank"
-      rel="noreferrer"      aria-label={`${data.calendar.raceLabel} ${index + 1}: ${race.village}, ${race.day} ${race.month}`}
+      rel="noreferrer"
+      aria-label={`${data.calendar.raceLabel} ${index + 1}: ${race.village}, ${race.day} ${race.month}`}
       data-active={active}
       data-mobile-stack-card={mobileStackCard || undefined}
       className={`calendar-race-card relative z-10 flex aspect-[6/5] md:aspect-square w-20 md:w-full flex-col justify-end rounded-[9px] bg-[#072f4f] p-3 text-white cursor-pointer transition-[opacity,transform] duration-700 ease-out hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#bb0054] ${visible ? "opacity-100" : "pointer-events-none opacity-0"} ${className}`}
     >
       {(!mobileStackCard || active) && (
         <>
-      <Image
-        src={race.art}
-        alt=""
-        width={race.artWidth * 0.80}
-        height={race.artHeight * 0.75}
-        className="absolute -top-8 left-1/2 -translate-x-1/2 object-contain"
-      />
-      <div className="relative pt-5 text-base md:text-xs leading-tight font-bold 2xl:text-sm">
-        <p className="uppercase">
-          {data.calendar.raceLabel} {String(index + 1).padStart(2, "0")}
-        </p>
-        <p>{race.emirate}</p>
-      </div>
-      <div className="md:mt-2 flex items-center justify-between gap-1">
-        <Image
-          src={race.icon}
-          alt=""
-          width={race.iconWidth * 0.7}
-          height={race.iconHeight * 0.7}
-          className="shrink-0 object-contain"
-        />
-        <time dateTime={race.date} className="text-center text-[14px] md:text-[10px] leading-none">
-          <span className="block">{data.calendar.dayLabel}</span>
-          <strong className="block text-[55px] md:text-[32px] 2xl:text-[40px]">
-            {race.day}
-          </strong>
-          <span>{race.month}</span>
-        </time>
-      </div>
-      <h3 className="md:mt-2 text-[26px] md:text-[17px] leading-none font-bold 2xl:text-xl">
-        {race.village}
-      </h3>
+          <Image
+            src={race.art}
+            alt=""
+            width={race.artWidth * 0.8}
+            height={race.artHeight * 0.75}
+            className="absolute -top-8 left-1/2 -translate-x-1/2 object-contain"
+          />
+          <div className="relative pt-5 text-base md:text-xs leading-tight font-bold 2xl:text-sm">
+            <p className="uppercase">
+              {data.calendar.raceLabel} {String(index + 1).padStart(2, "0")}
+            </p>
+            <p>{race.emirate}</p>
+          </div>
+          <div className="md:mt-2 flex items-center justify-between gap-1">
+            <Image
+              src={race.icon}
+              alt=""
+              width={race.iconWidth * 0.7}
+              height={race.iconHeight * 0.7}
+              className="shrink-0 object-contain"
+            />
+            <time
+              dateTime={race.date}
+              className="text-center text-[14px] md:text-[10px] leading-none"
+            >
+              <span className="block">{data.calendar.dayLabel}</span>
+              <strong className="block text-[55px] md:text-[32px] 2xl:text-[40px]">
+                {race.day}
+              </strong>
+              <span>{race.month}</span>
+            </time>
+          </div>
+          <h3 className="md:mt-2 text-[26px] md:text-[17px] leading-none font-bold 2xl:text-xl">
+            {race.village}
+          </h3>
         </>
       )}
     </a>
@@ -103,7 +107,9 @@ function MobileCalendarSequence() {
         const clampedProgress = Math.min(1, Math.max(0, progress));
         timelinePath.style.strokeDasharray = `${pathLength}`;
         timelinePath.style.strokeDashoffset = `${pathLength * (1 - clampedProgress)}`;
-        const point = timelinePath.getPointAtLength(pathLength * clampedProgress);
+        const point = timelinePath.getPointAtLength(
+          pathLength * clampedProgress,
+        );
         timelineDot.setAttribute("cx", `${point.x}`);
         timelineDot.setAttribute("cy", `${point.y}`);
       };
@@ -127,7 +133,9 @@ function MobileCalendarSequence() {
           drawTimeline(trigger.progress);
           const nextCard = Math.min(
             data.calendar.races.length - 1,
-            Math.floor(trigger.progress * (data.calendar.races.length - 1) + 0.0001),
+            Math.floor(
+              trigger.progress * (data.calendar.races.length - 1) + 0.0001,
+            ),
           );
           if (nextCard === activeCard) return;
 
@@ -157,36 +165,110 @@ function MobileCalendarSequence() {
   const mobileStops = [34, 142, 250, 358, 466, 574, 686];
 
   return (
-    <div ref={sequenceRef} className="relative ml-[calc((100vw-95vw)/-2)] w-screen lg:hidden">
+    <div
+      ref={sequenceRef}
+      className="relative ml-[calc((100vw-95vw)/-2)] w-screen lg:hidden"
+    >
       <div
         ref={panelRef}
         className="relative isolate flex min-h-[100svh] flex-col overflow-hidden rounded-[20px] border border-[#bb0054]/10 px-5 py-6"
       >
-        <Image src={data.assets.calendarGrid} alt="" fill className="-z-10 object-cover" sizes="95vw" />
-        <SectionHeading eyebrow={data.calendar.eyebrow} title={data.calendar.title} centered />
+        <Image
+          src={data.assets.calendarGrid}
+          alt=""
+          fill
+          className="-z-10 object-cover"
+          sizes="95vw"
+        />
+        <SectionHeading
+          eyebrow={data.calendar.eyebrow}
+          title={data.calendar.title}
+          centered
+        />
         <div className="relative flex flex-1 items-center justify-center">
-          <svg aria-hidden="true" viewBox="0 0 44 720" preserveAspectRatio="xMidYMid meet" className="absolute inset-y-5 -left-5 h-[calc(100%-2.5rem)] w-11 overflow-visible">
-            <path d="M22 34 V686" fill="none" stroke="#072F4F" strokeOpacity="0.32" strokeWidth="3" strokeDasharray="8 8" />
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 44 720"
+            preserveAspectRatio="xMidYMid meet"
+            className="absolute inset-y-5 -left-5 h-[calc(100%-2.5rem)] w-11 overflow-visible"
+          >
+            <path
+              d="M22 34 V686"
+              fill="none"
+              stroke="#072F4F"
+              strokeOpacity="0.32"
+              strokeWidth="3"
+              strokeDasharray="8 8"
+            />
             {mobileStops.map((y, index) => (
               <g key={index}>
-                <circle className="calendar-stop-pulse" cx="22" cy={y} r="6" fill="none" stroke="#bb0054" strokeWidth="2" style={{ animationDelay: `${index * 0.16}s` }} />
-                <circle cx="22" cy={y} r="6" fill="#bb0054" stroke="white" strokeWidth="2" />
+                <circle
+                  className="calendar-stop-pulse"
+                  cx="22"
+                  cy={y}
+                  r="6"
+                  fill="none"
+                  stroke="#bb0054"
+                  strokeWidth="2"
+                  style={{ animationDelay: `${index * 0.16}s` }}
+                />
+                <circle
+                  cx="22"
+                  cy={y}
+                  r="6"
+                  fill="#bb0054"
+                  stroke="white"
+                  strokeWidth="2"
+                />
               </g>
             ))}
-            <path ref={timelinePathRef} d="M22 34 V686" fill="none" stroke="#bb0054" strokeWidth="4" strokeLinecap="round" />
-            <circle ref={timelineDotRef} r="8" fill="#bb0054" stroke="white" strokeWidth="3" />
+            <path
+              ref={timelinePathRef}
+              d="M22 34 V686"
+              fill="none"
+              stroke="#bb0054"
+              strokeWidth="4"
+              strokeLinecap="round"
+            />
+            <circle
+              ref={timelineDotRef}
+              r="8"
+              fill="#bb0054"
+              stroke="white"
+              strokeWidth="3"
+            />
           </svg>
           <div className="relative h-[350px] w-full max-w-[260px]">
             {data.calendar.races.map((race, index) => (
-              <div key={race.date} ref={(element) => { cardRefs.current[index] = element; }} className="absolute inset-x-0 opacity-100"
-                style={{ top: `${index * 10}px`, zIndex: data.calendar.races.length - index }}>
-                <RaceCard race={race} index={index} active={index === activeCardIndex} mobileStackCard className="mx-auto w-[100%] border-b-[3px] border-b-[#bb0054] md:w-[250px]" />
+              <div
+                key={race.date}
+                ref={(element) => {
+                  cardRefs.current[index] = element;
+                }}
+                className="absolute inset-x-0 opacity-100"
+                style={{
+                  top: `${index * 10}px`,
+                  zIndex: data.calendar.races.length - index,
+                }}
+              >
+                <RaceCard
+                  race={race}
+                  index={index}
+                  active={index === activeCardIndex}
+                  mobileStackCard
+                  className="mx-auto w-[100%] border-b-[3px] border-b-[#bb0054] md:w-[250px]"
+                />
               </div>
             ))}
-          </div>        </div>
+          </div>{" "}
+        </div>
         <div className="flex flex-wrap justify-center gap-1.5">
-          <Button href={data.register.href} tone="pink">{data.calendar.register}</Button>
-          <Button href="#distances" tone="navy">{data.calendar.details}</Button>
+          <Button href={data.register.href} tone="pink">
+            {data.calendar.register}
+          </Button>
+          <Button href="#distances" tone="navy">
+            {data.calendar.details}
+          </Button>
         </div>
       </div>
     </div>
@@ -219,7 +301,9 @@ function DesktopCalendarSequence() {
         const clampedProgress = Math.min(1, Math.max(0, progress));
         timelinePath.style.strokeDasharray = `${pathLength}`;
         timelinePath.style.strokeDashoffset = `${pathLength * (1 - clampedProgress)}`;
-        const point = timelinePath.getPointAtLength(pathLength * clampedProgress);
+        const point = timelinePath.getPointAtLength(
+          pathLength * clampedProgress,
+        );
         timelineDot.setAttribute("cx", `${point.x}`);
         timelineDot.setAttribute("cy", `${point.y}`);
       };
@@ -346,7 +430,9 @@ function DesktopCalendarSequence() {
           {data.calendar.races.map((race, index) => (
             <div
               key={race.date}
-              ref={(element) => { cardRefs.current[index] = element; }}
+              ref={(element) => {
+                cardRefs.current[index] = element;
+              }}
               className={index === 0 ? "opacity-100" : "opacity-0"}
             >
               <RaceCard
@@ -358,7 +444,9 @@ function DesktopCalendarSequence() {
           ))}
         </div>
         <div className="flex flex-wrap justify-center gap-5">
-          <Button href={data.register.href} tone="pink">{data.calendar.register}</Button>
+          <Button href={data.register.href} tone="pink">
+            {data.calendar.register}
+          </Button>
           <Button href="#distances" tone="navy">
             {data.calendar.details}
           </Button>
@@ -375,7 +463,8 @@ export default function RaceCalendar() {
       id="calendar"
       className="mx-auto w-[95%] scroll-mt-8 py-6 md:py-16 2xl:max-w-[1600px] "
     >
-      <MobileCalendarSequence />.     <DesktopNewCalendar />
+      {/* <MobileCalendarSequence /> */}
+      <DesktopNewCalendar />
       {/* <DesktopCalendarSequence /> */}
     </section>
   );
