@@ -242,8 +242,12 @@ export default function AccordionGallery({
         "--ag-radius": `${radius}px`,
         height: vertical ? `${Math.round(height * 1.6)}px` : `${height}px`,
       } as React.CSSProperties}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
+      onMouseEnter={() => {
+        if (!autoplay) setPaused(true);
+      }}
+      onMouseLeave={() => {
+        if (!autoplay) setPaused(false);
+      }}
       role="list"
       aria-label="Image accordion gallery"
     >

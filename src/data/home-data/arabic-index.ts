@@ -106,14 +106,14 @@ export const arabicData = {
   gallery: {
     eyebrow: "معرض السلسلة",
     title: "سبع قرى، رحلة واحدة",
-    items: [
-      { ...homeData.gallery.items[0], label: "قدفع" },
-      { ...homeData.gallery.items[1], label: "الهباب" },
-      { ...homeData.gallery.items[2], label: "وادي الحلو" },
-      { ...homeData.gallery.items[3], label: "فلج المعلا" },
-      { ...homeData.gallery.items[4], label: "مصفوت" },
-      { ...homeData.gallery.items[5], label: "الرمس" },
-      { ...homeData.gallery.items[6], label: "الشويب" },
+    races: [
+      { ...homeData.gallery.races[0], label: "قدفع" },
+      { ...homeData.gallery.races[1], label: "الهباب" },
+      { ...homeData.gallery.races[2], label: "وادي الحلو" },
+      { ...homeData.gallery.races[3], label: "فلج المعلا" },
+      { ...homeData.gallery.races[4], label: "مصفوت" },
+      { ...homeData.gallery.races[5], label: "الرمس" },
+      { ...homeData.gallery.races[6], label: "الشويب" },
     ],
   },
   calendar: {
