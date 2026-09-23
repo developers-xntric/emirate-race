@@ -123,17 +123,20 @@
 
 @media (max-width: 520px) {
   .accordion-gallery {
-    flex-direction: column;
-    perspective: none;
-    height: auto !important;
+    --ag-gap: 5px;
+    --ag-radius: 10px;
+    flex-direction: row;
+    perspective: 900px;
+    gap: 5px !important;
+    height: 220px !important;
   }
   .ag-panel {
-    min-height: 84px;
-    transform: none !important;
+    min-height: 0;
+    border-radius: 10px !important;
   }
   .accordion-gallery .ag-panel__media {
-    width: 100%;
-    height: var(--ag-media-size);
+    width: var(--ag-media-size);
+    height: 100%;
   }
 }
 

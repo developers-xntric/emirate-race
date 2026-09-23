@@ -1,7 +1,6 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SectionHeading from "./SectionHeading";
 import AccordionGallery from "./AccordionGallery";
 import { useHomeData } from "./LanguageProvider";
@@ -11,7 +10,7 @@ const DESKTOP_VISIBLE_IMAGES = 7;
 export default function Gallery() {
   const data = useHomeData();
   const [activeRace, setActiveRace] = useState(0);
-  const [activeImage, setActiveImage] = useState(0);
+
   const [desktopStart, setDesktopStart] = useState(0);
   const [desktopSliderPosition, setDesktopSliderPosition] = useState(0.15);
   const race = data.gallery.races[activeRace];
@@ -20,17 +19,6 @@ export default function Gallery() {
     Math.min(desktopStart, maxDesktopStart),
     Math.min(desktopStart, maxDesktopStart) + DESKTOP_VISIBLE_IMAGES,
   );
-
-  useEffect(() => {
-    if (race.images.length < 2) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const timer = window.setInterval(() => {
-      setActiveImage((current) => (current + 1) % race.images.length);
-    }, 1500);
-
-    return () => window.clearInterval(timer);
-  }, [race.images.length, activeRace]);
 
   return (
     <section id="gallery" className="pt-10 pb-10 md:pt-10 md:pb-16">
@@ -51,7 +39,6 @@ export default function Gallery() {
               aria-controls="gallery-race-panel"
               onClick={() => {
                 setActiveRace(index);
-                setActiveImage(0);
                 setDesktopStart(0);
                 setDesktopSliderPosition(0.15);
               }}
@@ -63,7 +50,7 @@ export default function Gallery() {
         </div>
 
         <div id="gallery-race-panel" role="tabpanel" className="mt-3 md:mt-8">
-          <div className="hidden md:block">
+          <div className="block">
             <AccordionGallery
               key={desktopStart}
               items={visibleDesktopImages.map((image, index) => ({
@@ -132,41 +119,6 @@ export default function Gallery() {
             )}
           </div>
 
-          <div className="md:hidden">
-            <div className="relative aspect-[3.5/3] overflow-hidden rounded-[10px] bg-[#072f4f]">
-              {race.images.map((image, index) => (
-                <Image
-                key={image + index}
-                  src={image}
-                  alt={race.label + " gallery image " + (index + 1)}
-                  fill
-                  sizes="90vw"
-                  className="object-cover transition-opacity duration-500"
-                  style={{ opacity: activeImage === index ? 1 : 0 }}
-                  priority={index === 0}
-                />
-              ))}
-              <a
-                href={race.link}
-                className="absolute inset-x-2 bottom-2 rounded-[5px] bg-[#072f4f]/85 px-4 py-3 text-center text-sm font-bold uppercase text-white backdrop-blur-sm"
-              >
-                {race.label}
-              </a>
-            </div>
-
-            <div className="mt-4 flex justify-center gap-2" aria-label={race.label + " gallery slides"}>
-              {race.images.map((image, index) => (
-                <button
-                  key={image + index}
-                  type="button"
-                  aria-label={"Show " + race.label + " image " + (index + 1)}
-                  aria-current={activeImage === index}
-                  onClick={() => setActiveImage(index)}
-                  className={"size-2.5 rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#bb0054] " + (activeImage === index ? "bg-[#bb0054]" : "bg-[#072f4f]/30")}
-                />
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </section>
