@@ -41,7 +41,7 @@ export const homeData = {
     navRaces: [
       { label: "Qidfa", href: "/races/qidfa" },
       { label: "Al Lehbab", href: "/races/al-lehbab" },
-      { label: "Wadi Al Helo", href: "/races/wadi-al-hilo" },
+      { label: "Wadi Al Hilo", href: "/races/wadi-al-hilo" },
       { label: "Falaj Al Mualla", href: "/races/falaj-al-mualla" },
       { label: "Masfout", href: "/races/masfout" },
       { label: "Al Rams", href: "/races/al-rams" },
@@ -212,7 +212,7 @@ export const homeData = {
         ],
       },
       {
-        label: "Wadi Al Helo",
+        label: "Wadi Al Hilo",
         link: "/races/wadi-al-hilo",
         images: [
           "/gallery/3.jpg",
@@ -328,7 +328,7 @@ export const homeData = {
         position: "lg:-translate-y-[20px] lg:rotate-[-2deg]",
       },
       {
-        village: "Wadi Al Helo",
+        village: "Wadi Al Hilo",
         emirate: "Sharjah",
         day: "24",
         month: "Oct 2026",

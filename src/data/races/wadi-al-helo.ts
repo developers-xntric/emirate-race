@@ -1,9 +1,9 @@
 import type { RacePageData } from "./types";
 export const wadiAlHelo: RacePageData = {
-  name: "Wadi Al Helo",
+  name: "Wadi Al Hilo",
   heroTitle: ["Run Into the", "Sweet Valley"],
   heroPosition: "center 45%",
-  aboutAlt: "Runners discovering the Wadi Al Helo route in Sharjah",
+  aboutAlt: "Runners discovering the Wadi Al Hilo route in Sharjah",
   registerUrl:
     "https://www.premieronline.com/event/emirates_villages_run_series_race_3_sharjah_8816",
   date: "Saturday, 24 October 2026",
@@ -70,7 +70,7 @@ export const wadiAlHelo: RacePageData = {
     },
   ],
   routeCta: {
-    eyebrow: "Wadi Al Helo, Sharjah",
+    eyebrow: "Wadi Al Hilo, Sharjah",
     title: "The Journey Gets Deeper",
     description:
       "Discover a new landscape, a new community and your third EVRS finish line.",
