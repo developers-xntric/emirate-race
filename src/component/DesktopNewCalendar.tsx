@@ -59,7 +59,7 @@ export default function DesktopNewCalendar() {
   return (
     <section
       aria-labelledby={`${id}-heading`}
-      className="mx-auto w-[95%] pt-5 md:pt-0 pb-4 md:pb-12 2xl:max-w-[1590px]"
+      className="mx-auto w-[95%] pt-5 md:pt-0 pb-4 md:pb-1 2xl:max-w-[1590px]"
       data-desktop-new-calendar
     >
       <div id={`${id}-heading`}>
