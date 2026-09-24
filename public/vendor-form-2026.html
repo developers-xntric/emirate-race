@@ -375,8 +375,10 @@
     margin:0 auto 20px;font-size:30px;
   }
   #thankyou h2{font-size:24px;}
-  #thankyou p{color:#4b5a66;font-size:15px;}
+  #thankyou p{color:#4b5a66;font-size:15px;width:104%;margin-inline-start:-2%;}
   #thankyou .btn-primary{margin-top:18px;}
+  main.submission-complete{padding-bottom:0;}
+  main.submission-complete #thankyou{margin-bottom:0;}
 
   @media(max-width:680px){
     .field-grid{grid-template-columns:1fr;}
@@ -1025,6 +1027,17 @@ document.addEventListener('DOMContentLoaded', function () {
   const raceError = document.getElementById('race-error');
   const progressBar = document.getElementById('progress-bar');
 
+  function reportContentHeight() {
+    const footer = document.querySelector('.form-footer');
+    const main = document.querySelector('main');
+    const height = Math.ceil(Math.max(
+      footer ? footer.getBoundingClientRect().bottom : 0,
+      main ? main.getBoundingClientRect().bottom : 0
+    ));
+
+    window.parent.postMessage({ type: 'vendor-form-height', height: height }, window.location.origin);
+  }
+
   document.getElementById('btn-lang-en').addEventListener('click', function () { applyLanguage('en'); });
   document.getElementById('btn-lang-ar').addEventListener('click', function () { applyLanguage('ar'); });
 
@@ -1110,7 +1123,10 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!res.ok) throw new Error('Submission failed with status ' + res.status);
         form.style.display = 'none';
         document.querySelector('.hero').style.display = 'none';
+        document.querySelector('main').classList.add('submission-complete');
+        document.querySelector('.form-footer').style.display = 'none';
         thankyou.style.display = 'block';
+        requestAnimationFrame(reportContentHeight);
         thankyou.scrollIntoView({ behavior: 'smooth', block: 'start' });
       })
       .catch(function (err) {

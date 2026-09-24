@@ -34,7 +34,25 @@ export default function VendorFormFrame() {
   }
 
   useEffect(() => {
-    return () => observerRef.current?.disconnect();
+    function receiveHeight(event: MessageEvent) {
+      if (
+        event.origin !== window.location.origin ||
+        event.source !== frameRef.current?.contentWindow ||
+        !event.data ||
+        event.data.type !== "vendor-form-height" ||
+        typeof event.data.height !== "number"
+      ) {
+        return;
+      }
+
+      setHeight(Math.ceil(event.data.height));
+    }
+
+    window.addEventListener("message", receiveHeight);
+    return () => {
+      observerRef.current?.disconnect();
+      window.removeEventListener("message", receiveHeight);
+    };
   }, []);
 
   return (
