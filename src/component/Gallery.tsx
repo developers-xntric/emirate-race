@@ -42,7 +42,7 @@ export default function Gallery() {
                 setDesktopStart(0);
                 setDesktopSliderPosition(0.15);
               }}
-              className={"shrink-0 rounded-[5px] px-4 py-2.5 text-xs font-bold uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#bb0054] md:px-5 md:text-sm " + (activeRace === index ? "bg-[#bb0054] text-white" : "bg-[#072f4f] text-white hover:bg-[#bb0054]")}
+              className={"shrink-0 rounded-[5px] px-4 py-2.5 cursor-pointer text-xs font-bold uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#bb0054] md:px-5 md:text-sm " + (activeRace === index ? "bg-[#bb0054] text-white" : "bg-[#072f4f] text-white hover:bg-[#bb0054]")}
             >
               {item.label}
             </button>
