@@ -30,6 +30,7 @@ export default function Rahhal() {
   const data = useHomeData();
   const sectionRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [shouldPreloadVideos, setShouldPreloadVideos] = useState(false);
   const [animationCycle, setAnimationCycle] = useState(0);
   const videoFrameRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
@@ -40,6 +41,37 @@ export default function Rahhal() {
   const activeTraitRef = useRef<number | null>(null);
   const [activeTrait, setActiveTrait] = useState<number | null>(null);
   const [playingTrait, setPlayingTrait] = useState<number | null>(null);
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldPreloadVideos(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "1200px 0px" },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!shouldPreloadVideos) return;
+
+    const defaultVideo = defaultVideoRef.current;
+    videoFrameRef.current
+      ?.querySelectorAll<HTMLVideoElement>("video")
+      .forEach((video) => video.load());
+
+    if (videoIsVisibleRef.current && activeTraitRef.current === null) {
+      void defaultVideo?.play().catch(() => {});
+    }
+  }, [shouldPreloadVideos]);
+
   const previewTrait = useCallback((index: number | null) => {
     activeTraitRef.current = index;
     setActiveTrait(index);
@@ -162,7 +194,7 @@ export default function Rahhal() {
               <video
                 ref={defaultVideoRef}
                 src={data.assets.rahhalDefaultVideo}
-                preload="auto"
+                preload={shouldPreloadVideos ? "auto" : "none"}
                 muted
                 playsInline
                 aria-hidden="true"
@@ -180,7 +212,7 @@ export default function Rahhal() {
                   defaultVideoEndedRef.current = true;
                 }}
                 onError={() => setDefaultVideoReady(false)}
-                className={`${videoFrameClassName} ${defaultVideoReady && !(playingTrait !== null && playingTrait === activeTrait) ? "opacity-100" : "opacity-0"}`}
+                className={`${videoFrameClassName} ${defaultVideoReady && !(playingTrait !== null && playingTrait === activeTrait) ? "opacity-100" : "opacity-0"} md:scale-[97%]`}
               />
               {data.rahhal.traits.map((trait, index) => (
                 <video
@@ -189,7 +221,7 @@ export default function Rahhal() {
                     videoRefs.current[index] = element;
                   }}
                   src={trait.video}
-                  preload="auto"
+                  preload={shouldPreloadVideos ? "auto" : "none"}
                   muted
                   loop
                   playsInline
@@ -206,7 +238,7 @@ export default function Rahhal() {
                       void defaultVideoRef.current?.play().catch(() => {});
                     }
                   }}
-                  className={`${videoFrameClassName} ${playingTrait === index && activeTrait === index ? "opacity-100" : "opacity-0"}`}
+                  className={`${videoFrameClassName} ${playingTrait === index && activeTrait === index ? "opacity-100" : "opacity-0"} ${index === 0 ? "md:scale-[97%]" : ""}`}
                 />
               ))}
             </div>

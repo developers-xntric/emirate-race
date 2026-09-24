@@ -1,16 +1,17 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Hero from "@/component/Hero";
-import About from "@/component/About";
-import Rahhal from "@/component/Rahhal";
-import RaceDistances from "@/component/RaceDistances";
-import RaceCalendar from "@/component/RaceCalendar";
-import MedalJourney from "@/component/MedalJourney";
-import Recognition from "@/component/Recognition";
-import Gallery from "@/component/Gallery";
-import FAQs from "@/component/FAQs";
-import CallToAction from "@/component/CallToAction";
-import Footer from "@/component/Footer";
+const About = dynamic(() => import("@/component/About"));
+const Rahhal = dynamic(() => import("@/component/Rahhal"));
+const RaceDistances = dynamic(() => import("@/component/RaceDistances"));
+const RaceCalendar = dynamic(() => import("@/component/RaceCalendar"));
+const MedalJourney = dynamic(() => import("@/component/MedalJourney"));
+const Recognition = dynamic(() => import("@/component/Recognition"));
+const Gallery = dynamic(() => import("@/component/Gallery"));
+const FAQs = dynamic(() => import("@/component/FAQs"));
+const CallToAction = dynamic(() => import("@/component/CallToAction"));
+const Footer = dynamic(() => import("@/component/Footer"));
 import { useHomeData } from "@/component/LanguageProvider";
 
 export default function Home() {
