@@ -48,7 +48,7 @@ export default function Footer({
   const raceLinks = [
     { label: "Qidfa", href: "/races/qidfa" },
     { label: "Al Lehbab", href: "/races/al-lehbab" },
-    { label: "Wadi Al Hilo", href: "/races/wadi-al-hilo" },
+    { label: "Wadi Al Helo", href: "/races/wadi-al-helo" },
     { label: "Falaj Al Mualla", href: "/races/falaj-al-mualla" },
     { label: "Masfout", href: "/races/masfout" },
     { label: "Al Rams", href: "/races/al-rams" },

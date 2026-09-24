@@ -15,7 +15,7 @@ export const challenges = [
 export const villages = [
   { name: "Qidfa", image: "/about/race-1.png", color: "#3383cb", registerUrl: qidfa.registerUrl, description: "A coastal village setting that opens the EVRS 2026 season and your journey across the UAE." },
   { name: "Al Lehbab", image: "/about/race-2.png", color: "#675ec4", registerUrl: alLehbab.registerUrl, description: "Experience a different side of Dubai as race two takes the series into Al Lehbab." },
-  { name: "Wadi Al-Hilo", image: "/about/race-3.png", color: "#b80547", registerUrl: wadiAlHelo.registerUrl, description: "Continue the journey through one of Sharjah's distinctive village settings." },
+  { name: "Wadi Al-Helo", image: "/about/race-3.png", color: "#b80547", registerUrl: wadiAlHelo.registerUrl, description: "Continue the journey through one of Sharjah's distinctive village settings." },
   { name: "Falaj Al Mualla", image: "/about/race-4.png", color: "#33aba1", registerUrl: falajAlMualla.registerUrl, description: "Race four brings EVRS to Falaj Al Mualla and another community waiting to be discovered." },
   { name: "Masfout", image: "/about/race5new.png", color: "#b78063", registerUrl: masfout.registerUrl, description: "Continue the series in Masfout and add another village to your EVRS story." },
   { name: "Al Rams", image: "/about/race-6.png", color: "#f38f69", registerUrl: alRams.registerUrl, description: "Race six brings the journey to Al Rams before the series reaches its final chapter." },

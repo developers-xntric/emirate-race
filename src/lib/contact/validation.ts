@@ -1,4 +1,4 @@
-export const raceOptions = ["Qidfa", "Al Lahbab", "Falaj Al Mualla", "Al Shuwaib", "Masfout", "Al Rams", "Wadi Al-Hilo", "Other"] as const;
+export const raceOptions = ["Qidfa", "Al Lahbab", "Falaj Al Mualla", "Al Shuwaib", "Masfout", "Al Rams", "Wadi Al-Helo", "Other"] as const;
 export type ContactInput = { name: string; email: string; phone: string; message: string; races: string[] };
 export type ContactErrors = Partial<Record<keyof ContactInput, string>>;
 export const isEmail = (value: string) => /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(value) && value.length <= 254;

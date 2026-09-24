@@ -41,7 +41,7 @@ export const homeData = {
     navRaces: [
       { label: "Qidfa", href: "/races/qidfa" },
       { label: "Al Lehbab", href: "/races/al-lehbab" },
-      { label: "Wadi Al Hilo", href: "/races/wadi-al-hilo" },
+      { label: "Wadi Al Helo", href: "/races/wadi-al-helo" },
       { label: "Falaj Al Mualla", href: "/races/falaj-al-mualla" },
       { label: "Masfout", href: "/races/masfout" },
       { label: "Al Rams", href: "/races/al-rams" },
@@ -69,7 +69,6 @@ export const homeData = {
     medalPattern: "/home/medal-pattern.png",
     ctaPattern: "/home/cta-pattern.png",
     prizeRahhal: "/home/rahhal-prize.png",
-    prizeRunners: "/home/prizes-runners.png",
     faqScenery: "/home/faq-scenery-2.png",
     plus: "/home/plus.svg",
     footerChecker: "/home/footer-checker.svg",
@@ -212,8 +211,8 @@ export const homeData = {
         ],
       },
       {
-        label: "Wadi Al Hilo",
-        link: "/races/wadi-al-hilo",
+        label: "Wadi Al Helo",
+        link: "/races/wadi-al-helo",
         images: [
           "/gallery/3.jpg",
           "/gallery/4.jpg",
@@ -328,7 +327,7 @@ export const homeData = {
         position: "lg:-translate-y-[20px] lg:rotate-[-2deg]",
       },
       {
-        village: "Wadi Al Hilo",
+        village: "Wadi Al Helo",
         emirate: "Sharjah",
         day: "24",
         month: "Oct 2026",
@@ -423,7 +422,6 @@ export const homeData = {
       "Compete for your place on the podium and a share of the AED 1 million prize pool across eligible EVRS race categories.",
     cta: "View Prize Categories",
     alt: "Rahhal presenting the AED 1,000,000 prize pool",
-    photoAlt: "Runners celebrating an Emirates Villages race",
   },
   recognition: {
     eyebrow: "Recognition and Legacy",
@@ -485,7 +483,7 @@ export const homeData = {
         {
           question: "Where will the 2026 races take place?",
           answer:
-            "The series will visit Qidfa, Al Lehbab, Al-Wadi Al-Hilo, Falaj Al Mualla, Masfout, Al Rams and Al Shuwaib.",
+            "The series will visit Qidfa, Al Lehbab, Al-Wadi Al-Helo, Falaj Al Mualla, Masfout, Al Rams and Al Shuwaib.",
         },
       ],
     ],
@@ -501,7 +499,7 @@ export const homeData = {
   footer: {
     description:
       "The Emirates Villages Run Series is the UAE's nationwide running series, connecting seven villages across all seven emirates through sport, community, heritage and discovery.",
-    organizer: "Organised by the Emirates Council for Balanced Development",
+    organizer: "Brought to you by",
     quickLinks: "Quick Links",
     recognition: "Recognition",
     email: "info@emiratesvillages.ae",

@@ -143,12 +143,6 @@ export default function Navbar({
           </div>
         </div>
         <Link
-          href="/partners"
-          className="whitespace-nowrap transition-colors hover:text-white/70 focus-visible:outline-2"
-        >
-          {data.ui.nav.partners}
-        </Link>
-        <Link
           href="/faqs"
           className="whitespace-nowrap transition-colors hover:text-white/70 focus-visible:outline-2"
         >
@@ -247,13 +241,6 @@ export default function Navbar({
                 {raceList(true)}
               </div>
             )}
-            <Link
-              href="/partners"
-              onClick={closeMobile}
-              className="border-b border-white/15 py-3 uppercase"
-            >
-              {data.ui.nav.partners}
-            </Link>
             <Link
               href="/faqs"
               onClick={closeMobile}

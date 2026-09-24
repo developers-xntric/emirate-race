@@ -24,18 +24,8 @@ export default function About() {
             </Button>
           </div>
         </div>
-        <div>
-          <div className="space-y-3 md:space-y-5 text-lg leading-[1.25] text-black lg:text-base 2xl:text-lg">
-            {data.about.paragraphs.map((text) => (
-              <p key={text}>{text}</p>
-            ))}
-          </div>
-          <div className="flex items-end justify-end">
-            <Button href={data.register.href} tone="pink" className="mt-2 md:hidden">
-              {data.register.label}
-            </Button>
-          </div>
-          <div className=" mt-2 md:mt-7">
+                <div>
+          <div className="mb-5 md:mb-7">
             <Image
               src={data.assets.quote}
               alt=""
@@ -46,6 +36,16 @@ export default function About() {
             <p className="max-w-[650px] text-lg leading-tight font-bold uppercase lg:text-base 2xl:text-lg">
               {data.about.patronage}
             </p>
+          </div>
+          <div className="space-y-3 md:space-y-5 text-lg leading-[1.25] text-black lg:text-base 2xl:text-lg">
+            {data.about.paragraphs.map((text) => (
+              <p key={text}>{text}</p>
+            ))}
+          </div>
+          <div className="flex items-end justify-end">
+            <Button href={data.register.href} tone="pink" className="mt-2 md:hidden">
+              {data.register.label}
+            </Button>
           </div>
         </div>
       </div>

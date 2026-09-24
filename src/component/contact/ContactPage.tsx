@@ -23,12 +23,53 @@ const empty: FormState = {
 };
 export default function ContactPage() {
   const { language } = useLanguage();
-  const copy = language === "ar" ? {
-    contact: "\u062a\u0648\u0627\u0635\u0644 \u0645\u0639\u0646\u0627", help: "\u0646\u062d\u0646 \u0647\u0646\u0627 \u0644\u0645\u0633\u0627\u0639\u062f\u062a\u0643", greeting: "\u0645\u0631\u062d\u0628\u064b\u0627! \u0627\u0633\u0645\u064a", afterName: "\u0648\u0623\u0631\u063a\u0628 \u0641\u064a \u0627\u0644\u062a\u0648\u0627\u0635\u0644 \u0628\u0634\u0623\u0646 \u0633\u0644\u0633\u0644\u0629 \u0633\u0628\u0627\u0642\u0627\u062a \u0642\u0631\u0649 \u0627\u0644\u0625\u0645\u0627\u0631\u0627\u062a. \u064a\u0645\u0643\u0646\u0643 \u0645\u0631\u0627\u0633\u0644\u062a\u064a \u0639\u0628\u0631 \u0627\u0644\u0628\u0631\u064a\u062f \u0627\u0644\u0625\u0644\u0643\u062a\u0631\u0648\u0646\u064a", afterEmail: "\u0623\u0648 \u0627\u0644\u0627\u062a\u0635\u0627\u0644 \u0628\u064a \u0639\u0644\u0649", name: "\u0627\u0633\u0645\u0643 \u0627\u0644\u0643\u0627\u0645\u0644", phone: "\u0631\u0642\u0645 \u0627\u0644\u0647\u0627\u062a\u0641", message: "\u0631\u0633\u0627\u0644\u062a\u0643...", races: "\u0623\u064a \u0633\u0628\u0627\u0642 \u062a\u0647\u062a\u0645 \u0628\u0647\u061f", send: "\u0625\u0631\u0633\u0627\u0644 \u0627\u0633\u062a\u0641\u0633\u0627\u0631\u064a", sending: "\u062c\u0627\u0631\u064d \u0627\u0644\u0625\u0631\u0633\u0627\u0644..."
-  } : {
-    contact: "Contact Us", help: "We\'re Here to Help", greeting: "Hello! My name is", afterName: "and I\'d like to get in touch about the Emirates Villages Run Series. You can email me at", afterEmail: "or reach me on", name: "your full name", phone: "your phone number", message: "My message...", races: "Which race are you interested in?", send: "Send My Enquiry", sending: "Sending..."
-  };
-  const raceLabels = language === "ar" ? ["\u0642\u062f\u0641\u0639", "\u0627\u0644\u0644\u0647\u0628\u0627\u0628", "\u0641\u0644\u062c \u0627\u0644\u0645\u0639\u0644\u0627", "\u0627\u0644\u0634\u0648\u064a\u0628", "\u0645\u0635\u0641\u0648\u062a", "\u0627\u0644\u0631\u0645\u0633", "\u0648\u0627\u062f\u064a \u0627\u0644\u062d\u0644\u0648", "\u0623\u062e\u0631\u0649"] : raceOptions;
+  const copy =
+    language === "ar"
+      ? {
+          contact: "\u062a\u0648\u0627\u0635\u0644 \u0645\u0639\u0646\u0627",
+          help: "\u0646\u062d\u0646 \u0647\u0646\u0627 \u0644\u0645\u0633\u0627\u0639\u062f\u062a\u0643",
+          greeting:
+            "\u0645\u0631\u062d\u0628\u064b\u0627! \u0627\u0633\u0645\u064a",
+          afterName:
+            "\u0648\u0623\u0631\u063a\u0628 \u0641\u064a \u0627\u0644\u062a\u0648\u0627\u0635\u0644 \u0628\u0634\u0623\u0646 \u0633\u0644\u0633\u0644\u0629 \u0633\u0628\u0627\u0642\u0627\u062a \u0642\u0631\u0649 \u0627\u0644\u0625\u0645\u0627\u0631\u0627\u062a. \u064a\u0645\u0643\u0646\u0643 \u0645\u0631\u0627\u0633\u0644\u062a\u064a \u0639\u0628\u0631 \u0627\u0644\u0628\u0631\u064a\u062f \u0627\u0644\u0625\u0644\u0643\u062a\u0631\u0648\u0646\u064a",
+          afterEmail:
+            "\u0623\u0648 \u0627\u0644\u0627\u062a\u0635\u0627\u0644 \u0628\u064a \u0639\u0644\u0649",
+          name: "\u0627\u0633\u0645\u0643 \u0627\u0644\u0643\u0627\u0645\u0644",
+          phone: "\u0631\u0642\u0645 \u0627\u0644\u0647\u0627\u062a\u0641",
+          message: "\u0631\u0633\u0627\u0644\u062a\u0643...",
+          races:
+            "\u0623\u064a \u0633\u0628\u0627\u0642 \u062a\u0647\u062a\u0645 \u0628\u0647\u061f",
+          send: "\u0625\u0631\u0633\u0627\u0644 \u0627\u0633\u062a\u0641\u0633\u0627\u0631\u064a",
+          sending:
+            "\u062c\u0627\u0631\u064d \u0627\u0644\u0625\u0631\u0633\u0627\u0644...",
+        }
+      : {
+          contact: "Contact Us",
+          help: "We\'re Here to Help",
+          greeting: "Hello! My name is",
+          afterName:
+            "and I\'d like to get in touch about the Emirates Villages Run Series. You can email me at",
+          afterEmail: "or reach me on",
+          name: "your full name",
+          phone: "your phone number",
+          message: "My message...",
+          races: "Which race are you interested in?",
+          send: "Send My Enquiry",
+          sending: "Sending...",
+        };
+  const raceLabels =
+    language === "ar"
+      ? [
+          "\u0642\u062f\u0641\u0639",
+          "\u0627\u0644\u0644\u0647\u0628\u0627\u0628",
+          "\u0641\u0644\u062c \u0627\u0644\u0645\u0639\u0644\u0627",
+          "\u0627\u0644\u0634\u0648\u064a\u0628",
+          "\u0645\u0635\u0641\u0648\u062a",
+          "\u0627\u0644\u0631\u0645\u0633",
+          "\u0648\u0627\u062f\u064a \u0627\u0644\u062d\u0644\u0648",
+          "\u0623\u062e\u0631\u0649",
+        ]
+      : raceOptions;
   const [form, setForm] = useState(empty),
     [errors, setErrors] = useState<Record<string, string>>({}),
     [status, setStatus] = useState<"idle" | "sending" | "success" | "error">(
@@ -72,14 +113,14 @@ export default function ContactPage() {
   return (
     <>
       <main id="main-content" className="overflow-hidden bg-white">
-        <section className="relative isolate m-2 flex min-h-[430px] flex-col overflow-hidden rounded-[10px] text-white md:min-h-[520px] lg:aspect-[1891.51/741.569] lg:min-h-0">
+        <section className="relative isolate m-2 flex min-h-[430px] flex-col overflow-hidden rounded-[10px] bg- text-white md:min-h-[520px] lg:aspect-[1691.51/741.569] lg:min-h-0">
           <Image
             src="/contact/hero.png"
             alt="Children celebrating at an Emirates Villages Run Series event"
             fill
             preload
-            sizes="100vw"
-            className="-z-20 object-cover object-center"
+            
+            className="-z-20 object-cover object-top"
           />
           <div className="absolute inset-0 -z-10 bg-black/50" />
           <Navbar homeHrefPrefix="/" />
@@ -147,7 +188,9 @@ export default function ContactPage() {
                   type="tel"
                   inputMode="numeric"
                   value={form.phone}
-                  onChange={(e) => update("phone", e.target.value.replace(/[^\d+(). -]/g, ""))}
+                  onChange={(e) =>
+                    update("phone", e.target.value.replace(/[^\d+(). -]/g, ""))
+                  }
                   placeholder={copy.phone}
                   className="w-full border-b border-dotted border-[#bfbfbf] outline-none placeholder:text-[#bfbfbf] md:inline md:w-[260px] text-2xl"
                 />
