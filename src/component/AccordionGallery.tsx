@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   useCallback,
   useEffect,
@@ -262,8 +263,13 @@ export default function AccordionGallery({
                   mediaRefs.current[i] = el;
                 }}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={item.image} alt={item.alt || item.label || ""} draggable="false" />
+                <Image
+                  src={item.image}
+                  alt={item.alt || item.label || ""}
+                  fill
+                  sizes="(max-width: 520px) 52vw, 47vw"
+                  draggable={false}
+                />
               </span>
             </span>
             {showLabels && (

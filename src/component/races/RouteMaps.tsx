@@ -77,9 +77,8 @@ export default function RouteMaps({
                       src={image}
                       alt={`${route.label} route ${imageIndex + 1} in ${raceName}, showing the start, finish and course markers`}
                       fill
-                      loading="eager"
-                      unoptimized
                       sizes="(min-width: 768px) 45vw, 90vw"
+                      quality={90}
                       className="object-cover"
                     />
                   </div>
