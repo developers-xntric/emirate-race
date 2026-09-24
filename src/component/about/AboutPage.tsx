@@ -8,6 +8,7 @@ import { homeData } from "@/data/home-data";
 import { challenges } from "./data";
 import CircularGallery from "./CircularGallery";
 
+import ScrollCharacterReveal from "./ScrollCharacterReveal";
 export default function AboutPage() {
   return (
     <>
@@ -85,12 +86,10 @@ export default function AboutPage() {
               Find Your Race
             </Button>
           </div>
-          <p className="text-[clamp(28px,3.4vw,65px)]! leading-none font-medium text-[#c6c6c9] max-md:text-[32px]! [&_span]:text-[#bb0054]">
-            From the first start line in <span>Qidfa</span> to the final race in{" "}
-            <span>Al Shuwaib</span>, participants travel across the UAE and
-            experience a different village, landscape and community at{" "}
-            <span>every stop.</span>
-          </p>
+          <ScrollCharacterReveal
+            text="From the first start line in Qidfa to the final race in Al Shuwaib, participants travel across the UAE and experience a different village, landscape and community at every stop."
+            className="text-[clamp(28px,3.4vw,65px)]! leading-none font-medium text-[#c6c6c9] max-md:text-[32px]!"
+          />
         </section>
 
         <section className="mx-auto w-[90%] max-w-[1440px] pt-[25px] md:pb-[20px] max-md:pt-0" aria-label="Built for everyone">
