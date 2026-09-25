@@ -139,7 +139,7 @@ export default function Footer({
                                 ? pressKitLabel
                                 : undefined
                             }
-                            className="text-left text-sm md:text-base 2xl:text-[22px] cursor-pointer"
+                            className="text-start text-sm md:text-base 2xl:text-[22px] cursor-pointer"
                           >
                             {link.label}
                           </button>

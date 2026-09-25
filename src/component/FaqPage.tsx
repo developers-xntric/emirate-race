@@ -54,7 +54,7 @@ export default function FaqPage() {
                       onClick={() =>
                         setOpenQuestion(isOpen ? null : item.question)
                       }
-                      className="flex w-full items-center cursor-pointer justify-between gap-5 px-5 py-5 text-left text-[14px] font-bold uppercase focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#072f4f] md:min-h-[82px] md:px-7 md:text-lg"
+                      className="flex w-full items-center cursor-pointer justify-between gap-5 px-5 py-5 text-start text-[14px] font-bold uppercase focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#072f4f] md:min-h-[82px] md:px-7 md:text-lg"
                     >
                       <span>{item.question}</span>
                       <span

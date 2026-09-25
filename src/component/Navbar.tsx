@@ -22,7 +22,7 @@ export default function Navbar({
   const languageSwitch = (
     <div
       dir="ltr"
-      className="mr-2 flex shrink-0 items-center gap-2 py-2.5 text-[13px] font-bold md:mr-0 2xl:text-[15px]"
+      className="me-2 flex shrink-0 items-center gap-2 py-2.5 text-[13px] font-bold md:me-0 2xl:text-[15px]"
     >
       {(["en", "ar"] as const).map((locale, index) => (
         <span key={locale} className="flex items-center gap-2">
@@ -136,7 +136,7 @@ export default function Navbar({
           </button>
           <div
             id="race-navigation"
-            className={`absolute start-1/2 top-full w-52 2xl:w-64 -translate-x-1/2 rtl:translate-x-20 origin-top rounded-[5px] border border-white/15 bg-black/45 backdrop-blur-[22px] p-2 shadow-2xl transition duration-200 ${racesOpen ? "visible scale-100 opacity-100" : "invisible scale-95 opacity-0"}`}
+            className={`absolute start-1/2 top-full w-52 2xl:w-64 -translate-x-1/2 rtl:translate-x-1/2 origin-top rounded-[5px] border border-white/15 bg-black/45 backdrop-blur-[22px] p-2 shadow-2xl transition duration-200 ${racesOpen ? "visible scale-100 opacity-100" : "invisible scale-95 opacity-0"}`}
           >
            
             {raceList()} 
@@ -215,7 +215,7 @@ export default function Navbar({
               aria-expanded={racesOpen}
               aria-controls="mobile-race-navigation"
               onClick={() => setRacesOpen((open) => !open)}
-              className="flex items-center justify-between border-b border-white/15 py-3 text-left uppercase"
+              className="flex items-center justify-between border-b border-white/15 py-3 text-start uppercase"
             >
               {data.ui.nav.races}
               <svg

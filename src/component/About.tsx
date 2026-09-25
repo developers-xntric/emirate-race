@@ -19,12 +19,16 @@ export default function About() {
             title={data.about.title}
           />
           <div className="md:inline-flex hidden">
-            <Button href={data.register.href} tone="pink" className="hidden md:inline-flex">
+            <Button
+              href={data.register.href}
+              tone="pink"
+              className="hidden md:inline-flex"
+            >
               {data.register.label}
             </Button>
           </div>
         </div>
-                <div>
+        <div>
           <div className="mb-5 md:mb-7">
             <Image
               src={data.assets.quote}
@@ -33,7 +37,7 @@ export default function About() {
               height={31}
               className="mb-3 h-[31px] w-[40px]"
             />
-            <p className="max-w-[650px] text-lg leading-tight font-bold uppercase lg:text-base 2xl:text-lg">
+            <p className="max-w-[650px] text-lg leading-tight font-bold uppercase lg:text-xl 2xl:text-xl">
               {data.about.patronage}
             </p>
           </div>
@@ -43,7 +47,11 @@ export default function About() {
             ))}
           </div>
           <div className="flex items-end justify-end">
-            <Button href={data.register.href} tone="pink" className="mt-2 md:hidden">
+            <Button
+              href={data.register.href}
+              tone="pink"
+              className="mt-2 md:hidden"
+            >
               {data.register.label}
             </Button>
           </div>

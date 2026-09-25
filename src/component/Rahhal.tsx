@@ -16,10 +16,10 @@ function ChallengeMessage({ className = "" }: { className?: string }) {
     <div
       className={`md:mt-8 flex md:flex-col items-center 2xl:mt-16 lg:items-start ${className}`}
     >
-      <p className="w-full md:w-fit bg-[#0b2d4d] md:rounded-l-none rounded-l-[4px] px-2 md:px-4 py-2 md:py-3 text-[12px] md:text-xl leading-none font-bold text-white uppercase 2xl:text-[28px]">
+      <p className="w-full md:w-fit bg-[#0b2d4d] md:rounded-l-none rounded-l-[4px] rtl:rounded-r-[4px] rtl:rounded-l-[0px] px-2 md:px-4 py-2 md:py-3 rtl:text-[9px] text-[12px] md:text-xl leading-none font-bold text-white uppercase 2xl:text-[28px]">
         {data.rahhal.challenge}
       </p>
-      <p className="w-full md:w-fit bg-[#bb0054] px-2 md:px-4 py-2 md:py-3 md:rounded-r-none rounded-r-[4px] text-[12px] md:text-lg leading-none font-bold text-white uppercase 2xl:text-[24px]">
+      <p className="w-full md:w-fit bg-[#bb0054] px-2 md:px-4 py-2 md:py-3 md:rounded-r-none rounded-r-[4px] rtl:rounded-l-[4px] rtl:rounded-r-[0px] rtl:text-[9px] text-[12px] md:text-lg leading-none font-bold text-white uppercase 2xl:text-[24px]">
         {data.rahhal.invitation}
       </p>
     </div>
@@ -142,11 +142,11 @@ export default function Rahhal() {
     >
       <p
         aria-hidden="true"
-        className="pointer-events-none relative z-20 bg-linear-to-t from-white from-[16.513%] to-[#bb0054] to-[562.82%] bg-clip-text text-center text-[15rem] leading-none font-bold text-transparent uppercase hidden lg:block lg:text-[11.2em] 2xl:text-[14rem]"
+        className="pointer-events-none relative z-20 bg-linear-to-t from-white from-[16.513%] to-[#bb0054] to-[562.82%] bg-clip-text text-center text-[15rem] leading-none font-bold text-transparent uppercase hidden lg:block lg:text-[11.2em] 2xl:text-[14rem] rtl:lg:text-[10.5rem] rtl:2xl:text-[11rem]"
       >
         {data.rahhal.eyebrow}
       </p>
-      <div className="relative grid items-center md:gap-8 lg:-mt-19 lg:grid-cols-[1fr_.88fr_1fr] lg:gap-5">
+      <div className="relative grid items-center md:gap-8 lg:-mt-19 rtl:xl:-mt-4  lg:grid-cols-[1fr_.88fr_1fr] lg:gap-5">
         <div>
           <SectionHeading
             eyebrow={data.rahhal.eyebrow}

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Tajawal } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { homeData } from "@/data/home-data";
@@ -38,6 +39,12 @@ const leagueSpartan = localFont({
   display: "swap",
 });
 
+const tajawal = Tajawal({
+  subsets: ["arabic"],
+  weight: ["300", "400", "500", "700"],
+  variable: "--font-tajawal",
+  display: "swap",
+});
 export const metadata: Metadata = {
   title: homeData.metadata.title,
   description: homeData.metadata.description,
@@ -48,7 +55,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" dir="ltr" className={`${leagueSpartan.variable} h-full antialiased`}>
+    <html lang="en" dir="ltr" className={`${leagueSpartan.variable} ${tajawal.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-background font-sans text-foreground">
         <SmoothScroll />
         <LanguageProvider>

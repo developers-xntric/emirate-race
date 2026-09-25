@@ -81,11 +81,11 @@ export default function PressKitModal({
         </button>
         <h2
           id="press-kit-title"
-          className="pr-8 text-left text-xl font-bold tracking-[0.04em] text-[#072f4f] sm:text-2xl"
+          className="pe-8 text-start text-xl font-bold tracking-[0.04em] text-[#072f4f] sm:text-2xl"
         >
           DOWNLOAD THE EVRS PRESS KIT
         </h2>
-        <p className="mx-auto mt-3 max-w-[570px] text-left text-sm leading-relaxed text-[#072f4f]/75 sm:text-base">
+        <p className="mx-auto mt-3 max-w-[570px] text-start text-sm leading-relaxed text-[#072f4f]/75 sm:text-base">
           Access official EVRS 2026 media assets, event information and brand
           resources.
         </p>

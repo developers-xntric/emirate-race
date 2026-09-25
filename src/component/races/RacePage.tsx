@@ -14,7 +14,7 @@ const container = "mx-auto w-[90%] 2xl:max-w-[1440px]";
 export default function RacePage({ race }: { race: RacePageData }) {
   return (
     <>
-      <main id="main-content" lang="en" dir="ltr" className="overflow-hidden">
+      <main id="main-content" className="overflow-hidden">
         <section className="relative isolate m-2 flex min-h-[640px] flex-col overflow-hidden rounded-[10px] text-white md:min-h-[560px] lg:min-h-0 lg:aspect-[1891.51/741.569]">
           <Image
             src={race.assets.hero}
@@ -111,11 +111,11 @@ export default function RacePage({ race }: { race: RacePageData }) {
                   <dt className="font-bold uppercase">Date:</dt>
                   <dd className="md:mt-2">{race.date}</dd>
                 </div>
-                <div className="lg:border-l lg:border-white/40 lg:pl-5">
+                <div className="lg:border-s lg:border-white/40 lg:ps-5">
                   <dt className="font-bold uppercase">Arrival Time:</dt>
                   <dd className="md:mt-2">2:30 PM</dd>
                 </div>
-                <div className="border-l border-white/40 pl-5">
+                <div className="border-s border-white/40 ps-5">
                   <dt className="font-bold uppercase">Race Start:</dt>
                   <dd className="md:mt-2">4:00 PM</dd>
                 </div>
@@ -207,14 +207,14 @@ export default function RacePage({ race }: { race: RacePageData }) {
             >
               Register to Race
             </Button>
-            <div className="pointer-events-none absolute right-0 bottom-0 -z-10 h-[72.1%] w-[64.7%] overflow-hidden">
-              <div className="absolute top-0 left-0 h-[137.35%] w-[132.36%]">
+            <div className="pointer-events-none absolute end-0 bottom-0 -z-10 h-[72.1%] w-[64.7%] overflow-hidden">
+              <div className="absolute top-0 start-0 h-[137.35%] w-[132.36%]">
                 <Image
                   src="/races/journey-art.png"
                   alt=""
                   fill
                   sizes="40vw"
-                  className="object-fill"
+                  className="object-fill rtl:scale-x-[-1]"
                 />
               </div>
             </div>

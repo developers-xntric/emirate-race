@@ -1,4 +1,9 @@
 @import "tailwindcss";
+/* Arabic copy inherits Tajawal across the application; English keeps League Spartan. */
+html[lang="ar"] body,
+html[lang="ar"] .font-sans {
+  font-family: var(--font-tajawal), sans-serif;
+}
 
 /* Direction overrides only: English typography, colors and artwork stay intact. */
 html[dir="rtl"] body {
