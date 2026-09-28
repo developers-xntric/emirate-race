@@ -25,7 +25,7 @@ export default function Video({
     );
     observer.observe(video);
     return () => observer.disconnect();
-  }, []);
+  }, [src]);
   return (
     <video
       ref={ref}
@@ -34,7 +34,8 @@ export default function Video({
       muted
       loop
       playsInline
-      preload="none"
+      preload="metadata"
+      onCanPlay={() => { const video = ref.current; if (video && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) void video.play().catch(() => {}); }}
       aria-label={data.ui.video}
       className="absolute inset-0 size-full object-cover"
     />

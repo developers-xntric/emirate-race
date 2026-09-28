@@ -8,7 +8,9 @@ import { villages } from "./data";
 const count = villages.length;
 const wrap = (value: number) => ((value % count) + count) % count;
 
-export default function CircularGallery() {
+type CmsVillage = { name: string; image: string; description: string; registerUrl: string; cta: string; color: string };
+export default function CircularGallery({ villages: cmsVillages }: { villages?: CmsVillage[] }) {
+  const galleryVillages = cmsVillages?.length ? cmsVillages : villages;
   const viewport = useRef<HTMLDivElement>(null);
   const cards = useRef<(HTMLButtonElement | null)[]>([]);
   const position = useRef({ current: 2, target: 2 });
@@ -66,7 +68,7 @@ export default function CircularGallery() {
     drag.current = null;
     go(Math.round(position.current.target));
   };
-  const current = villages[selected];
+  const current = galleryVillages[selected];
 
   return (
     <div className="relative mt-[35px]">
@@ -110,7 +112,7 @@ export default function CircularGallery() {
         onPointerCancel={finishDrag}
         onLostPointerCapture={finishDrag}
       >
-        {villages.map((village, index) => (
+        {galleryVillages.map((village, index) => (
           <button
             key={village.name}
             ref={(node) => {
@@ -166,9 +168,7 @@ export default function CircularGallery() {
       >
         <h3>{current.name}</h3>
         <p>{current.description}</p>
-        <Button href={current.registerUrl} tone="pink">
-          Register Now
-        </Button>
+        <Button href={current.registerUrl} tone="pink">{"cta" in current ? current.cta : "Register Now"}</Button>
       </div>
     </div>
   );

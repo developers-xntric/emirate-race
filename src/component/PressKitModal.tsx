@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import { useLanguage } from "./LanguageProvider";
 
 export default function PressKitModal({
   open,
@@ -9,6 +10,8 @@ export default function PressKitModal({
   open: boolean;
   onClose: () => void;
 }) {
+  const { language } = useLanguage();
+  const copy = language === "ar" ? { title: "تحميل الحقيبة الإعلامية لإيفرس", intro: "اطّلع على مواد إيفرس الإعلامية الرسمية ومعلومات الفعالية وموارد العلامة التجارية.", name: "الاسم الكامل", email: "البريد الإلكتروني للعمل", or: "أو", channel: "رابط القناة", download: "تحميل الحقيبة الإعلامية", sending: "جارٍ الإرسال…", ready: "شكرًا لك. أصبحت الحقيبة الإعلامية جاهزة للتحميل.", retry: "تعذّر الاتصال بالخادم. يرجى المحاولة مرة أخرى.", close: "إغلاق نموذج الحقيبة الإعلامية" } : { title: "DOWNLOAD THE EVRS PRESS KIT", intro: "Access official EVRS 2026 media assets, event information and brand resources.", name: "Your full name", email: "Business Email", or: "or", channel: "Channel Link", download: "DOWNLOAD PRESS KIT", sending: "SENDING…", ready: "Thank you. Your press kit is ready to download.", retry: "We could not connect to the server. Please try again.", close: "Close press kit form" };
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [channelLink, setChannelLink] = useState("");
@@ -55,10 +58,10 @@ export default function PressKitModal({
         return;
       }
       setStatus("success");
-      setMessage(result.message || "Thank you. Your press kit is ready to download.");
+      setMessage(language === "ar" ? copy.ready : (result.message || copy.ready));
     } catch {
       setStatus("error");
-      setMessage("We could not connect to the server. Please try again.");
+      setMessage(copy.retry);
     }
   }
 
@@ -74,7 +77,7 @@ export default function PressKitModal({
         <button
           type="button"
           onClick={onClose}
-          aria-label="Close press kit form"
+          aria-label={copy.close}
           className="absolute right-5 top-4 text-3xl font-light cursor-pointer leading-none text-[#072f4f] transition-transform hover:rotate-90"
         >
           x
@@ -83,21 +86,18 @@ export default function PressKitModal({
           id="press-kit-title"
           className="pe-8 text-start text-xl font-bold tracking-[0.04em] text-[#072f4f] sm:text-2xl"
         >
-          DOWNLOAD THE EVRS PRESS KIT
+          {copy.title}
         </h2>
-        <p className="mx-auto mt-3 max-w-[570px] text-start text-sm leading-relaxed text-[#072f4f]/75 sm:text-base">
-          Access official EVRS 2026 media assets, event information and brand
-          resources.
-        </p>
+        <p className="mx-auto mt-3 max-w-[570px] text-start text-sm leading-relaxed text-[#072f4f]/75 sm:text-base">{copy.intro}</p>
         {status === "success" ? (
           <div className="mt-8 text-center">
-            <p className="text-base text-[#072f4f]">{message}</p>
+            <p className="text-base text-[#072f4f]">{language === "ar" ? copy.ready : message}</p>
             <a
               href="/press-kit/EVRS-Press-Kit.pdf"
               download
               className="mt-6 inline-flex min-h-12 items-center rounded-[8px] cursor-pointer justify-center bg-[#bb0054] px-8 text-sm font-bold tracking-[0.04em] text-white transition-colors hover:bg-[#072f4f]"
             >
-              DOWNLOAD PRESS KIT
+              {copy.download}
             </a>
           </div>
         ) : (
@@ -110,7 +110,7 @@ export default function PressKitModal({
               required
               value={name}
               onChange={(event) => setName(event.target.value)}
-              placeholder="Your full name"
+              placeholder={copy.name}
               className="h-12 w-full border border-[#d7dce1] px-4 text-sm text-[#072f4f] outline-none transition-colors placeholder:text-[#072f4f]/45 focus:border-[#bb0054]"
             />
             <div className="grid gap-3 sm:grid-cols-[1fr_auto_1fr] sm:items-center">
@@ -123,7 +123,7 @@ export default function PressKitModal({
                 type="email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                placeholder="Business Email"
+                placeholder={copy.email}
                 className="h-12 w-full border border-[#d7dce1] px-4 text-sm text-[#072f4f] outline-none transition-colors placeholder:text-[#072f4f]/45 focus:border-[#bb0054]"
               />
               <span className="hidden text-center text-sm text-[#072f4f]/60 sm:block">
@@ -136,7 +136,7 @@ export default function PressKitModal({
                 id="press-channel"
                 value={channelLink}
                 onChange={(event) => setChannelLink(event.target.value)}
-                placeholder="Channel Link"
+                placeholder={copy.channel}
                 className="h-12 w-full border border-[#d7dce1] px-4 text-sm text-[#072f4f] outline-none transition-colors placeholder:text-[#072f4f]/45 focus:border-[#bb0054]"
               />
             </div>
@@ -150,7 +150,7 @@ export default function PressKitModal({
               type="submit"
               className="mt-2 flex h-12 w-full items-center justify-center rounded-[8px] cursor-pointer bg-[#bb0054] text-sm font-bold tracking-[0.04em] text-white transition-colors hover:bg-[#072f4f] disabled:cursor-wait disabled:opacity-60"
             >
-              {status === "sending" ? "SENDING�" : "DOWNLOAD PRESS KIT"}
+              {status === "sending" ? copy.sending : copy.download}
             </button>
           </form>
         )}

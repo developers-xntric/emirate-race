@@ -11,17 +11,6 @@ export default function MedalJourney() {
       className="mx-auto grid w-[90%] scroll-mt-8 gap-5 md:gap-[30px] md:grid-cols-2 2xl:max-w-[1440px]"
     >
       <article className="relative isolate min-h-[500px] md:min-h-[520px] xl:min-h-[565px] 2xl:min-h-[630px] overflow-hidden rounded-[10px] bg-[#072f4f] p-3 md:p-6 text-white">
-        <div className="absolute end-0 bottom-0 -z-10 aspect-[606.69/616.3] w-[70%] overflow-hidden ">
-          <div className="relative h-[130.35%] w-[132.36%]">
-            <Image
-              src={data.assets.medalPattern}
-              alt=""
-              fill
-              sizes="50vw"
-              className="object-fill rtl:scale-x-[-1]"
-            />
-          </div>
-        </div>
         <p className="mb-1 md:mb-3 text-sm font-bold text-[#bb0054] uppercase 2xl:text-lg">
           {data.medal.eyebrow}
         </p>
@@ -38,6 +27,17 @@ export default function MedalJourney() {
         <Button href={data.register.href} tone="pink" className="mt-4 md:mt-8">
           {data.medal.cta}
         </Button>
+        <div className="mt-4 md:mt-0 lg:-mt-8 h-44 lg:h-[60%] 2xl:h-[60%] xl:w-[100%] 2xl:w-[110%] overflow-hidden ">
+          <div className="relative h-full w-full -left-1 2xl:-left-10">
+            <Image
+              src={data.assets.medalPattern}
+              alt=""
+              fill
+              sizes="50vw"
+              className="object-fill"
+            />
+          </div>
+        </div>
       </article>
       <div className="grid">
         <article
