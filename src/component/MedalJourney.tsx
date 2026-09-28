@@ -10,7 +10,7 @@ export default function MedalJourney() {
       id="medal"
       className="mx-auto grid w-[90%] scroll-mt-8 gap-5 md:gap-[30px] md:grid-cols-2 2xl:max-w-[1440px]"
     >
-      <article className="relative isolate min-h-[500px] md:min-h-[520px] xl:min-h-[565px] 2xl:min-h-[630px] overflow-hidden rounded-[10px] bg-[#072f4f] p-3 md:p-6 text-white">
+      <article className="relative isolate  md:min-h-[520px] xl:min-h-[565px] 2xl:min-h-[630px] overflow-hidden rounded-[10px] bg-[#072f4f] p-3 md:p-6 text-white">
         <p className="mb-1 md:mb-3 text-sm font-bold text-[#bb0054] uppercase 2xl:text-lg">
           {data.medal.eyebrow}
         </p>
@@ -42,7 +42,7 @@ export default function MedalJourney() {
       <div className="grid">
         <article
           id="prizes"
-          className="relative isolate h-full min-h-[500px]  scroll-mt-8 overflow-hidden rounded-[10px] bg-[#706cb5] p-4 text-white md:min-h-0 md:p-6 2xl:p-[20px]"
+          className="relative isolate h-full md:min-h-[500px]  scroll-mt-8 overflow-hidden rounded-[10px] bg-[#706cb5] p-4 text-white md:min-h-0 md:p-6 2xl:p-[20px]"
         >
           <div className="relative z-10 ">
             <h2 className="text-[32px] leading-[1.02] font-bold uppercase lg:text-[36px] 2xl:text-[44px]">
@@ -52,8 +52,8 @@ export default function MedalJourney() {
               {data.prizes.description}
             </p>
           </div>
-          <div className="absolute bottom-0 left-1/2 -z-0 aspect-[294.26/322.25] w-[55%] -translate-x-1/2 overflow-hidden">
-            <div className="relative -top-[10.1%] h-[110.1%] w-full rtl:-left-4.5 md:rtl:-left-7">
+          <div className="-z-0 aspect-[294.26/322.25] mx-auto w-[55%] overflow-hidden">
+            <div className="relative -top-[10.1%] h-[110.1%] w-full ">
               <Image
                 src={data.assets.prizeRahhal}
                 alt={data.prizes.alt}
