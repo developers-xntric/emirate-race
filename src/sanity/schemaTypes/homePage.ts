@@ -1,0 +1,24 @@
+import { defineField, defineType } from "sanity";
+import { schema as existingSchema } from "./index";
+
+const copy = (name: string, title: string, type: "string" | "text" = "string") => [
+  defineField({ name: `${name}En`, title: `English ${title}`, type, rows: type === "text" ? 4 : undefined }),
+  defineField({ name: `${name}Ar`, title: `Arabic ${title}`, type, rows: type === "text" ? 4 : undefined }),
+];
+const named = (name: string, title: string, fields: ReturnType<typeof defineField>[]) => defineField({ name, title, type: "object", fields: [defineField({ name: "sectionName", title: "Section name", type: "string", readOnly: true, initialValue: title }), ...fields] });
+const item = (title: string, fields: ReturnType<typeof defineField>[]) => defineField({ name: "items", title, type: "array", of: [{ type: "object", fields }] });
+
+export const homePageType = defineType({ name: "homePage", title: "Home", type: "document", fields: [
+  defineField({ name: "pageName", title: "Page name", type: "string", readOnly: true, initialValue: "Home" }),
+  named("hero", "Hero", [...copy("title", "title", "text"), ...copy("paragraph", "paragraph", "text"), ...copy("next", "next-race label"), ...copy("dates", "dates"), ...copy("cta", "CTA / button text"), defineField({ name: "ctaHref", title: "CTA / button link", type: "string" }), defineField({ name: "video", title: "Hero video", type: "file", options: { accept: "video/mp4,video/webm,video/quicktime" } }), defineField({ name: "poster", title: "Poster image", type: "image" })]),
+  named("about", "About EVRS", [...copy("eyebrow", "section label"), ...copy("title", "title"), ...copy("paragraph", "paragraph", "text"), ...copy("patronage", "patronage", "text"), defineField({ name: "video", title: "About EVRS video", type: "file", options: { accept: "video/mp4,video/webm,video/quicktime" } }), defineField({ name: "videoPoster", title: "Video poster image", type: "image" })]),
+  named("rahhal", "Meet Rahhal", [...copy("eyebrow", "section label"), ...copy("title", "title"), ...copy("paragraph", "paragraph", "text"), ...copy("challenge", "challenge"), ...copy("invitation", "invitation"), ...copy("follow", "CTA / button text"), ...copy("register", "Register CTA / button text"), item("Rahhal trait cards", [...copy("title", "title"), ...copy("paragraph", "paragraph", "text"), defineField({ name: "video", title: "Video", type: "file", options: { accept: "video/mp4,video/webm,video/quicktime" } })])]),
+  named("distances", "Race Distances", [...copy("eyebrow", "section label"), ...copy("title", "title"), item("Distance cards", [...copy("title", "title"), ...copy("paragraph", "paragraph", "text"), ...copy("cta", "CTA / button text"), defineField({ name: "image", title: "Image", type: "image" })])]),
+  named("calendar", "Race Calendar", [...copy("eyebrow", "section label"), ...copy("title", "title"), ...copy("register", "Register CTA / button text"), ...copy("details", "Details CTA / button text"), ...copy("dayLabel", "day label"), ...copy("raceLabel", "race label"), item("Race calendar entries", [...copy("title", "village"), ...copy("paragraph", "emirate"), ...copy("cta", "date"), defineField({ name: "href", title: "Registration link", type: "string" })])]),
+  named("medal", "Medal and Legacy", [...copy("eyebrow", "section label"), ...copy("title", "title"), ...copy("paragraph", "paragraph", "text"), ...copy("cta", "CTA / button text"), defineField({ name: "image", title: "Medal image", type: "image" })]),
+  named("prizes", "Prizes", [...copy("title", "title"), ...copy("paragraph", "paragraph", "text"), ...copy("cta", "CTA / button text"), defineField({ name: "image", title: "Image", type: "image" })]),
+  named("recognition", "Recognition and Legacy", [...copy("eyebrow", "section label"), ...copy("title", "title"), ...copy("paragraph", "paragraph", "text"), ...copy("cta", "CTA / button text"), defineField({ name: "videoA", title: "Left inline video", type: "file", options: { accept: "video/mp4,video/webm,video/quicktime" } }), defineField({ name: "videoB", title: "Right inline video", type: "file", options: { accept: "video/mp4,video/webm,video/quicktime" } })]),
+  named("gallery", "EVRS Gallery", [...copy("eyebrow", "section label"), ...copy("title", "title"), item("Race galleries", [...copy("title", "race label"), defineField({ name: "href", title: "Race link", type: "string" }), defineField({ name: "images", title: "Gallery images", type: "array", of: [{ type: "image" }] })])]),
+  named("faq", "Frequently Asked Questions", [...copy("eyebrow", "section label"), ...copy("title", "title"), item("FAQ items", [...copy("title", "question"), ...copy("paragraph", "answer", "text")])]),
+  named("cta", "Your Next Village Is Waiting", [...copy("title", "title"), ...copy("paragraph", "paragraph", "text"), ...copy("explore", "Explore CTA / button text")]),
+] });

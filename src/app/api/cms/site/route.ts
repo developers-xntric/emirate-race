@@ -1,0 +1,7 @@
+import { NextResponse } from "next/server";
+import { sanityClient } from "@/sanity/lib/client";
+
+export async function GET() {
+  const data = await sanityClient.fetch(`{"navbar": *[_type == "navbar" && _id == "navbar"][0]{brandEn,brandAr,"logo": logo.asset->url,navigation[]{labelEn,labelAr,href},races[]{labelEn,labelAr,href},registerEn,registerAr,registerHref},"home": *[_type == "homePage" && _id == "home"][0]{hero{...,"video":video.asset->url,"poster":poster.asset->url},about{...,"video":video.asset->url,"videoPoster":videoPoster.asset->url},rahhal{...,items[]{...,"video":video.asset->url}},distances{...,items[]{...,"image":image.asset->url}},calendar,medal{...,"image":image.asset->url},prizes{...,"image":image.asset->url},recognition{...,"videoA":videoA.asset->url,"videoB":videoB.asset->url},gallery{...,items[]{...,"images":images[].asset->url}},faq,cta},"footer": *[_type == "footer" && _id == "footer"][0]{"logo": logo.asset->url,descriptionEn,descriptionAr,organizerEn,organizerAr,quickLinksTitleEn,quickLinksTitleAr,quickLinksPrimary[]{labelEn,labelAr,href,isPressKit},quickLinksRaces[]{labelEn,labelAr,href},email,emailHref,socials,copyrightEn,copyrightAr,legal[]{labelEn,labelAr,href}}}`);
+  return NextResponse.json(data, { headers: { "Cache-Control": "no-store" } });
+}

@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   images: {
     // WebP has broad browser support and avoids AVIF's slower first-request encoding.
     formats: ["image/webp"],
+    remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io" }],
     minimumCacheTTL: 60 * 60 * 24 * 30,
     qualities: [75, 90],
   },

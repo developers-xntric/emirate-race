@@ -56,7 +56,8 @@ export default function Footer({
   ];
   const localizedRaceLinks = raceLinks.map((race, index) => ({ ...race, label: data.ui.navRaces[index]?.label ?? race.label }));
   const pressKitLabel = language === "ar" ? "\u0627\u0644\u062d\u0642\u064a\u0628\u0629 \u0627\u0644\u0625\u0639\u0644\u0627\u0645\u064a\u0629" : "Press Kit";
-  const columns = [
+  const cmsQuickLinks = (data.footer as any).links as { label: string; href: string }[] | undefined;
+  const columns = cmsQuickLinks?.length ? [cmsQuickLinks.slice(0, Math.ceil(cmsQuickLinks.length / 2)), cmsQuickLinks.slice(Math.ceil(cmsQuickLinks.length / 2))] : [
     [
       { label: data.ui.nav.home, href: `${homeHrefPrefix}/` },
       { label: data.ui.nav.about, href: `${homeHrefPrefix}/about` },
@@ -151,7 +152,7 @@ export default function Footer({
               </div>
               <div className="mt-5 md:mt-10 flex flex-wrap items-center justify-between gap-4">
                 <a
-                  href={`mailto:${data.footer.email}`}
+                  href={(data.footer as typeof data.footer & { emailHref?: string }).emailHref || `mailto:${data.footer.email}`}
                   className="flex items-center gap-3 text-lg font-bold hover:underline"
                 >
                   <Image
@@ -183,9 +184,6 @@ export default function Footer({
           <div className="mt-4 md:mt-8 flex flex-wrap justify-between gap-4 border-t border-white/30 py-6 text-[12px] md:text-sm 2xl:text-base">
             <p>{data.footer.copyright}</p>
             <div className="flex flex-wrap gap-4">
-              {"legalLabel" in data.footer && (
-                <span>{data.footer.legalLabel}</span>
-              )}
               {data.footer.legal.map((label, index) => (
                 <span key={label}>
                   {index > 0 && (

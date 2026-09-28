@@ -16,10 +16,10 @@ function ChallengeMessage({ className = "" }: { className?: string }) {
     <div
       className={`md:mt-8 flex md:flex-col items-center 2xl:mt-16 lg:items-start ${className}`}
     >
-      <p className="w-full md:w-fit bg-[#0b2d4d] md:rounded-l-none rounded-l-[4px] rtl:rounded-r-[4px] rtl:rounded-l-[0px] px-2 md:px-4 py-2 md:py-3 rtl:text-[9px] text-[12px] md:text-xl leading-none font-bold text-white uppercase 2xl:text-[28px]">
+      <p className="w-full md:w-fit bg-[#0b2d4d] md:rounded-l-none rounded-l-[4px] rtl:rounded-r-[4px] rtl:rounded-l-[0px] px-2 md:px-4 py-2 md:py-3 rtl:text-[9px] text-[12px] md:text-xl md:rtl:text-xl leading-none font-bold text-white uppercase 2xl:text-[28px]">
         {data.rahhal.challenge}
       </p>
-      <p className="w-full md:w-fit bg-[#bb0054] px-2 md:px-4 py-2 md:py-3 md:rounded-r-none rounded-r-[4px] rtl:rounded-l-[4px] rtl:rounded-r-[0px] rtl:text-[9px] text-[12px] md:text-lg leading-none font-bold text-white uppercase 2xl:text-[24px]">
+      <p className="w-full md:w-fit bg-[#bb0054] px-2 md:px-4 py-2 md:py-3 md:rounded-r-none rounded-r-[4px] rtl:rounded-l-[4px] rtl:rounded-r-[0px] rtl:text-[9px] md:rtl:text-xl text-[12px] md:text-lg leading-none font-bold text-white uppercase 2xl:text-[24px]">
         {data.rahhal.invitation}
       </p>
     </div>

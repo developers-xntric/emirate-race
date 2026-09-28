@@ -185,7 +185,8 @@ export default function DesktopNewCalendar() {
         {locations.map((location) => {
           const markerRace = data.calendar.races.find(
             (item) => item.date === location.date,
-          )!;
+          );
+          if (!markerRace) return null;
           const selected = selectedDate === location.date;
           const label = `${data.calendar.raceLabel}: ${markerRace.village}, ${markerRace.emirate}`;
 

@@ -6,15 +6,22 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed:sanity": "tsx scripts/seed-sanity.ts",
+    "fix:footer-links": "tsx scripts/fix-footer-links.ts",
+    "fix:race-day-fields": "tsx scripts/fix-race-day-fields.ts",
+    "seed:home-cms": "tsx scripts/seed-home-cms.ts"
   },
   "dependencies": {
+    "@sanity/vision": "^5.31.2",
     "gsap": "^3.15.0",
     "lenis": "^1.3.26",
     "next": "16.3.4",
+    "next-sanity": "^12.4.5",
     "nodemailer": "^10.0.10",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "sanity": "^5.31.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

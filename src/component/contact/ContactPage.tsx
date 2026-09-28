@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Navbar from "@/component/Navbar";
 import Footer from "@/component/Footer";
 import { raceOptions } from "@/lib/contact/validation";
@@ -13,6 +13,9 @@ type FormState = {
   races: string[];
   website: string;
 };
+type CmsText = Record<string, string | undefined>;
+type CmsContact = { hero?: CmsText & { image?: string }; contactDetails?: CmsText & { image?: string; email?: string; emailHref?: string }; form?: CmsText & { raceOptions?: Array<{ labelEn?: string; labelAr?: string }> } };
+const localized = (value: CmsText | undefined, field: string, language: "en" | "ar", fallback: string) => value?.[`${field}${language === "en" ? "En" : "Ar"}`] || fallback;
 const empty: FormState = {
   name: "",
   email: "",
@@ -23,7 +26,9 @@ const empty: FormState = {
 };
 export default function ContactPage() {
   const { language } = useLanguage();
-  const copy =
+  const [cms, setCms] = useState<CmsContact | null>(null);
+  useEffect(() => { fetch("/api/cms/contact").then((response) => response.ok ? response.json() : null).then(setCms).catch(() => {}); }, []);
+  const fallbackCopy =
     language === "ar"
       ? {
           contact: "\u062a\u0648\u0627\u0635\u0644 \u0645\u0639\u0646\u0627",
@@ -57,19 +62,13 @@ export default function ContactPage() {
           send: "Send My Enquiry",
           sending: "Sending...",
         };
-  const raceLabels =
-    language === "ar"
-      ? [
-          "\u0642\u062f\u0641\u0639",
-          "\u0627\u0644\u0644\u0647\u0628\u0627\u0628",
-          "\u0641\u0644\u062c \u0627\u0644\u0645\u0639\u0644\u0627",
-          "\u0627\u0644\u0634\u0648\u064a\u0628",
-          "\u0645\u0635\u0641\u0648\u062a",
-          "\u0627\u0644\u0631\u0645\u0633",
-          "\u0648\u0627\u062f\u064a \u0627\u0644\u062d\u0644\u0648",
-          "\u0623\u062e\u0631\u0649",
-        ]
-      : raceOptions;
+  const copy = { ...fallbackCopy, contact: localized(cms?.hero, "title", language, fallbackCopy.contact), contactLabel: localized(cms?.contactDetails, "label", language, fallbackCopy.contact), help: localized(cms?.contactDetails, "title", language, fallbackCopy.help), greeting: localized(cms?.form, "greeting", language, fallbackCopy.greeting), afterName: localized(cms?.form, "afterName", language, fallbackCopy.afterName), afterEmail: localized(cms?.form, "afterEmail", language, fallbackCopy.afterEmail), name: localized(cms?.form, "namePlaceholder", language, fallbackCopy.name), phone: localized(cms?.form, "phonePlaceholder", language, fallbackCopy.phone), message: localized(cms?.form, "messagePlaceholder", language, fallbackCopy.message), races: localized(cms?.form, "racesLabel", language, fallbackCopy.races), send: localized(cms?.form, "send", language, fallbackCopy.send), sending: localized(cms?.form, "sending", language, fallbackCopy.sending) };
+  const emailPlaceholder = localized(cms?.form, "emailPlaceholder", language, "your@email.com");
+  const raceChoices = cms?.form?.raceOptions?.map((option) => ({ value: option.labelEn || option.labelAr || "", label: language === "ar" ? option.labelAr || option.labelEn || "" : option.labelEn || option.labelAr || "" })).filter((option) => option.value) || raceOptions.map((value) => ({ value, label: value }));
+  const heroImage = cms?.hero?.image || "/contact/hero.png";
+  const contactImage = cms?.contactDetails?.image || "/contact/rahhal2.png";
+  const contactEmail = cms?.contactDetails?.email || "info@emiratesvillages.ae";
+  const contactEmailHref = cms?.contactDetails?.emailHref || `mailto:${contactEmail}`;
   const [form, setForm] = useState(empty),
     [errors, setErrors] = useState<Record<string, string>>({}),
     [status, setStatus] = useState<"idle" | "sending" | "success" | "error">(
@@ -115,7 +114,7 @@ export default function ContactPage() {
       <main id="main-content" className="overflow-hidden bg-white">
         <section className="relative isolate m-2 flex min-h-[430px] flex-col overflow-hidden rounded-[10px] bg- text-white md:min-h-[520px] lg:aspect-[1691.51/741.569] lg:min-h-0">
           <Image
-            src="/contact/hero.png"
+            src={heroImage}
             alt="Children celebrating at an Emirates Villages Run Series event"
             fill
             preload
@@ -131,13 +130,13 @@ export default function ContactPage() {
         <section className="mx-auto grid w-[90%] max-w-[1440px] gap-8 py-14 lg:grid-cols-[450px_1fr] md:py-20">
           <div className="order-2 lg:order-1">
             <p className="text-sm font-bold uppercase text-[#bb0054] md:text-base">
-              {copy.contact}
+              {copy.contactLabel}
             </p>
             <h2 className="mt-3 text-[42px] font-bold uppercase leading-[.92] text-[#0b2d4d] md:text-[44px]">
               {copy.help}
             </h2>
             <a
-              href="mailto:info@emiratesvillages.ae"
+              href={contactEmailHref}
               className="mt-6 inline-flex items-center gap-3 text-base font-semibold text-[#0b2d4d] hover:underline"
             >
               <Image
@@ -147,11 +146,11 @@ export default function ContactPage() {
                 height={54}
                 className="size-10"
               />
-              info@emiratesvillages.ae
+              {contactEmail}
             </a>
             <div className="relative mt-8 h-[400px] overflow-hidden rounded-[10px] bg-[#eef0f2] md:h-[550px] lg:h-[480px] 2xl:h-[500px]">
               <Image
-                src="/contact/rahhal2.png"
+                src={contactImage}
                 alt="Rahhal mascot"
                 fill
                 sizes="30vw"
@@ -179,7 +178,7 @@ export default function ContactPage() {
                   aria-label="Email address"
                   value={form.email}
                   onChange={(e) => update("email", e.target.value)}
-                  placeholder="your@email.com"
+                  placeholder={emailPlaceholder}
                   className="w-full border-b border-dotted border-[#bfbfbf] outline-none placeholder:text-[#bfbfbf] md:inline md:w-[230px] text-2xl"
                 />{" "}
                 {copy.afterEmail}{" "}
@@ -213,15 +212,15 @@ export default function ContactPage() {
               {copy.races}
             </h3>
             <div className="mt-4 grid grid-cols-2 gap-2 md:grid-cols-4">
-              {raceOptions.map((r, index) => (
+              {raceChoices.map(({ value, label }) => (
                 <button
-                  key={r}
+                  key={value}
                   type="button"
-                  aria-pressed={form.races.includes(r)}
-                  onClick={() => toggle(r)}
-                  className={`rounded-[10px] border cursor-pointer px-3 py-3 text-sm ${form.races.includes(r) ? "border-[#bb0054] bg-[#bb0054] text-white" : "border-[#bfbfbf] text-[#999] hover:border-[#bb0054] hover:text-[#bb0054]"}`}
+                  aria-pressed={form.races.includes(value)}
+                  onClick={() => toggle(value)}
+                  className={`rounded-[10px] border cursor-pointer px-3 py-3 text-sm ${form.races.includes(value) ? "border-[#bb0054] bg-[#bb0054] text-white" : "border-[#bfbfbf] text-[#999] hover:border-[#bb0054] hover:text-[#bb0054]"}`}
                 >
-                  {raceLabels[index]}
+                  {label}
                 </button>
               ))}
             </div>

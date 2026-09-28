@@ -499,7 +499,7 @@ export const homeData = {
   footer: {
     description:
       "The Emirates Villages Run Series is the UAE's nationwide running series, connecting seven villages across all seven emirates through sport, community, heritage and discovery.",
-    organizer: "Brought to you by",
+    organizer: "Brought to you by the Emirates Council for Balanced Development",
     quickLinks: "Quick Links",
     recognition: "Recognition",
     email: "info@emiratesvillages.ae",

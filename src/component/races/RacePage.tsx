@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Navbar from "@/component/Navbar";
 import Footer from "@/component/Footer";
@@ -8,28 +9,34 @@ import RaceReveal from "@/component/races/RaceReveal";
 import RaceAboutImage from "@/component/races/RaceAboutImage";
 import RaceDistanceCards from "@/component/races/RaceDistanceCards";
 import type { RacePageData } from "@/data/races/types";
+import { useCmsRace } from "@/component/races/useCmsRace";
+import { useLanguage } from "@/component/LanguageProvider";
+import { usePathname } from "next/navigation";
 
 const container = "mx-auto w-[90%] 2xl:max-w-[1440px]";
 
 export default function RacePage({ race }: { race: RacePageData }) {
+  const { language } = useLanguage();
+  const slug = usePathname().split("/").filter(Boolean).pop() || "";
+  const activeRace = useCmsRace(race, slug, language);
   return (
     <>
       <main id="main-content" className="overflow-hidden">
         <section className="relative isolate m-2 flex min-h-[640px] flex-col overflow-hidden rounded-[10px] text-white md:min-h-[560px] lg:min-h-0 lg:aspect-[1891.51/741.569]">
           <Image
-            src={race.assets.hero}
+            src={activeRace.assets.hero}
             alt="Runners setting off at an Emirates Villages race"
             fill
             preload
             sizes="100vw"
             className="-z-20 object-cover "
-            style={{ objectPosition: race.heroPosition }}
+            style={{ objectPosition: activeRace.heroPosition }}
           />
           <div className="absolute inset-0 -z-10 bg-black/50" />
           <Navbar homeHrefPrefix="/" />
           <div className="mx-auto mt-auto grid w-[90%] 2xl:max-w-[1440px] gap-3 md:gap-6 pt-28 pb-7 md:pb-10 lg:grid-cols-[1.3fr_1fr] lg:items-end lg:gap-16">
             <h1 className="max-w-[960px] text-[clamp(32px,2.3vw,102px)]  md:text-[clamp(42px,4.3vw,102px)] leading-[.98] font-bold uppercase">
-              {race.heroTitle.map((line) => (
+              {activeRace.heroTitle.map((line) => (
                 <span key={line} className="block">
                   {line}
                 </span>
@@ -37,7 +44,7 @@ export default function RacePage({ race }: { race: RacePageData }) {
             </h1>
             <div>
               <p className="max-w-[680px] text-lg leading-tight 2xl:text-[20px]">
-                {race.introduction}
+                {activeRace.introduction}
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-3 rounded-[5px] bg-black/30 p-3 backdrop-blur-[22px]">
                 <Image
@@ -48,14 +55,14 @@ export default function RacePage({ race }: { race: RacePageData }) {
                   className="h-[27px] w-[41px] shrink-0 object-contain"
                 />
                 <p className="flex-1 text-sm xl:text-[1vw] 2xl:text-[15px] font-bold uppercase xl:text-md">
-                  {race.date}
+                  {activeRace.date}
                 </p>
                 <Button
-                  href={race.registerUrl}
+                  href={activeRace.registerUrl}
                   tone="pink"
                   className="max-sm:w-full"
                 >
-                  Register for {race.name}
+                  {activeRace.cms.heroCta}
                 </Button>
               </div>
             </div>
@@ -68,8 +75,8 @@ export default function RacePage({ race }: { race: RacePageData }) {
         >
           <RaceReveal className="relative h-full min-h-[290px] overflow-hidden rounded-[10px] order-2 md:order-1">
             <RaceAboutImage
-              src={race.assets.about}
-              alt={race.aboutAlt}
+              src={activeRace.assets.about}
+              alt={activeRace.aboutAlt}
               sizes="(min-width: 1536px) 706px, (min-width: 768px) 44vw, 90vw"
             />
           </RaceReveal>
@@ -79,45 +86,45 @@ export default function RacePage({ race }: { race: RacePageData }) {
               className="relative isolate flex h-full min-h-[400px] flex-col overflow-hidden rounded-[10px] bg-[#072f4f] p-4 md:p-6 text-white lg:min-h-[450px]"
             >
             <Image
-              src={race.assets.pattern}
+              src={activeRace.assets.pattern}
               alt=""
               fill
               sizes="(max-width: 767px) (min-width: 1536px) 706px, (min-width: 768px) 44vw, 90vw"
               className="pointer-events-none -z-10 object-cover"
             />
             <Image
-              src={race.assets.mark}
+              src={activeRace.assets.mark}
               alt=""
               width={143}
               height={118}
               className="mb-5 h-[70px] w-[85px] object-contain lg:h-[95px] lg:w-[115px]"
             />
             <SectionHeading
-              eyebrow="About the Race"
-              title={`Discover ${race.name}`}
+              eyebrow={activeRace.cms.aboutEyebrow}
+              title={activeRace.cms.aboutTitle}
               light
             />
             <div className="mt-2 space-y-1.5 md:space-y-3 text-base leading-[1.45] 2xl:text-[18px]">
-              {race.paragraphs.map((paragraph) => (
+              {activeRace.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
             </div>
             <div className="mt-auto pt-3 md:pt-7">
               <h3 className="mb-2 md:mb-4 text-lg font-bold uppercase">
-                Race Day Information
+                {activeRace.cms.raceDayTitle}
               </h3>
               <dl className="grid grid-cols-2 gap-x-4 gap-y-3 md:gap-y-5 text-sm lg:grid-cols-[1.5fr_1fr_1fr] 2xl:text-lg">
                 <div className="col-span-2 lg:col-span-1">
-                  <dt className="font-bold uppercase">Date:</dt>
-                  <dd className="md:mt-2">{race.date}</dd>
+                  <dt className="font-bold uppercase">{activeRace.cms.dateLabel}</dt>
+                  <dd className="md:mt-2">{activeRace.cms.dateValue}</dd>
                 </div>
                 <div className="lg:border-s lg:border-white/40 lg:ps-5">
-                  <dt className="font-bold uppercase">Arrival Time:</dt>
-                  <dd className="md:mt-2">2:30 PM</dd>
+                  <dt className="font-bold uppercase">{activeRace.cms.arrivalLabel}</dt>
+                  <dd className="md:mt-2">{activeRace.cms.arrivalValue}</dd>
                 </div>
                 <div className="border-s border-white/40 ps-5">
-                  <dt className="font-bold uppercase">Race Start:</dt>
-                  <dd className="md:mt-2">4:00 PM</dd>
+                  <dt className="font-bold uppercase">{activeRace.cms.startLabel}</dt>
+                  <dd className="md:mt-2">{activeRace.cms.startValue}</dd>
                 </div>
               </dl>
             </div>
@@ -130,12 +137,12 @@ export default function RacePage({ race }: { race: RacePageData }) {
           className={`${container} pb-12 `}
         >
           <div className="mb-5 w-full flex flex-wrap items-center justify-between gap-2 md:mb-4">
-            <SectionHeading eyebrow="Distances" title="Choose Your Challenge" />
-            <Button href={race.registerUrl} tone="pink">
+            <SectionHeading eyebrow={activeRace.cms.distancesEyebrow} title={activeRace.cms.distancesTitle} />
+            <Button href={activeRace.registerUrl} tone="pink">
               Register Now
             </Button>
           </div>
-          <RaceDistanceCards distances={race.distances} />
+          <RaceDistanceCards distances={activeRace.distances} />
         </section>
 
         <section
@@ -151,43 +158,43 @@ export default function RacePage({ race }: { race: RacePageData }) {
           />
           <div className={container}>
             <SectionHeading
-              eyebrow="Race Maps"
-              title="Explore the Route"
+              eyebrow={activeRace.cms.mapsEyebrow}
+              title={activeRace.cms.mapsTitle}
               centered
             />
             <RouteMaps
-              routes={race.routes}
-              raceName={race.name}
+              routes={activeRace.routes}
+              raceName={activeRace.name}
             />
             <div className="mt-5 grid items-center gap-2 md:mt-7 md:grid-cols-[1fr_1.1fr_auto] md:gap-10 md:px-8">
               <div>
-                {race.routeCta.eyebrow && (
+                {activeRace.cms.routeCtaEyebrow && (
                   <p className="mb-2 text-sm font-bold uppercase text-[#bb0054]">
-                    {race.routeCta.eyebrow}
+                    {activeRace.cms.routeCtaEyebrow}
                   </p>
                 )}
                 <h3 className="max-w-[430px] text-2xl leading-none font-bold uppercase 2xl:text-[40px]">
-                  {race.routeCta.title}
+                  {activeRace.routeCta.title}
                 </h3>
               </div>
               <p className="max-w-[450px] text-lg xl:text-xl leading-snug text-[#303030] ">
-                {race.routeCta.description}
+                {activeRace.routeCta.description}
               </p>
-              <Button href={race.registerUrl} tone="pink">
-                {race.routeCta.button}
+              <Button href={activeRace.registerUrl} tone="pink">
+                {activeRace.routeCta.button}
               </Button>
             </div>
           </div>
         </section>
 
         <section
-          aria-label={`${race.name} location and registration`}
+          aria-label={`${activeRace.name} location and registration`}
           className={`${container} grid gap-5 py-8 md:grid-cols-2 md:gap-7 md:py-14 `}
         >
           <div className="relative block aspect-[775.543/710.496] overflow-hidden rounded-[10px] border border-[#d7d7d7] bg-[#e8e8e8]">
             <iframe
-              title={`${race.location.name} location map`}
-              src={`https://www.google.com/maps?q=${encodeURIComponent(race.location.query)}&output=embed`}
+              title={`${activeRace.location.name} location map`}
+              src={`https://www.google.com/maps?q=${encodeURIComponent(activeRace.location.query)}&output=embed`}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className="absolute inset-0 size-full border-0"
@@ -195,17 +202,17 @@ export default function RacePage({ race }: { race: RacePageData }) {
           </div>
           <div className="relative isolate flex min-h-[350px] md:min-h-[400px] flex-col overflow-hidden rounded-[10px] bg-[#072f4f] p-4 md:p-6 text-white lg:p-5 2xl:p-8">
             <h2 className="relative z-10 max-w-[450px] text-[32px] leading-[1.02] font-bold uppercase lg:text-[40px] 2xl:text-[44px]">
-              {race.journey.title}
+              {activeRace.journey.title}
             </h2>
             <p className="relative z-10 mt-3 md:mt-2 max-w-[80%] 2xl:max-w-[550px] text-lg leading-snug 2xl:text-[20px]">
-              {race.journey.description}
+              {activeRace.journey.description}
             </p>
             <Button
-              href={race.registerUrl}
+              href={activeRace.cms.journeyHref}
               tone="pink"
               className="mt-5 self-start md:!hidden !block "
             >
-              Register to Race
+              {activeRace.cms.journeyCta}
             </Button>
             <div className="pointer-events-none absolute end-0 bottom-0 -z-10 h-[72.1%] w-[64.7%] overflow-hidden">
               <div className="absolute top-0 start-0 h-[137.35%] w-[132.36%]">
@@ -219,11 +226,11 @@ export default function RacePage({ race }: { race: RacePageData }) {
               </div>
             </div>
             <Button
-              href={race.registerUrl}
+              href={activeRace.cms.journeyHref}
               tone="pink"
               className="mt-auto self-start md:!block !hidden"
             >
-              Register to Race
+              {activeRace.cms.journeyCta}
             </Button>
           </div>
         </section>
