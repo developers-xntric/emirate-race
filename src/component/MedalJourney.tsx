@@ -42,7 +42,7 @@ export default function MedalJourney() {
       <div className="grid">
         <article
           id="prizes"
-          className="relative isolate h-full md:min-h-[500px]  scroll-mt-8 overflow-hidden rounded-[10px] bg-[#706cb5] p-4 text-white md:min-h-0 md:p-6 2xl:p-[20px]"
+          className="relative isolate h-full md:min-h-[500px]  scroll-mt-8 overflow-hidden rounded-[10px] bg-[#706cb5] p-4 text-white lg:min-h-0 md:p-6 2xl:p-[20px]"
         >
           <div className="relative z-10 ">
             <h2 className="text-[32px] leading-[1.02] font-bold uppercase lg:text-[36px] 2xl:text-[44px]">
@@ -52,7 +52,7 @@ export default function MedalJourney() {
               {data.prizes.description}
             </p>
           </div>
-          <div className="-z-0 aspect-[294.26/322.25] mx-auto w-[55%] overflow-hidden">
+          <div className="-z-0 aspect-[294.26/322.25] mx-auto w-[55%] xl:w-[60%] 2xl:w-[55%] overflow-hidden">
             <div className="relative -top-[10.1%] h-[110.1%] w-full ">
               <Image
                 src={data.assets.prizeRahhal}
