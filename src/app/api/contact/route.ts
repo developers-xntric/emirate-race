@@ -10,13 +10,22 @@ function allowed(key: string) { const now = Date.now(); for (const [id, entry] o
 const out = (body: object, status = 200) => Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
 const requestIdOk = (id: unknown) => typeof id === "string" && /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
 const text = (value: unknown, max: number) => typeof value === "string" && value.trim().length > 0 && value.length <= max && !/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/.test(value);
+function isSameSiteRequest(request: Request) {
+  const origin = request.headers.get("origin");
+  if (!origin) return true;
+  const requestUrl = new URL(request.url);
+  const protocol = request.headers.get("x-forwarded-proto") || requestUrl.protocol.replace(":", "");
+  const hosts = [request.headers.get("host"), request.headers.get("x-forwarded-host")].filter(Boolean);
+  const allowedOrigins = new Set([requestUrl.origin, ...hosts.map((host) => `${protocol}://${host}`)]);
+  return allowedOrigins.has(origin);
+}
 const pressKitSheetUrl = "https://script.google.com/macros/s/AKfycbyK3maTuJhK4W8YlpsTwSJdEKvR0AbRJs7-ISLd88SVVD73JaDomD0G8kfQ66ri4rbgsg/exec";
 async function appendPressKitToSheet(input: { name: string; email: string; channelLink: string }) {
   try { const response = await fetch(pressKitSheetUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ businessEmail: input.email, fullName: input.name, channelLink: input.channelLink }) }); if (!response.ok) throw new Error(`Sheet response ${response.status}`); } catch (error) { console.error("Press Kit sheet submission failed", { error: error instanceof Error ? error.message : "unknown" }); }
 }
 
 export async function POST(request: Request) {
-  if (request.headers.get("origin") && request.headers.get("origin") !== new URL(request.url).origin) return out({ message: "Please send your enquiry from this website." }, 403);
+  if (!isSameSiteRequest(request)) return out({ message: "Please send your enquiry from this website." }, 403);
   if (!request.headers.get("content-type")?.includes("application/json")) return out({ message: "Please submit the form again." }, 415);
   let input: unknown; try { input = await request.json(); } catch { return out({ message: "We could not read your request. Please try again." }, 400); }
   if (!input || typeof input !== "object" || Array.isArray(input)) return out({ message: "Please complete the form." }, 400);
