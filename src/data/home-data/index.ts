@@ -66,7 +66,7 @@ export const homeData = {
     nextRaceFlag: "/home/next-race-flag.svg",
     calendarGrid: "/home/calendar-grid.svg",
     calendarLine: "/home/calendar.svg",
-    medalPattern: "/home/medal-pattern.png",
+    medalPattern: "/home/medal.png",
     ctaPattern: "/home/cta-pattern.png",
     prizeRahhal: "/home/rahhal-prize.png",
     faqScenery: "/home/faq-scenery-2.png",
