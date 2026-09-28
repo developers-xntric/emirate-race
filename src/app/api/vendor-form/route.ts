@@ -43,12 +43,7 @@ export async function POST(request: Request) {
   const fields = Object.entries(data)
     .filter(([key]) => key !== "notify_email")
     .map(([key, value]) => [key, toText(value)] as [string, string]);
-  const email = toText(data.email_address);
-  const brand = toText(data.brand_name);
-
-  if (!email || !brand) {
-    return Response.json({ error: "Missing required vendor details." }, { status: 400 });
-  }
+  const applicantName = toText(data.applicant_name) || "New submission";
 
   const host = process.env.SMTP_HOST;
   const port = Number(process.env.SMTP_PORT);
@@ -71,7 +66,7 @@ export async function POST(request: Request) {
     await transporter.sendMail({
       from,
       to: recipients.join(", "),
-      subject: `EVRS 2026 vendor booking: ${brand}`,
+      subject: `EVRS 2026 vendor booking: ${applicantName}`,
       text: fields.map(([key, value]) => `${key}: ${value}`).join("\n"),
       html: `<h1>EVRS 2026 Vendor Booking Form</h1><table style="border-collapse:collapse">${formatFields(fields)}</table>`,
     });
