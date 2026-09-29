@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import { homeData } from "@/data/home-data";
 import { arabicData } from "@/data/home-data/arabic-index";
 
@@ -19,6 +20,7 @@ function applyHomeContent(base: any, cms: Cms, language: Language) {
   const paragraphs = (section: any, fallback: string[]) => text(section, "paragraph", fallback.join("\n\n")).split("\n\n");
   return {
     ...base,
+    metadata: home.seo ? { title: text(home.seo, "title", base.metadata.title), description: text(home.seo, "description", base.metadata.description) } : base.metadata,
     assets: { ...base.assets, ...(home.hero?.video ? { heroVideo: home.hero.video } : {}), ...(home.hero?.poster ? { heroPoster: home.hero.poster } : {}), ...(home.about?.video ? { aboutVideo: home.about.video } : {}), ...(home.about?.videoPoster ? { aboutPoster: home.about.videoPoster } : {}), ...(home.medal?.image ? { medalPattern: home.medal.image } : {}), ...(home.prizes?.image ? { prizeRahhal: home.prizes.image } : {}), ...(home.recognition?.videoA ? { recognitionRunA: home.recognition.videoA } : {}), ...(home.recognition?.videoB ? { recognitionRunB: home.recognition.videoB } : {}) },
     hero: home.hero ? { ...base.hero, title: text(home.hero, "title", base.hero.title.join("\n")).split("\n"), paragraphs: paragraphs(home.hero, base.hero.paragraphs), next: text(home.hero, "next", base.hero.next), dates: text(home.hero, "dates", base.hero.dates), cta: text(home.hero, "cta", base.hero.cta) } : base.hero,
     about: home.about ? { ...base.about, eyebrow: text(home.about, "eyebrow", base.about.eyebrow), title: text(home.about, "title", base.about.title), paragraphs: paragraphs(home.about, base.about.paragraphs), patronage: text(home.about, "patronage", base.about.patronage) } : base.about,
@@ -44,18 +46,19 @@ function applySharedContent(base: any, cms: Cms, language: Language) {
     register: nav?.registerEn || nav?.registerAr ? { label: localized(nav, "register", language, base.register.label), href: nav.registerHref || base.register.href } : base.register,
     ui: nav ? { ...base.ui, nav: { ...base.ui.nav, home: localized(navigation[0], "label", language, base.ui.nav.home), about: localized(navigation[1], "label", language, base.ui.nav.about), faqs: localized(navigation[3], "label", language, base.ui.nav.faqs), contact: localized(navigation[4], "label", language, base.ui.nav.contact), races: localized(navigation[2], "label", language, base.ui.nav.races) }, navRaces: nav.races?.map((race: any, i: number) => ({ label: localized(race, "label", language, base.ui.navRaces[i]?.label), href: race.href || base.ui.navRaces[i]?.href })) ?? base.ui.navRaces } : base.ui,
     assets: { ...base.assets, ...(nav?.logo ? { logo: nav.logo } : {}), ...(footer?.logo ? { footerLogo: footer.logo } : {}) },
-    footer: footer ? { ...base.footer, description: localized(footer, "description", language, base.footer.description), organizer: localized(footer, "organizer", language, base.footer.organizer), email: footer.email || base.footer.email, emailHref: footer.emailHref || `mailto:${footer.email || base.footer.email}`, quickLinks: localized(footer, "quickLinksTitle", language, base.footer.quickLinks), linksPrimary: footer.quickLinksPrimary?.map((link: any) => ({ label: localized(link, "label", language, ""), href: link.href, pressKit: link.isPressKit })) ?? undefined, linksRaces: footer.quickLinksRaces?.map((link: any) => ({ label: localized(link, "label", language, ""), href: link.href })) ?? undefined, socials: footer.socials ?? base.footer.socials, copyright: localized(footer, "copyright", language, base.footer.copyright), legal: footer.legal?.map((link: any, i: number) => localized(link, "label", language, base.footer.legal[i])) ?? base.footer.legal } : base.footer,
+    footer: footer ? { ...base.footer, ...(footer.preFooterLogo ? { preFooterLogo: footer.preFooterLogo } : {}), description: localized(footer, "description", language, base.footer.description), organizer: localized(footer, "organizer", language, base.footer.organizer), email: footer.email || base.footer.email, emailHref: footer.emailHref || `mailto:${footer.email || base.footer.email}`, quickLinks: localized(footer, "quickLinksTitle", language, base.footer.quickLinks), linksPrimary: footer.quickLinksPrimary?.map((link: any) => ({ label: localized(link, "label", language, ""), href: link.href, pressKit: link.isPressKit })) ?? undefined, linksRaces: footer.quickLinksRaces?.map((link: any) => ({ label: localized(link, "label", language, ""), href: link.href })) ?? undefined, socials: footer.socials ?? base.footer.socials, copyright: localized(footer, "copyright", language, base.footer.copyright), legal: footer.legal?.map((link: any, i: number) => localized(link, "label", language, base.footer.legal[i])) ?? base.footer.legal } : base.footer,
   };
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>("en");
+  const pathname = usePathname();
   const [cms, setCms] = useState<Cms>(null);
   const base = language === "ar" ? arabicData : homeData;
   const data = applyHomeContent(applySharedContent(base, cms, language), cms, language) as typeof homeData;
   useEffect(() => { fetch("/api/cms/site").then((response) => response.ok ? response.json() : null).then(setCms).catch(() => {}); }, []);
   useEffect(() => { try { if (localStorage.getItem("evrs-language") === "ar") queueMicrotask(() => setLanguage("ar")); } catch {} }, []);
-  useEffect(() => { document.documentElement.lang = language; document.documentElement.dir = language === "ar" ? "rtl" : "ltr"; document.title = data.metadata.title; document.querySelector('meta[name="description"]')?.setAttribute("content", data.metadata.description); }, [language, data]);
+  useEffect(() => { document.documentElement.lang = language; document.documentElement.dir = language === "ar" ? "rtl" : "ltr"; if (pathname === "/") { document.title = data.metadata.title; document.querySelector('meta[name="description"]')?.setAttribute("content", data.metadata.description); } }, [language, data, pathname]);
   function toggleLanguage() { const next = language === "en" ? "ar" : "en"; setLanguage(next); try { localStorage.setItem("evrs-language", next); } catch {} }
   return <LanguageContext.Provider value={{ data: data as typeof homeData | typeof arabicData, language, toggleLanguage }}>{children}</LanguageContext.Provider>;
 }

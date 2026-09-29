@@ -14,7 +14,7 @@ type FormState = {
   website: string;
 };
 type CmsText = Record<string, string | undefined>;
-type CmsContact = { hero?: CmsText & { image?: string }; contactDetails?: CmsText & { image?: string; email?: string; emailHref?: string }; form?: CmsText & { raceOptions?: Array<{ labelEn?: string; labelAr?: string }> } };
+type CmsContact = { seo?: CmsText; hero?: CmsText & { image?: string }; contactDetails?: CmsText & { image?: string; email?: string; emailHref?: string }; form?: CmsText & { raceOptions?: Array<{ labelEn?: string; labelAr?: string }> } };
 const localized = (value: CmsText | undefined, field: string, language: "en" | "ar", fallback: string) => value?.[`${field}${language === "en" ? "En" : "Ar"}`] || fallback;
 const empty: FormState = {
   name: "",
@@ -28,6 +28,7 @@ export default function ContactPage() {
   const { language } = useLanguage();
   const [cms, setCms] = useState<CmsContact | null>(null);
   useEffect(() => { fetch("/api/cms/contact").then((response) => response.ok ? response.json() : null).then(setCms).catch(() => {}); }, []);
+  useEffect(() => { const seo = cms?.seo; if (!seo) return; const title = localized(seo, "title", language, ""); const description = localized(seo, "description", language, ""); if (title) window.document.title = title; if (description) window.document.querySelector('meta[name="description"]')?.setAttribute("content", description); }, [cms, language]);
   const fallbackCopy =
     language === "ar"
       ? {

@@ -138,8 +138,8 @@ export default function RacePage({ race }: { race: RacePageData }) {
         >
           <div className="mb-5 w-full flex flex-wrap items-center justify-between gap-2 md:mb-4">
             <SectionHeading eyebrow={activeRace.cms.distancesEyebrow} title={activeRace.cms.distancesTitle} />
-            <Button href={activeRace.registerUrl} tone="pink">
-              Register Now
+            <Button href={activeRace.cms.distancesHref} tone="pink">
+              {activeRace.cms.distancesCta}
             </Button>
           </div>
           <RaceDistanceCards distances={activeRace.distances} />

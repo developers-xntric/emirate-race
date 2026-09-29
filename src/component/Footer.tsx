@@ -56,7 +56,8 @@ export default function Footer({
   ];
   const localizedRaceLinks = raceLinks.map((race, index) => ({ ...race, label: data.ui.navRaces[index]?.label ?? race.label }));
   const pressKitLabel = language === "ar" ? "\u0627\u0644\u062d\u0642\u064a\u0628\u0629 \u0627\u0644\u0625\u0639\u0644\u0627\u0645\u064a\u0629" : "Press Kit";
-  const cmsQuickLinks = (data.footer as any).links as { label: string; href: string }[] | undefined;
+  const cmsQuickLinks = (data.footer as { links?: { label: string; href: string }[] }).links;
+  const preFooterLogo = (data.footer as { preFooterLogo?: string }).preFooterLogo ?? data.assets.preFooterLogo;
   const columns = cmsQuickLinks?.length ? [cmsQuickLinks.slice(0, Math.ceil(cmsQuickLinks.length / 2)), cmsQuickLinks.slice(Math.ceil(cmsQuickLinks.length / 2))] : [
     [
       { label: data.ui.nav.home, href: `${homeHrefPrefix}/` },
@@ -88,30 +89,32 @@ export default function Footer({
         <div className="mx-auto w-[90%] pt-10 2xl:max-w-[1440px]">
           <div className="grid gap-5 md:gap-10 md:grid-cols-2 md:gap-[90px]">
             <div className="max-w-[620px]">
-              <Image
-                src={data.assets.footerLogo}
-                alt={data.brand}
-                width={486}
-                height={107}
-                className="mb-4 md:mb-7 block h-auto w-[200px] max-w-full object-contain object-left md:hidden"
-              />
               <p className="text-[12px] md:text-lg leading-tight lg:text-base 2xl:text-lg">
                 {data.footer.description}
               </p>
-              <p className="mt-3 md:mt-5 text-[12px] md:text-lg leading-tight lg:text-base 2xl:text-lg">
-                {data.footer.organizer}
-              </p>
               <Image
                 src={data.assets.footerLogo}
                 alt={data.brand}
                 width={486}
                 height={107}
-                className="mt-9 hidden w-[438px] max-w-full object-contain object-left md:block md:h-[96px]"
+                className="mt-4 block h-auto w-[200px] max-w-full object-contain object-left md:mt-7 md:w-[438px]"
               />
+              <p className="mt-3 md:mt-5  text-[12px] md:text-lg leading-tight lg:text-base 2xl:text-lg">
+                {data.footer.organizer}
+              </p>
+              {preFooterLogo && (
+                <Image
+                  src={preFooterLogo}
+                  alt=""
+                  width={486}
+                  height={107}
+                  className=" md:rtl:mt-5 block h-auto w-[230px] max-w-full object-contain object-left  md:w-[400px]"
+                />
+              )}
             </div>
             <div>
-              <h2 className="text-xl font-bold">{data.footer.quickLinks}</h2>
-              <div className="mt-3 md:mt-7 grid grid-cols-2 gap-8 md:gap-16">
+              <h2 className="text-xl font-bold hidden">{data.footer.quickLinks}</h2>
+              <div className="grid grid-cols-2 gap-8 md:gap-16">
                 {columns.map((column, index) => (
                   <ul key={index} className="space-y-2 ">
                     {column.map((link, linkIndex) => (

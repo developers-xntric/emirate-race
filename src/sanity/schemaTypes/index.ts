@@ -11,6 +11,10 @@ const bilingual = (name: string, title: string, type: "string" | "text" = "strin
   defineField({ name: `${name}En`, title: `English ${title}`, type, rows: type === "text" ? 4 : undefined, hidden: ({ parent }) => name === "cta" && !parent?.ctaEn && !parent?.ctaAr }),
   defineField({ name: `${name}Ar`, title: `Arabic ${title}`, type, rows: type === "text" ? 4 : undefined, hidden: ({ parent }) => name === "cta" && !parent?.ctaEn && !parent?.ctaAr }),
 ];
+const heroDateField = () => [
+  defineField({ name: "heroDateEn", title: "English race date", type: "string", hidden: ({ parent }) => parent?.sectionName !== "Hero" }),
+  defineField({ name: "heroDateAr", title: "Arabic race date", type: "string", hidden: ({ parent }) => parent?.sectionName !== "Hero" }),
+];
 const raceDayField = (name: string, title: string) => [
   defineField({ name: `${name}En`, title: `English ${title}`, type: "string", hidden: ({ parent }) => parent?.sectionName !== "About the Race" }),
   defineField({ name: `${name}Ar`, title: `Arabic ${title}`, type: "string", hidden: ({ parent }) => parent?.sectionName !== "About the Race" }),
@@ -28,6 +32,7 @@ const section = defineArrayMember({ type: "object", fields: [
   ...sectionLabelField(),
   ...bilingual("title", "title"),
   ...bilingual("paragraph", "paragraph", "text"),
+  ...heroDateField(),
   ...raceDayField("raceDayInformation", "Race Day Information"),
   ...raceDayField("dateLabel", "Date label"),
   ...raceDayField("dateValue", "Date value"),
@@ -42,6 +47,8 @@ const section = defineArrayMember({ type: "object", fields: [
   defineField({ name: "images", title: "Additional existing images", type: "array", of: [defineArrayMember({ type: "image", options: { hotspot: true } })], hidden: ({ parent }) => !parent?.images?.length }),
   defineField({ name: "items", title: "Existing cards, tabs, or fields", type: "array", hidden: ({ parent }) => !parent?.items?.length, of: [defineArrayMember({ type: "object", fields: [
     defineField({ name: "itemName", title: "Item name", type: "string", readOnly: true }),
+    defineField({ name: "itemNameEn", title: "English card label", type: "string", hidden: ({ parent }) => !parent?.itemName?.endsWith("KM") }),
+    defineField({ name: "itemNameAr", title: "Arabic card label", type: "string", hidden: ({ parent }) => !parent?.itemName?.endsWith("KM") }),
   ...bilingual("title", "title"),
     ...bilingual("paragraph", "paragraph", "text"),
 
@@ -59,6 +66,7 @@ export const navbarType = defineType({ name: "navbar", title: "Navbar", type: "d
 ] });
 export const footerType = defineType({ name: "footer", title: "Footer", type: "document", fields: [
   defineField({ name: "sectionName", title: "Section name", type: "string", initialValue: "Footer", readOnly: true }), image("logo", "Footer logo"),
+  defineField({ name: "preFooterLogo", title: "Logo shown before footer logo", type: "image", options: { hotspot: true }, fields: [defineField({ name: "altEn", title: "English alt text", type: "string" }), defineField({ name: "altAr", title: "Arabic alt text", type: "string" })] }),
   ...bilingual("description", "description", "text"), ...bilingual("organizer", "organizer"), ...bilingual("quickLinksTitle", "quick links title"),
   defineField({ name: "email", title: "Email", type: "string" }), defineField({ name: "emailHref", title: "Email link", type: "string" }),
   defineField({ name: "quickLinksPrimary", title: "Quick links â€” first column", type: "array", of: [link] }), defineField({ name: "quickLinksRaces", title: "Quick links â€” race pages column", type: "array", of: [link] }), defineField({ name: "socials", title: "Social links", type: "array", of: [defineArrayMember({ type: "object", fields: [defineField({ name: "label", title: "Platform", type: "string" }), defineField({ name: "href", title: "Link", type: "url" })] })] }),
@@ -69,7 +77,9 @@ export const pageType = defineType({ name: "page", title: "Page", type: "documen
   defineField({ name: "sections", title: "Sections", type: "array", of: [section] }),
 ] });
 export const raceType = defineType({ name: "racePage", title: "Race page", type: "document", fields: [
-  defineField({ name: "pageName", title: "Race name", type: "string", validation: (Rule) => Rule.required() }), defineField({ name: "slug", title: "Path segment", type: "string", validation: (Rule) => Rule.required() }),
-  defineField({ name: "sections", title: "Race sections", type: "array", of: [section], description: "Use the same section order for each race. Qidfa's 10KM route-map item retains its two images; all other route-map items have one." }),
+  defineField({ name: "pageName", title: "Race name", type: "string", validation: (Rule) => Rule.required() }),
+  defineField({ name: "seo", title: "SEO metadata", type: "object", fields: [...bilingual("title", "meta title"), ...bilingual("description", "meta description", "text")] }),
+  defineField({ name: "slug", title: "Path segment", type: "string", validation: (Rule) => Rule.required() }),
+  defineField({ name: "sections", title: "Race sections", type: "array", of: [section] }),
 ] });
 export const schema = { types: [navbarType, footerType, pageType, raceType, homePageType, aboutPageType, contactPageType] };

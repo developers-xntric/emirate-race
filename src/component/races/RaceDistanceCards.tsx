@@ -42,9 +42,9 @@ export default function RaceDistanceCards({
 
   return (
     <div ref={scope} className="grid gap-3 md:grid-cols-3 md:gap-5">
-      {distances.map((item) => (
+      {distances.map((item, index) => (
         <article
-          key={item.distance}
+          key={index}
           data-distance-card
           className="h-full rounded-[8px] border border-dashed border-[#bb0054] bg-white p-3 md:p-4 opacity-0 translate-y-14 scale-95 motion-reduce:!opacity-100 motion-reduce:!translate-y-0 motion-reduce:!scale-100"
         >
