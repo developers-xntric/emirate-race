@@ -180,6 +180,9 @@ export const homeData = {
   gallery: {
     eyebrow: "EVRS Gallery",
     title: "Moments From the Journey",
+    year2025: "2025",
+    year2026: "2026",
+    comingSoon: "Coming Soon",
     races: [
       {
         label: "Qidfa",

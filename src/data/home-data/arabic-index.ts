@@ -106,6 +106,9 @@ export const arabicData = {
   gallery: {
     eyebrow: "معرض السلسلة",
     title: "سبع قرى، رحلة واحدة",
+    year2025: "2025",
+    year2026: "2026",
+    comingSoon: "قريباً",
     races: [
       { ...homeData.gallery.races[0], label: "قدفع" },
       { ...homeData.gallery.races[1], label: "الهباب" },

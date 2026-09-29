@@ -268,6 +268,7 @@ export default function AccordionGallery({
                   alt={item.alt || item.label || ""}
                   fill
                   sizes="(max-width: 520px) 52vw, 47vw"
+                  quality={100}
                   draggable={false}
                 />
               </span>
