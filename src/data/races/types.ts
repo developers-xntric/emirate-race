@@ -21,6 +21,6 @@ export type RacePageData = {
   assets: { hero: string; about: string; pattern: string; mark: string; location: string; routeLogo?: string };
   routes: RaceRoute[];
   routeCta: { eyebrow?: string; title: string; description: string; button: string };
-  location: { name: string; address: string; query: string };
+  location: { name: string; address: string; query: string; mapQuery?: string; mapLabel?: string };
   journey: { title: string; description: string };
 };

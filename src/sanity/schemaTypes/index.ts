@@ -4,7 +4,7 @@ import { aboutPageType } from "./aboutPage";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 const image = (name = "image", title = "Image") => defineField({
-  name, title, type: "image", options: { hotspot: true }, hidden: ({ parent }) => !parent?.[name],
+  name, title, type: "image", options: { hotspot: true }, hidden: ({ parent }) => parent?.sectionName !== "Hero" && !parent?.[name],
   fields: [defineField({ name: "altEn", title: "English alt text", type: "string" }), defineField({ name: "altAr", title: "Arabic alt text", type: "string" })],
 });
 const bilingual = (name: string, title: string, type: "string" | "text" = "string") => [

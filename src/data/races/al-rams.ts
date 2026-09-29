@@ -60,7 +60,9 @@ export const alRams: RacePageData = {
   location: {
     name: "Rams Children's Park",
     address: "5 18A St - Ar Rams - Ras Al Khaimah",
-    query: "RAMS Children's Park, 5 18A St - Ar Rams - Ras Al Khaimah",
+    query: "Rams Children's Park, Ras Al Khaimah, United Arab Emirates",
+    mapQuery: "25.8855231,56.0198931",
+    mapLabel: "Rams Children's Park",
   },
   journey: {
     title: "Take On Race Six",

@@ -194,11 +194,17 @@ export default function RacePage({ race }: { race: RacePageData }) {
           <div className="relative block aspect-[775.543/710.496] overflow-hidden rounded-[10px] border border-[#d7d7d7] bg-[#e8e8e8]">
             <iframe
               title={`${activeRace.location.name} location map`}
-              src={`https://www.google.com/maps?q=${encodeURIComponent(activeRace.location.query)}&output=embed`}
+              src={`https://www.google.com/maps?q=${encodeURIComponent(activeRace.location.mapQuery ?? activeRace.location.query)}&z=17&output=embed`}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className="absolute inset-0 size-full border-0"
             />
+            {activeRace.location.mapLabel && (
+              <div className="pointer-events-none absolute left-3 top-3 z-10 max-w-[calc(100%-1.5rem)] rounded-md bg-white px-3 py-2 text-sm font-semibold text-[#202124] shadow">
+                <p>{activeRace.location.mapLabel}</p>
+                <p className="mt-0.5 text-xs font-normal text-[#5f6368]">{activeRace.location.address}</p>
+              </div>
+            )}
           </div>
           <div className="relative isolate flex min-h-[350px] md:min-h-[400px] flex-col overflow-hidden rounded-[10px] bg-[#072f4f] p-4 md:p-6 text-white lg:p-5 2xl:p-8">
             <h2 className="relative z-10 max-w-[450px] text-[32px] leading-[1.02] font-bold uppercase lg:text-[40px] 2xl:text-[44px]">
