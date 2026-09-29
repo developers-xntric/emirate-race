@@ -10,5 +10,6 @@ export const structure: StructureResolver = (S) =>
     singleton(S, "3. Home", "home"),
     S.listItem().title("4. About page").child(S.document().schemaType("aboutPage").documentId("about")),
     singleton(S, "5. Contact page", "contact"),
-    S.listItem().title("6. Race pages").child(S.documentTypeList("racePage").title("Race pages").defaultOrdering([{ field: "pageName", direction: "asc" }])),
+    S.listItem().title("6. FAQ page").child(S.document().schemaType("faqPage").documentId("faqs")),
+    S.listItem().title("7. Race pages").child(S.documentTypeList("racePage").title("Race pages").defaultOrdering([{ field: "pageName", direction: "asc" }])),
   ]);

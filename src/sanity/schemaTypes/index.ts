@@ -1,6 +1,7 @@
 import { contactPageType } from "./contactPage";
 import { homePageType } from "./homePage";
 import { aboutPageType } from "./aboutPage";
+import { faqPageType } from "./faqPage";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 const image = (name = "image", title = "Image") => defineField({
@@ -82,4 +83,4 @@ export const raceType = defineType({ name: "racePage", title: "Race page", type:
   defineField({ name: "slug", title: "Path segment", type: "string", validation: (Rule) => Rule.required() }),
   defineField({ name: "sections", title: "Race sections", type: "array", of: [section] }),
 ] });
-export const schema = { types: [navbarType, footerType, pageType, raceType, homePageType, aboutPageType, contactPageType] };
+export const schema = { types: [navbarType, footerType, pageType, raceType, homePageType, aboutPageType, contactPageType, faqPageType] };
