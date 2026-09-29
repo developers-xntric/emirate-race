@@ -419,7 +419,7 @@
 </header>
 
 <section class="hero">
-  <div class="eyebrow" data-i18n="hero_eyebrow">Vendor &amp; Retail / F&amp;B Applications</div>
+  <div class="eyebrow" data-i18n="hero_eyebrow">Vendor &amp; Retail</div>
   <h1 data-i18n="hero_h1">Vendor Booking Form</h1>
   <div class="dates" data-i18n="hero_dates">10 October &ndash; 5 December 2026</div>
   <p class="lead" data-i18n="hero_lead">For Retail vendors. Please complete all applicable sections below. Fields marked * are required.</p>
@@ -434,8 +434,12 @@
       <div class="section-head"><span class="section-num">1</span><h2 data-i18n="s1_title">Vendor Information</h2></div>
       <div class="field-grid">
         <div class="field">
-          <label><span data-i18n="lbl_applicant_name_position">Applicant Name &amp; Position</span> <span class="req">*</span></label>
-          <input type="text" name="applicant_name_position" required>
+          <label><span data-i18n="lbl_applicant_name">Applicant Name</span> <span class="req">*</span></label>
+          <input type="text" name="applicant_name" required>
+        </div>
+        <div class="field">
+          <label><span data-i18n="lbl_position">Position</span> <span class="req">*</span></label>
+          <input type="text" name="position" required>
         </div>
         <div class="field">
           <label><span data-i18n="lbl_brand_name">Brand Name</span> <span class="req">*</span></label>
@@ -486,14 +490,6 @@
           <label data-i18n="lbl_trn">TRN / VAT Number</label>
           <input type="text" name="trn_vat_number" dir="ltr">
         </div>
-        <div class="field full">
-          <label><span data-i18n="lbl_trade_licence_copy">Trade Licence Copy</span> <span class="req">*</span></label>
-          <div class="choice-row">
-            <label class="choice-pill"><input type="radio" name="trade_licence_copy" value="Attached (sending by email)" required><span data-i18n="opt_attached_email">Attached &mdash; sending by email</span></label>
-            <label class="choice-pill"><input type="radio" name="trade_licence_copy" value="To follow"><span data-i18n="opt_to_follow">To follow</span></label>
-          </div>
-          <span class="hint" data-i18n="hint_trade_licence" style="margin-top:6px;display:block;">Please email a copy of your trade licence to lamice.nasser@linkviva.com referencing your brand name.</span>
-        </div>
       </div>
     </div>
 
@@ -518,7 +514,7 @@
       <div class="section-head"><span class="section-num">3</span><h2 data-i18n="s3_title">Vendor Offering &amp; Space Requirements</h2></div>
       <div class="field-grid">
         <div class="field full">
-          <label><span data-i18n="lbl_products_offered">Products / Menu Offered</span> <span class="req">*</span></label>
+          <label><span data-i18n="lbl_products_offered">Products Offered</span> <span class="req">*</span></label>
           <textarea name="products_menu_offered" required></textarea>
         </div>
         <div class="field full">
@@ -526,8 +522,7 @@
           <textarea name="proposed_activation"></textarea>
         </div>
         <div class="field">
-          <label><span data-i18n="lbl_footprint">Footprint Provided</span> <span class="hint" data-i18n="hint_footprint">e.g. 3m x 3m</span></label>
-          <input type="text" name="footprint_provided">
+          <label data-i18n="lbl_footprint">Footprint Provided: 3m x 3m x 2.4m</label>
         </div>
         <div class="field">
           <label><span data-i18n="lbl_staff_onsite">Staff on Site</span> <span class="hint" data-i18n="hint_staff_onsite">Number of staff</span></label>
@@ -540,10 +535,6 @@
         <div class="field">
           <label data-i18n="lbl_electrical">Electrical Equipment</label>
           <input type="text" name="electrical_equipment">
-        </div>
-        <div class="field full">
-          <label data-i18n="lbl_drainage">Drainage Details</label>
-          <input type="text" name="drainage_details">
         </div>
       </div>
     </div>
@@ -566,16 +557,6 @@
           <textarea name="special_access_loading"></textarea>
         </div>
         <div class="field full">
-          <label data-i18n="lbl_storage_requirement">Storage Requirement</label>
-          <div class="choice-row">
-            <label class="choice-pill"><input type="radio" name="storage_requirement" value="None"><span data-i18n="opt_none">None</span></label>
-            <label class="choice-pill"><input type="radio" name="storage_requirement" value="Required"><span data-i18n="opt_required">Required</span></label>
-          </div>
-          <div class="conditional" data-show-if="storage_requirement=Required">
-            <input type="text" name="storage_details" data-i18n-ph="ph_storage_details">
-          </div>
-        </div>
-        <div class="field full">
           <label data-i18n="lbl_accessibility">Accessibility / Other Operational Needs</label>
           <textarea name="accessibility_other_needs"></textarea>
         </div>
@@ -587,26 +568,11 @@
       <div class="section-head"><span class="section-num">5</span><h2 data-i18n="s6_title">Marketing Information</h2></div>
       <div class="field-grid">
         <div class="field full">
-          <label data-i18n="lbl_hires_logo">High-resolution Logo</label>
-          <div class="choice-row">
-            <label class="choice-pill"><input type="radio" name="hires_logo" value="Attached (sending by email)"><span data-i18n="opt_attached_email">Attached &mdash; sending by email</span></label>
-            <label class="choice-pill"><input type="radio" name="hires_logo" value="To follow"><span data-i18n="opt_to_follow">To follow</span></label>
-          </div>
-        </div>
-        <div class="field full">
-          <label data-i18n="lbl_product_images">Product / Menu Images</label>
-          <div class="choice-row">
-            <label class="choice-pill"><input type="radio" name="product_images" value="Attached (sending by email)"><span data-i18n="opt_attached_email">Attached &mdash; sending by email</span></label>
-            <label class="choice-pill"><input type="radio" name="product_images" value="To follow"><span data-i18n="opt_to_follow">To follow</span></label>
-          </div>
+          <p class="field-note" data-i18n="marketing_upload_notice">Please email a copy of your 'High-resolution Logo &amp; Product Images' to lamice.nasser@linkviva.com referencing your brand name.</p>
         </div>
         <div class="field full">
           <label data-i18n="lbl_short_brand_desc">Short Brand Description</label>
           <textarea name="short_brand_description" data-i18n-ph="ph_short_brand_desc"></textarea>
-        </div>
-        <div class="field">
-          <label data-i18n="lbl_marketing_social">Social Media Handles / Website</label>
-          <input type="text" name="marketing_social_website" dir="ltr">
         </div>
         <div class="field">
           <label><span data-i18n="lbl_promo_offer">Promotional Offer</span> <span class="hint" data-i18n="hint_optional">optional</span></label>
@@ -655,11 +621,10 @@
           <li data-i18n="term_2">Vendors may participate only at the race villages confirmed by ECBD. Space/booth allocation is managed by ECBD/event management and may vary by venue.</li>
           <li data-i18n="term_3">Vendors must finish setting up at 12PM and comply with the final Race Village day operating hours (10AM to 8PM), access, set-up and breakdown schedules communicated for each village and must not dismantle or leave before authorized breakdown time.</li>
           <li data-i18n="term_4">The Event Organizer will provide only the allocated rental space and tent. Vendors are responsible for arranging all furniture, fixtures, display units, tables, chairs, lighting, electrical requirements, extension cables, power supply equipment and other items required for their operation.</li>
-          <li data-i18n="term_5">Vendors are responsible for ensuring that their trade licence, activity, products, staff and operations comply with all applicable UAE and local-emirate requirements. F&amp;B vendors must provide food-safety, municipality and other documents requested for the relevant location.</li>
-          <li data-i18n="term_6">Only the products, menu items, activities, equipment and setup declared and approved may be operated on site. Any material change must be approved in advance.</li>
-          <li data-i18n="term_7">Any cooking, LPG/gas, open flame, high-load electrical equipment, generators or other higher-risk equipment must be declared in advance and may be prohibited or made subject to additional venue/authority requirements (example floor protection).</li>
+          <li data-i18n="term_5">Vendors are responsible for ensuring that their trade licence, activity, products, staff and operations comply with all applicable UAE and local-emirate requirements.</li>
+          <li data-i18n="term_6">Only the products, activities, equipment and setup declared and approved may be operated on site. Any material change must be approved in advance.</li>
           <li data-i18n="term_8">Unless expressly included in the booking confirmation, vendors are responsible for their own approved furniture, fixtures, display units, equipment, extension cables and other operational items. Power, water, tenting and other infrastructure are provided only where specifically confirmed by ECBD.</li>
-          <li data-i18n="term_9">Vendors shall be solely responsible for the proper collection, removal, and disposal of all oil, water, and related waste generated from their participation at EVRS UAE 2026. Upon completion of the event, the Vendor must take back and remove all such waste from the event premises.</li>
+          <li data-i18n="term_9">Vendors shall be solely responsible for waste generated from their participation at EVRS UAE 2026. Upon completion of the event, the Vendor must take back and remove all such waste from the event premises.</li>
           <li data-i18n="term_10">All electrical equipment and cabling brought by the vendor must be safe, suitable for outdoor/event use and compliant with instructions issued by the event team. Unapproved connections or equipment are prohibited.</li>
           <li data-i18n="term_11">Vendors must keep their allocated area clean, safe and unobstructed. Stock, cartons, waste and personal belongings must remain within the approved footprint or designated storage areas. Selling or activation outside the allocated space is prohibited.</li>
           <li data-i18n="term_12">Vendors are responsible for their own stock, cash, POS devices, personal belongings and equipment. ECBD/event management is not responsible for loss, theft or damage except where liability cannot legally be excluded.</li>
@@ -752,14 +717,15 @@ const FORM_CONFIG = {
 const I18N = {
   en: {
     header_title: "Vendor Booking Form — 2026",
-    hero_eyebrow: "Vendor &amp; Retail / F&amp;B Applications",
+    hero_eyebrow: "Vendor &amp; Retail",
     hero_h1: "Vendor Booking Form",
     hero_dates: "10 October – 5 December 2026",
     hero_lead: "For Retail vendors. Please complete all applicable sections below. Fields marked * are required.",
     hero_notice: "Submission of this form does not constitute confirmation. Your booking is confirmed only once the Emirates Council for Balanced Development (ECBD) issues written confirmation.",
 
     s1_title: "Vendor Information",
-    lbl_applicant_name_position: "Applicant Name &amp; Position",
+    lbl_applicant_name: "Applicant Name",
+    lbl_position: "Position",
     lbl_brand_name: "Brand Name",
     lbl_legal_company_name: "Legal Company / Trade Licence Name",
     lbl_office_address: "Office / Branch Address",
@@ -773,10 +739,6 @@ const I18N = {
     opt_abu_dhabi: "Abu Dhabi", opt_dubai: "Dubai", opt_sharjah: "Sharjah",
     opt_ajman: "Ajman", opt_uaq: "Umm Al Quwain", opt_rak: "Ras Al Khaimah", opt_fujairah: "Fujairah",
     lbl_trn: "TRN / VAT Number",
-    lbl_trade_licence_copy: "Trade Licence Copy",
-    opt_attached_email: "Attached — sending by email",
-    opt_to_follow: "To follow",
-    hint_trade_licence: "Please email a copy of your trade licence to lamice.nasser@linkviva.com referencing your brand name.",
 
     s2_title: "Race Village Selection",
     s2_sub: "Select all race villages you are applying for. Participation and final space allocation are subject to ECBD confirmation and venue requirements.",
@@ -790,30 +752,24 @@ const I18N = {
     race_error: "Please select at least one race village.",
 
     s3_title: "Vendor Offering &amp; Space Requirements",
-    lbl_products_offered: "Products / Menu Offered",
+    lbl_products_offered: "Products Offered",
     lbl_proposed_activation: "Proposed Activation / Display",
-    lbl_footprint: "Footprint Provided", hint_footprint: "e.g. 3m x 3m",
+    lbl_footprint: "Footprint Provided: 3m x 3m x 2.4m",
     lbl_staff_onsite: "Staff on Site", hint_staff_onsite: "Number of staff",
     lbl_furniture: "Furniture Brought",
     lbl_electrical: "Electrical Equipment",
-    lbl_drainage: "Drainage Details",
 
     s5_title: "Operations, Access &amp; Set-up",
     s5_sub: "Final access windows, set-up and breakdown timings, parking/loading instructions and race-village operating hours will be communicated by ECBD / the event team for each location. Vendors must comply with the schedule issued for each race day.",
     lbl_delivery_vehicle: "Delivery / Vehicle Type",
     lbl_vehicle_plate: "Vehicle Plate No.", hint_if_known: "if known",
     lbl_special_access: "Special Access / Loading Requirement",
-    lbl_storage_requirement: "Storage Requirement",
-    opt_none: "None", opt_required: "Required",
-    ph_storage_details: "Storage details",
     lbl_accessibility: "Accessibility / Other Operational Needs",
 
     s6_title: "Marketing Information",
-    lbl_hires_logo: "High-resolution Logo",
-    lbl_product_images: "Product / Menu Images",
+    marketing_upload_notice: "Please email a copy of your 'High-resolution Logo &amp; Product Images' to lamice.nasser@linkviva.com referencing your brand name.",
     lbl_short_brand_desc: "Short Brand Description",
     ph_short_brand_desc: "A few lines about your brand for EVRS marketing use",
-    lbl_marketing_social: "Social Media Handles / Website",
     lbl_promo_offer: "Promotional Offer", hint_optional: "optional",
 
     s7_title: "Commercial &amp; Payment",
@@ -833,11 +789,10 @@ const I18N = {
     term_2: "Vendors may participate only at the race villages confirmed by ECBD. Space/booth allocation is managed by ECBD/event management and may vary by venue.",
     term_3: "Vendors must finish setting up at 12PM and comply with the final Race Village day operating hours (10AM to 8PM), access, set-up and breakdown schedules communicated for each village and must not dismantle or leave before authorized breakdown time.",
     term_4: "The Event Organizer will provide only the allocated rental space and tent. Vendors are responsible for arranging all furniture, fixtures, display units, tables, chairs, lighting, electrical requirements, extension cables, power supply equipment and other items required for their operation.",
-    term_5: "Vendors are responsible for ensuring that their trade licence, activity, products, staff and operations comply with all applicable UAE and local-emirate requirements. F&amp;B vendors must provide food-safety, municipality and other documents requested for the relevant location.",
-    term_6: "Only the products, menu items, activities, equipment and setup declared and approved may be operated on site. Any material change must be approved in advance.",
-    term_7: "Any cooking, LPG/gas, open flame, high-load electrical equipment, generators or other higher-risk equipment must be declared in advance and may be prohibited or made subject to additional venue/authority requirements (example floor protection).",
+    term_5: "Vendors are responsible for ensuring that their trade licence, activity, products, staff and operations comply with all applicable UAE and local-emirate requirements.",
+    term_6: "Only the products, activities, equipment and setup declared and approved may be operated on site. Any material change must be approved in advance.",
     term_8: "Unless expressly included in the booking confirmation, vendors are responsible for their own approved furniture, fixtures, display units, equipment, extension cables and other operational items. Power, water, tenting and other infrastructure are provided only where specifically confirmed by ECBD.",
-    term_9: "Vendors shall be solely responsible for the proper collection, removal, and disposal of all oil, water, and related waste generated from their participation at EVRS UAE 2026. Upon completion of the event, the Vendor must take back and remove all such waste from the event premises.",
+    term_9: "Vendors shall be solely responsible for waste generated from their participation at EVRS UAE 2026. Upon completion of the event, the Vendor must take back and remove all such waste from the event premises.",
     term_10: "All electrical equipment and cabling brought by the vendor must be safe, suitable for outdoor/event use and compliant with instructions issued by the event team. Unapproved connections or equipment are prohibited.",
     term_11: "Vendors must keep their allocated area clean, safe and unobstructed. Stock, cartons, waste and personal belongings must remain within the approved footprint or designated storage areas. Selling or activation outside the allocated space is prohibited.",
     term_12: "Vendors are responsible for their own stock, cash, POS devices, personal belongings and equipment. ECBD/event management is not responsible for loss, theft or damage except where liability cannot legally be excluded.",
@@ -871,14 +826,15 @@ const I18N = {
   },
   ar: {
     header_title: "نموذج حجز البائعين — 2026",
-    hero_eyebrow: "طلبات البائعين — التجزئة والأغذية والمشروبات",
+    hero_eyebrow: "طلبات البائعين — التجزئة",
     hero_h1: "نموذج حجز المشاركين / البائعين",
     hero_dates: "10 أكتوبر – 5 ديسمبر 2026",
     hero_lead: "مخصص لبائعي التجزئة. يرجى تعبئة جميع الأقسام ذات الصلة. الحقول المشار إليها بعلامة * إلزامية.",
     hero_notice: "لا يُعدّ تقديم النموذج تأكيداً للحجز. يتم تأكيد الحجز فقط بعد صدور تأكيد خطي من مجلس الإمارات للتنمية المتوازنة (ECBD).",
 
     s1_title: "معلومات البائع",
-    lbl_applicant_name_position: "اسم مقدّم الطلب ومنصبه",
+    lbl_applicant_name: "اسم مقدّم",
+    lbl_position: "المنصب",
     lbl_brand_name: "اسم العلامة التجارية",
     lbl_legal_company_name: "اسم الشركة القانوني / اسم الرخصة التجارية",
     lbl_office_address: "عنوان المكتب / الفرع",
@@ -892,10 +848,6 @@ const I18N = {
     opt_abu_dhabi: "أبوظبي", opt_dubai: "دبي", opt_sharjah: "الشارقة",
     opt_ajman: "عجمان", opt_uaq: "أم القيوين", opt_rak: "رأس الخيمة", opt_fujairah: "الفجيرة",
     lbl_trn: "الرقم الضريبي (TRN) / رقم ضريبة القيمة المضافة",
-    lbl_trade_licence_copy: "نسخة الرخصة التجارية",
-    opt_attached_email: "مرفق — سيتم إرسالها بالبريد الإلكتروني",
-    opt_to_follow: "يُرسل لاحقاً",
-    hint_trade_licence: "يرجى إرسال نسخة من الرخصة التجارية عبر البريد الإلكتروني إلى lamice.nasser@linkviva.com مع ذكر اسم علامتكم التجارية.",
 
     s2_title: "اختيار قرى السباق",
     s2_sub: "اختر جميع قرى السباق التي ترغب في التقديم عليها. تخضع المشاركة والتخصيص النهائي للمساحات لتأكيد ECBD ولمتطلبات الموقع.",
@@ -909,30 +861,24 @@ const I18N = {
     race_error: "يرجى اختيار قرية سباق واحدة على الأقل.",
 
     s3_title: "عروض البائع ومتطلبات المساحة",
-    lbl_products_offered: "المنتجات / قائمة الطعام المعروضة",
+    lbl_products_offered: "المنتجات المعروضة",
     lbl_proposed_activation: "النشاط الترويجي / العرض المقترح",
-    lbl_footprint: "المساحة المخصصة", hint_footprint: "مثال: 3م × 3م",
+    lbl_footprint: "3m x 3m x 2.4m المساحة المخصصة",
     lbl_staff_onsite: "عدد الموظفين في الموقع", hint_staff_onsite: "عدد الموظفين",
     lbl_furniture: "الأثاث الذي سيتم إحضاره",
     lbl_electrical: "المعدات الكهربائية",
-    lbl_drainage: "تفاصيل الصرف",
 
     s5_title: "التشغيل والدخول والتجهيز",
     s5_sub: "ستقوم ECBD / فريق الفعالية بإبلاغ البائعين بمواعيد الدخول النهائية وأوقات التجهيز والتفكيك وتعليمات الوقوف والتحميل وساعات تشغيل قرى السباق لكل موقع. ويجب على البائعين الالتزام بالجدول الصادر لكل يوم سباق.",
     lbl_delivery_vehicle: "نوع مركبة التوصيل / المركبة",
     lbl_vehicle_plate: "رقم لوحة المركبة", hint_if_known: "إن كان معروفاً",
     lbl_special_access: "متطلبات الدخول / التحميل الخاصة",
-    lbl_storage_requirement: "متطلبات التخزين",
-    opt_none: "لا يوجد", opt_required: "مطلوب",
-    ph_storage_details: "تفاصيل التخزين",
     lbl_accessibility: "سهولة الوصول / احتياجات تشغيلية أخرى",
 
     s6_title: "المعلومات التسويقية",
-    lbl_hires_logo: "الشعار بدقة عالية",
-    lbl_product_images: "صور المنتجات / القائمة",
+    marketing_upload_notice: "يرجى إرسال نسخة من شعار وصور منتجات عالية الدقة عبر البريد الإلكتروني إلى lamice.nasser@linkviva.com",
     lbl_short_brand_desc: "نبذة مختصرة عن العلامة التجارية",
     ph_short_brand_desc: "سطور قليلة عن علامتكم التجارية لاستخدامها في تسويق EVRS",
-    lbl_marketing_social: "حسابات التواصل الاجتماعي / الموقع الإلكتروني",
     lbl_promo_offer: "العرض الترويجي", hint_optional: "اختياري",
 
     s7_title: "الشروط التجارية والدفع",
@@ -952,11 +898,10 @@ const I18N = {
     term_2: "لا يجوز للبائعين المشاركة إلا في قرى السباق التي تؤكدها ECBD. وتتولى ECBD / إدارة الفعالية تخصيص المساحات / الأجنحة، وقد يختلف ذلك من موقع إلى آخر.",
     term_3: "يجب على البائعين إنهاء التجهيز بحلول الساعة 12 ظهراً، والالتزام بساعات التشغيل النهائية ليوم قرية السباق (من 10 صباحاً إلى 8 مساءً) وبجداول الدخول والتجهيز والتفكيك المبلغة لكل قرية، وعدم التفكيك أو المغادرة قبل موعد التفكيك المصرّح به.",
     term_4: "يوفر منظّم الفعالية المساحة المؤجرة المخصصة والخيمة فقط. ويتحمل البائعون مسؤولية توفير جميع الأثاث والتجهيزات ووحدات العرض والطاولات والكراسي والإضاءة والمتطلبات الكهربائية وكابلات التمديد ومعدات التزود بالطاقة وسائر ما يلزم لتشغيلهم.",
-    term_5: "يتحمل البائعون مسؤولية التأكد من أن رخصتهم التجارية ونشاطهم ومنتجاتهم وموظفيهم وعملياتهم تتوافق مع جميع المتطلبات المنطبقة في دولة الإمارات وفي الإمارة المعنية. ويجب على بائعي الأغذية والمشروبات تقديم مستندات سلامة الغذاء والبلدية وغيرها من المستندات المطلوبة للموقع المعني.",
-    term_6: "لا يجوز تشغيل أي منتجات، أو أصناف قائمة، أو أنشطة، أو معدات، أو تجهيزات في الموقع إلا إذا تم الإفصاح عنها واعتمادها. ويجب الحصول على موافقة مسبقة على أي تغيير جوهري.",
-    term_7: "يجب الإفصاح مسبقاً عن أي عملية للطهي أو استخدام غاز البترول المسال / الغاز أو النار المكشوفة أو معدات كهربائية عالية الحمل أو مولدات أو أي معدات أخرى عالية المخاطر، وقد يتم منعها أو إخضاعها لمتطلبات إضافية من الموقع / الجهة المختصة (مثل ضرورة تأمين حماية للأرضية).",
+    term_5: "يتحمل البائعون مسؤولية التأكد من أن رخصتهم التجارية ونشاطهم ومنتجاتهم وموظفيهم وعملياتهم تتوافق مع جميع المتطلبات المنطبقة في دولة الإمارات وفي الإمارة المعنية.",
+    term_6: "لا يجوز تشغيل أي منتجات، أو أنشطة، أو معدات، أو تجهيزات في الموقع إلا إذا تم الإفصاح عنها واعتمادها. ويجب الحصول على موافقة مسبقة على أي تغيير جوهري.",
     term_8: "ما لم يُنصّ صراحةً في تأكيد الحجز على خلاف ذلك، يتحمل البائعون مسؤولية أثاثهم وتجهيزاتهم ووحدات العرض والمعدات وكابلات التمديد وسائر المستلزمات التشغيلية المعتمدة الخاصة بهم. ولا تُوفَّر الكهرباء والمياه والخيام وغيرها من البنية التحتية إلا حيثما تؤكد ECBD ذلك تحديداً.",
-    term_9: "يتحمل البائعون وحدهم مسؤولية الجمع والإزالة والتخلص السليم من جميع الزيوت والمياه والنفايات ذات الصلة الناتجة عن مشاركتهم في EVRS UAE 2026. وعند انتهاء الفعالية، يجب على البائع جمع كل هذه النفايات وإزالتها من مقر الفعالية.",
+    term_9: "يتحمل البائعون وحدهم مسؤولية الجمع والإزالة والتخلص السليم من النفايات ذات الصلة الناتجة عن مشاركتهم في EVRS UAE 2026. وعند انتهاء الفعالية، يجب على البائع جمع كل هذه النفايات وإزالتها من مقر الفعالية.",
     term_10: "يجب أن تكون جميع المعدات والكابلات الكهربائية التي يحضرها البائع آمنة ومناسبة للاستخدام في الأماكن المفتوحة / الفعاليات ومتوافقة مع التعليمات الصادرة عن فريق الفعالية. ويُحظر استخدام أي توصيلات أو معدات غير معتمدة.",
     term_11: "يجب على البائعين إبقاء المساحة المخصصة لهم نظيفة وآمنة وخالية من العوائق. ويجب أن تبقى البضائع والكراتين والنفايات والمتعلقات الشخصية ضمن المساحة المعتمدة أو مناطق التخزين المخصصة. ويُحظر البيع أو تنفيذ الأنشطة الترويجية خارج المساحة المخصصة.",
     term_12: "يتحمل البائعون مسؤولية بضائعهم ونقودهم وأجهزة نقاط البيع ومتعلقاتهم الشخصية ومعداتهم. ولا تتحمل ECBD / إدارة الفعالية المسؤولية عن أي فقدان أو سرقة أو ضرر، إلا في الحالات التي لا يجوز فيها قانوناً استبعاد المسؤولية.",
