@@ -939,10 +939,11 @@ input[type="range"]::-moz-range-thumb { width: 20px; height: 20px; border-radius
 .crowd i { width: 7px; height: 14px; border-radius: 4px 4px 2px 2px; background: var(--cc, var(--teal)); }
 .jf-submit { justify-self: start; margin-top: 4px; }
 .jf-fine { font-size: 12px; color: var(--muted); margin: 0; }
+.jf-fine.is-error { color: #c92038; font-weight: 700; }
 
 .jf-success {
   position: absolute; inset: 0; z-index: 4;
-  background: var(--teal); color: #fff;
+  background: #238b57; color: #fff;
   display: grid; place-content: center; justify-items: center; text-align: center; gap: 16px; padding: 40px;
   clip-path: circle(0% at var(--sx, 50%) var(--sy, 90%));
   transition: clip-path 0.9s var(--ease);
@@ -1521,4 +1522,429 @@ main > section:not(.hero) .join-panel > p {
   .collect {
     padding: 40px 0 24px;
   }
+}
+/* Partner-page mobile clarity and centred partnership connector. */
+@media (min-width: 901px) {
+  .pair-mid {
+    align-self: center;
+  }
+}
+
+@media (max-width: 900px) {
+  .sec-index {
+    display: none;
+  }
+
+  .collect-mark {
+    width: min(78vw, 320px);
+  }
+}
+/* Mobile Season carousel, card density, and hero speech placement. */
+@media (max-width: 900px) {
+  .bubble {
+    top: auto;
+    bottom: 10%;
+  }
+
+  .season-pin {
+    height: auto;
+    min-height: 0;
+    padding: 48px 0;
+  }
+
+  .season-track {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 120px;
+    scrollbar-width: none;
+  }
+
+  .season-track::-webkit-scrollbar { display: none; }
+
+  .vcard,
+  .vcard-end {
+    width: 68vw;
+    height: 290px;
+    scroll-snap-align: center;
+  }
+
+  .vcard-front { padding: 12px; }
+  .vcard-back { padding: 14px; }
+  .vc-top { font-size: 9px; letter-spacing: 0.18em; }
+  .vc-status { padding: 5px 7px 4px; font-size: 8px; }
+  .vc-date strong { font-size: 46px; }
+  .vc-date span { font-size: 17px; }
+  .vc-icon { width: 28%; margin: 6px auto; }
+  .vc-foot h3 { font-size: 20px; }
+  .vc-foot p { margin-top: 3px; font-size: 10px; }
+  .vc-hint { width: 24px; height: 24px; margin-top: 4px; }
+  .route-runner { width: 52px; }
+
+  .vcard-end { padding: 16px; gap: 8px; }
+  .vcard-end .mark7 { width: 64px; }
+  .vcard-end h3 { font-size: 19px; }
+  .vcard-end p { font-size: 12px; line-height: 1.35; }
+  .vcard-end .btn { padding: 9px 12px 8px; font-size: 10px; }
+
+  .season-dots {
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 14px;
+  }
+
+  .season-dot {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(10, 50, 81, 0.25);
+    cursor: pointer;
+    transition: width 180ms ease, background-color 180ms ease;
+  }
+
+  .season-dot.is-active {
+    width: 22px;
+    border-radius: 999px;
+    background: var(--magenta);
+  }
+
+  .pc-item > span:last-child { order: 2; }
+  .pc-tick { order: 1; }
+}
+/* Compact mobile Season route and Race Day rhythm. */
+@media (max-width: 900px) {
+  .season-pin {
+    padding: 0;
+  }
+
+  .season-track {
+    padding-bottom: 48px;
+  }
+
+  .route {
+    bottom: 0;
+    z-index: 3;
+  }
+
+  .route-runner {
+    z-index: 4;
+  }
+
+  .raceday {
+    padding: 48px 0;
+  }
+
+  .raceday-head {
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .dist-tab {
+    padding: 14px 10px;
+  }
+
+  .dist-stage {
+    min-height: 340px;
+    padding: 35px 10px 110px;
+  }
+}
+/* Tighter mobile Season and medal interaction spacing. */
+@media (max-width: 900px) {
+  .season {
+    padding-block: 28px !important;
+  }
+
+  .season-track {
+    padding-bottom: 24px;
+  }
+
+  .route,
+  .route-runner {
+    display: none;
+  }
+}
+
+.collect {
+  padding: 40px 0 24px;
+}
+
+.collect-grid {
+  gap: 24px;
+}
+
+.collect-copy .h2 {
+  margin-bottom: 12px;
+}
+
+.collect-score {
+  margin: 18px 0 14px;
+}
+
+.collect-actions {
+  gap: 8px;
+}
+
+@media (max-width: 767px) {
+  .collect {
+    padding: 28px 0 20px;
+  }
+
+  .collect-grid {
+    gap: 18px;
+  }
+
+  .collect-copy .h2 {
+    margin-bottom: 10px;
+  }
+
+  .collect-score {
+    margin: 14px 0 12px;
+  }
+}
+/* Keep mobile Season carousel focused on the cards. */
+@media (max-width: 900px) {
+  .season-tip {
+    display: none;
+  }
+}
+/* Scale down the interactive seven-piece medal across viewports. */
+.collect-mark {
+  width: min(100%, 380px);
+}
+
+@media (max-width: 900px) {
+  .collect-mark {
+    width: min(68vw, 250px);
+  }
+}
+/* Compact mobile Race Day and numbers; refine desktop partnership pairing. */
+.sec-index {
+  display: none;
+}
+
+@media (min-width: 901px) {
+  .pair {
+    grid-template-columns: minmax(0, 42%) minmax(0, 42%);
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .pair-mid {
+    left: 50%;
+    top: 50%;
+    z-index: 4;
+  }
+}
+
+@media (max-width: 900px) {
+  .raceday {
+    padding: 32px 0;
+  }
+
+  .raceday-head {
+    gap: 4px;
+    margin-bottom: 14px;
+  }
+
+  .dist-stage {
+    min-height: 310px;
+    padding: 24px 10px 92px;
+  }
+
+  .collect-actions .btn {
+    padding: 8px 10px 7px;
+    font-size: 10px;
+  }
+
+  .stat {
+    min-height: 220px;
+    padding: 14px;
+  }
+
+  .stat-num {
+    margin-top: 14px;
+    font-size: 38px;
+  }
+
+  .stat-label {
+    margin: 8px 0 12px;
+    font-size: 13px;
+    line-height: 1.2;
+  }
+
+  .stat-dots {
+    gap: 4px;
+  }
+}
+/* Keep mobile partnership steps in a clear reading order. */
+@media (max-width: 900px) {
+  .pc-item {
+    grid-auto-flow: row;
+  }
+
+  .pc-tick {
+    order: 1;
+    align-self: start;
+  }
+
+  .pc-item > span:last-child {
+    order: 2;
+  }
+
+  .pc-av {
+    display: none;
+  }
+}
+/* The Rahhal-visit step includes an avatar node; target its text wrapper directly. */
+@media (max-width: 900px) {
+  .pc-item > .pc-tick + span {
+    order: 2;
+    display: flex;
+    flex-direction: column;
+  }
+}
+/* Remove the remaining excess vertical space around the mobile Season carousel. */
+@media (max-width: 900px) {
+  .season {
+    padding-top: 12px !important;
+    padding-bottom: 16px !important;
+  }
+}
+/* Let the desktop Season pin begin without an outer pre-pin gap. */
+@media (min-width: 901px) {
+  .season {
+    padding-block: 0 !important;
+  }
+}
+/* Make desktop EVRS-in-numbers cards and their bottom dot indicators more compact. */
+@media (min-width: 901px) {
+  .stat {
+    min-height: 280px;
+    padding: 16px;
+  }
+
+  .stat-dots {
+    gap: 3px;
+  }
+
+  .stat-dots i {
+    width: 7px;
+  }
+}
+/* Tighten the desktop gap before the Race Day distance selector. */
+@media (min-width: 901px) {
+  .raceday-head {
+    margin-bottom: 28px;
+  }
+}
+/* Preserve the original desktop dot-indicator sizing inside EVRS-in-numbers cards. */
+@media (min-width: 901px) {
+  .stat-dots {
+    gap: 5px;
+  }
+
+  .stat-dots i {
+    width: auto;
+  }
+}
+/* Apply a subtle 5% desktop reduction to EVRS-in-numbers dot indicators. */
+@media (min-width: 901px) {
+  .stat-dots i {
+    transform: scale(0.95);
+    transform-origin: center;
+  }
+}
+/* Position the Community desktop partnership connector 40px left of centre. */
+@media (min-width: 901px) {
+  .pair-mid {
+    left: calc(50% - 40px);
+  }
+}
+/* Keep the Rahhal-visit step visually consistent with every other navy-card step. */
+.pcard.navy .pc-item.has-av {
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.1);
+}
+/* Keep mobile partner-form confirmation compact after submission. */
+@media (max-width: 900px) {
+  .jf-success {
+    top: auto;
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    padding: 18px 16px;
+    gap: 10px;
+    clip-path: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+    transition: opacity 220ms ease, transform 220ms ease, visibility 220ms ease;
+  }
+
+  .jf-success.is-on {
+    clip-path: none;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .jf-success img {
+    width: 90px;
+  }
+
+  .jf-success h3 {
+    font-size: 24px;
+  }
+
+  .jf-success p {
+    font-size: 14px;
+  }
+}
+/* On mobile, show only the compact thank-you card after a successful submission. */
+@media (max-width: 900px) {
+  .join-form.is-submitted {
+    display: block;
+    padding: 0;
+    overflow: visible;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .join-form.is-submitted > :not(.jf-success) {
+    display: none;
+  }
+
+  .join-form.is-submitted .jf-success {
+    position: relative;
+    inset: auto;
+  }
+}
+/* Let the final-section intro use the full width of its left card. */
+.join-panel > .eyebrow {
+  display: flex;
+  width: 100%;
+}
+.join-panel > p {
+  width: 100%;
+  max-width: none;
+}
+/* Give the Rahhal activity labels a darker, more legible surface. */
+.moment-lines li {
+  background: rgba(8, 29, 48, 0.62);
+  border-color: rgba(255,255,255,.28);
+}
+/* Keep the participation note as legible as the activity labels. */
+.moment-note {
+  background: rgba(8, 29, 48, 0.62);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.16);
+  color: rgba(255,255,255,.88) !important;
+}
+/* Community hero introduction uses the full left-card width. */
+.hero-panel .hero-sub {
+  width: 100%;
+  max-width: none;
 }

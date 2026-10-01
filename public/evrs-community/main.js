@@ -440,7 +440,6 @@
       for (let i = 0; i < 22; i++) { const mid = (lo + hi) / 2; if (routeLine.getPointAtLength(mid).x < x) lo = mid; else hi = mid; }
       return lo;
     }
-    let lastProgress = 0;
     function updateRunner(progress) {
       if (!len) return;
       const clampedProgress = Math.max(0, Math.min(1, progress));
@@ -448,8 +447,7 @@
       routeLine.style.strokeDashoffset = len - L;
       const p = routeLine.getPointAtLength(L), p2 = routeLine.getPointAtLength(Math.min(len, L + 4));
       const ang = Math.atan2(p2.y - p.y, p2.x - p.x) * 57.3;
-      const back = clampedProgress < lastProgress; lastProgress = clampedProgress;
-      gsap.set(runner, { x: p.x - 32, y: routeTop + p.y - 78, rotation: ang * 0.35, scaleX: back ? -1 : 1 });
+      gsap.set(runner, { x: p.x - 32, y: routeTop + p.y - 78, rotation: ang * 0.35, scaleX: -1 });
       $$("circle", cpsG).forEach((c, i) => {
         const on = L >= cpLens[i] - 2;
         c.style.fill = on ? c.dataset.c : "#fff";
@@ -465,7 +463,7 @@
         const h = gsap.to(cardsEl, {
           x: () => -dist(), ease: "none",
           scrollTrigger: {
-            trigger: "#seasonPin", start: "top top", end: () => "+=" + dist(), pin: true, scrub: 0.6, invalidateOnRefresh: true,
+            trigger: "#seasonPin", start: "top -40px", end: () => "+=" + dist(), pin: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true,
             onRefresh: buildRoute,
             onUpdate: (self) => updateRunner(self.progress),
           },
@@ -486,7 +484,56 @@
         const onS = () => updateRunner(track.scrollWidth > track.clientWidth ? track.scrollLeft / (track.scrollWidth - track.clientWidth) : 0);
         track.addEventListener("scroll", onS, { passive: true });
         onS();
-        return () => track.removeEventListener("scroll", onS);
+
+        if (!ctx.conditions.mob) return () => track.removeEventListener("scroll", onS);
+
+        const slides = $$(".vcard, .vcard-end", cardsEl);
+        const dots = document.createElement("div");
+        dots.className = "season-dots";
+        dots.setAttribute("aria-label", "Season race cards");
+        const dotButtons = slides.map((slide, index) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "season-dot";
+          button.setAttribute("aria-label", index < VILLAGES.length ? `Show race ${index + 1}` : "Show Collect all seven");
+          dots.append(button);
+          return button;
+        });
+        track.insertAdjacentElement("afterend", dots);
+
+        let active = 0;
+        const setActive = (index) => {
+          active = index;
+          dotButtons.forEach((button, dotIndex) => button.classList.toggle("is-active", dotIndex === active));
+        };
+        const goTo = (index, behavior = "smooth") => {
+          const next = (index + slides.length) % slides.length;
+          const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+          const target = Math.max(0, Math.min(maxScroll, slides[next].offsetLeft - (track.clientWidth - slides[next].offsetWidth) / 2));
+          setActive(next);
+          track.scrollTo({ left: target, behavior });
+        };
+        const syncActive = () => {
+          const center = track.scrollLeft + track.clientWidth / 2;
+          let nearest = 0;
+          let nearestDistance = Infinity;
+          slides.forEach((slide, index) => {
+            const distance = Math.abs(slide.offsetLeft + slide.offsetWidth / 2 - center);
+            if (distance < nearestDistance) { nearest = index; nearestDistance = distance; }
+          });
+          setActive(nearest);
+        };
+        const onCarouselScroll = () => syncActive();
+        track.addEventListener("scroll", onCarouselScroll, { passive: true });
+        dotButtons.forEach((button, index) => button.addEventListener("click", () => goTo(index)));
+        setActive(0);
+        const autoplay = ctx.conditions.reduce ? null : window.setInterval(() => goTo(active + 1), 1500);
+        return () => {
+          track.removeEventListener("scroll", onS);
+          track.removeEventListener("scroll", onCarouselScroll);
+          if (autoplay) window.clearInterval(autoplay);
+          dots.remove();
+        };
       }
     });
   })();
@@ -817,6 +864,8 @@
     const emailOk = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s);
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const feedback = $(".jf-fine", form);
+      feedback.classList.remove("is-error");
       let bad = [];
       [["#fClub", (v) => v.trim()], ["#fName", (v) => v.trim()], ["#fEmail", emailOk]].forEach(([sel, ok]) => {
         const f = $(sel), wrap = f.closest(".field");
@@ -835,14 +884,18 @@
         note: $("#fNote").value.trim(), source: "EVRS community partners landing page", submittedAt: new Date().toISOString(),
       };
       const submit = $(".jf-submit", form);
+      const submitMarkup = submit.innerHTML;
       submit.disabled = true;
+      submit.textContent = "Sending…";
       if (FORM_ENDPOINT) {
         try {
           const r = await fetch(FORM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
           if (!r.ok) throw new Error(r.status);
         } catch (err) {
           submit.disabled = false;
-          $(".jf-fine", form).textContent = "That didn’t go through. Please try again in a moment.";
+          submit.innerHTML = submitMarkup;
+          feedback.classList.add("is-error");
+          feedback.textContent = "That didn’t go through. Please try again in a moment.";
           return;
         }
       }
@@ -851,6 +904,7 @@
       ok.style.setProperty("--sx", ((br.left + br.width / 2 - fr.left) / fr.width) * 100 + "%");
       ok.style.setProperty("--sy", ((br.top + br.height / 2 - fr.top) / fr.height) * 100 + "%");
       $("#jfTitle").textContent = `See you at the start line, ${data.club}.`;
+      form.classList.add("is-submitted");
       ok.classList.add("is-on");
       if (!RM) {
         gsap.fromTo($("img", ok), { x: -260, rotation: -10 }, { x: 0, rotation: 0, duration: 1.2, ease: "expo.out", delay: 0.3 });
@@ -888,14 +942,12 @@
       dots.forEach((d, i) => (d.style.left = marks[i] * 100 + "%"));
     };
     ScrollTrigger.addEventListener("refresh", measure); measure();
-    let lastP = 0;
     ScrollTrigger.create({
       start: 0, end: "max",
       onUpdate: (st) => {
         const p = st.progress;
         fill.style.width = p * 100 + "%";
-        gsap.set(runner, { left: p * 100 + "%", scaleX: p < lastP ? -1 : 1 });
-        lastP = p;
+        gsap.set(runner, { left: p * 100 + "%", scaleX: -1 });
         km.textContent = (p * 10).toFixed(1);
         dots.forEach((d, i) => d.classList.toggle("is-passed", p >= marks[i] - 0.001));
         hudEl.classList.toggle("is-on", scrollY > innerHeight * 0.6);
