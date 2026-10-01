@@ -27,6 +27,30 @@ function formatFields(fields: [string, string][]) {
     .join("");
 }
 
+async function sendVendorLeadToGoogleSheet(fields: [string, string][]) {
+  const endpoint = process.env.GOOGLE_APPS_SCRIPT_VENDOR_FORM_URL;
+  if (!endpoint) {
+    console.warn("GOOGLE_APPS_SCRIPT_VENDOR_FORM_URL is not configured; vendor lead was emailed only.");
+    return;
+  }
+
+  const response = await fetch(endpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      ...Object.fromEntries(fields),
+      submitted_at: new Date().toISOString(),
+    }),
+    cache: "no-store",
+    signal: AbortSignal.timeout(10_000),
+  });
+  const result: unknown = await response.json().catch(() => null);
+
+  if (!response.ok || !result || typeof result !== "object" || (result as { success?: unknown }).success !== true) {
+    throw new Error(`Google Apps Script rejected vendor lead (${response.status}).`);
+  }
+}
+
 export async function POST(request: Request) {
   let payload: unknown;
   try {
@@ -68,17 +92,20 @@ export async function POST(request: Request) {
   });
 
   try {
-    await transporter.sendMail({
-      from,
-      to: recipients.join(", "),
-      subject: `EVRS 2026 vendor booking: ${brand}`,
-      text: fields.map(([key, value]) => `${key}: ${value}`).join("\n"),
-      html: `<h1>EVRS 2026 Vendor Booking Form</h1><table style="border-collapse:collapse">${formatFields(fields)}</table>`,
-    });
+    await Promise.all([
+      transporter.sendMail({
+        from,
+        to: recipients.join(", "),
+        subject: `EVRS 2026 vendor booking: ${brand}`,
+        text: fields.map(([key, value]) => `${key}: ${value}`).join("\n"),
+        html: `<h1>EVRS 2026 Vendor Booking Form</h1><table style="border-collapse:collapse">${formatFields(fields)}</table>`,
+      }),
+      sendVendorLeadToGoogleSheet(fields),
+    ]);
 
     return Response.json({ ok: true });
   } catch (error) {
-    console.error("Vendor form email delivery failed:", error);
+    console.error("Vendor form delivery failed:", error);
     return Response.json({ error: "Unable to submit the form." }, { status: 502 });
   }
 }
