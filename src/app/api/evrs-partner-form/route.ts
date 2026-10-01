@@ -3,6 +3,11 @@ const PAGE_TYPES = {
   "EVRS corporate partners landing page": "Corporate",
 } as const;
 
+const PARTNER_ENDPOINTS = {
+  Community: process.env.GOOGLE_APPS_SCRIPT_EVRS_COMMUNITY_URL,
+  Corporate: process.env.GOOGLE_APPS_SCRIPT_EVRS_CORPORATE_URL,
+} as const;
+
 const MAX_FIELD_LENGTH = 2_000;
 
 function text(value: unknown): string {
@@ -43,9 +48,9 @@ export async function POST(request: Request) {
     return Response.json({ error: "Missing or invalid required form details." }, { status: 400 });
   }
 
-  const endpoint = process.env.GOOGLE_APPS_SCRIPT_WEB_APP_URL;
+  const endpoint = PARTNER_ENDPOINTS[partnerType];
   if (!endpoint) {
-    console.error("GOOGLE_APPS_SCRIPT_WEB_APP_URL is not configured.");
+    console.error(`Google Apps Script URL is not configured for ${partnerType}.`);
     return Response.json({ error: "Form delivery is not configured." }, { status: 503 });
   }
 

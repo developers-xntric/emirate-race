@@ -417,7 +417,7 @@ a { color: inherit; }
    02 · INVITATION (7-shaped window)
    ========================================================================== */
 .invite { position: relative; }
-.invite-pin { position: relative; height: 100vh; height: 100svh; overflow: hidden; }
+.invite-pin { position: relative; min-height: 600px; overflow: hidden; }
 .invite-photo {
   position: absolute; inset: 0;
   background: #1b2a36 url("assets/img/club-run.webp") center / cover no-repeat;
@@ -463,7 +463,7 @@ a { color: inherit; }
    03 · SEASON
    ========================================================================== */
 .season { position: relative; }
-.season-pin { position: relative; height: 100vh; height: 100svh; min-height: 640px; display: flex; flex-direction: column; justify-content: center; padding: 96px 0 70px; overflow: hidden; }
+.season-pin { position: relative; min-height: 0; display: flex; flex-direction: column; justify-content: center; padding: 0; overflow: hidden; }
 .season-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 30px; margin-bottom: clamp(20px, 3.5vh, 40px); }
 .season-head .h2 { font-size: clamp(34px, 4.6vw, 68px); }
 .next-race {
@@ -987,4 +987,538 @@ input[type="range"]::-moz-range-thumb { width: 20px; height: 20px; border-radius
   .loader { display: none; }
   .invite-body .w { color: var(--navy) !important; }
   .medal-reveal.is-shown { clip-path: none; }
+}
+/* EVRS partner-page responsive density: preserve the supplied UI and animations. */
+main > section:not(.hero) {
+  padding-block: 64px;
+}
+
+/* The pinned sequences retain their animation hooks without viewport-height sections. */
+.invite-pin {
+  height: auto;
+  min-height: 600px;
+}
+
+.season-pin {
+  height: auto;
+  min-height: 0;
+  padding-block: 0;
+}
+
+main > section:not(.hero) .h2 {
+  font-size: 22px;
+}
+
+main > section:not(.hero) .lead,
+main > section:not(.hero) .invite-body,
+main > section:not(.hero) .moment-copy > p,
+main > section:not(.hero) .join-panel > p {
+  font-size: 15px;
+}
+
+.hero-title {
+  font-size: 30px;
+}
+
+@media (min-width: 768px) {
+  main > section:not(.hero) .h2 {
+    font-size: 40px;
+  }
+
+  main > section:not(.hero) .lead,
+  main > section:not(.hero) .invite-body,
+  main > section:not(.hero) .moment-copy > p,
+  main > section:not(.hero) .join-panel > p {
+    font-size: 16px;
+  }
+
+  .hero-title {
+    font-size: 50px;
+  }
+}
+
+@media (min-width: 1280px) {
+  main > section:not(.hero) .h2 {
+    font-size: 60px;
+  }
+
+  .hero-title {
+    font-size: 70px;
+  }
+}
+
+@media (min-width: 1536px) {
+  main > section:not(.hero) .lead,
+  main > section:not(.hero) .invite-body,
+  main > section:not(.hero) .moment-copy > p,
+  main > section:not(.hero) .join-panel > p {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  main > section:not(.hero) {
+    padding-block: 48px;
+  }
+
+  .invite-pin {
+    min-height: 520px;
+  }
+}
+/* Keep the supplied pinned Invitation and Season experiences full-screen. */
+.invite-pin {
+  height: 100vh;
+  height: 100svh;
+  min-height: 600px;
+}
+
+.season-pin {
+  height: 100vh;
+  height: 100svh;
+  min-height: 640px;
+  padding: 72px 0 48px;
+}
+
+/* More compact marquee and hero card spacing without changing the content or interactions. */
+.mq-item {
+  gap: 12px;
+  padding-inline: 20px;
+  font-size: clamp(18px, 2.3vw, 34px);
+}
+
+.mq-item em {
+  font-size: 10px;
+  padding: 7px 9px 5px;
+}
+
+.hero-panel {
+  padding: clamp(20px, 3vw, 44px);
+}
+
+.hero-mark {
+  margin-bottom: 18px;
+}
+
+.hero-title {
+  margin-bottom: 14px;
+}
+
+.hero-sub {
+  margin-bottom: 20px;
+}
+
+.hero-stats {
+  margin-top: 24px;
+  padding-top: 18px;
+}
+
+/* Smaller medal artwork on the flipped Season cards at XL and below. */
+
+
+@media (max-width: 900px) {
+  .hero-panel {
+    padding-bottom: 120px;
+  }
+}
+
+@media (max-width: 767px) {
+  .invite-pin {
+    min-height: 520px;
+  }
+
+  .season-pin {
+    min-height: 560px;
+    padding: 48px 0;
+  }
+
+  .mq-item {
+    gap: 10px;
+    padding-inline: 16px;
+  }
+
+}
+/* Compact section hierarchy, cards, and footer across both EVRS partner pages. */
+.eyebrow {
+  margin-bottom: 12px;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+}
+
+.eyebrow::before {
+  width: 16px;
+}
+
+@media (min-width: 1280px) {
+  main > section:not(.hero) .h2 {
+    font-size: 50px;
+  }
+}
+
+.partner-head,
+.numbers-head {
+  margin-bottom: 32px;
+}
+
+.pcard {
+  padding: clamp(20px, 2.2vw, 32px);
+}
+
+.pc-head {
+  margin-bottom: 18px;
+}
+
+.pc-list {
+  gap: 10px;
+}
+
+.pc-item {
+  gap: 12px;
+  padding: 14px;
+}
+
+.stat {
+  min-height: 320px;
+  padding: 18px;
+}
+
+.stat-ico {
+  width: 36px;
+  height: 36px;
+}
+
+.stat-ico svg {
+  width: 18px;
+  height: 18px;
+}
+
+.stat-num {
+  margin-top: 18px;
+  font-size: clamp(46px, 4.4vw, 70px);
+}
+
+.stat-label {
+  margin: 10px 0 18px;
+  font-size: 15px;
+}
+
+.join-panel {
+  padding: clamp(22px, 2.6vw, 36px);
+  min-height: 500px;
+}
+
+.join-form {
+  padding: clamp(20px, 2.6vw, 34px);
+}
+
+.site-footer {
+  padding: 40px 0 56px;
+}
+
+.site-footer .wrap {
+  gap: 20px;
+}
+
+.site-footer img {
+  height: 34px;
+}
+
+.foot-tag {
+  font-size: clamp(20px, 2.2vw, 30px);
+}
+
+.foot-meta {
+  gap: 16px;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+}
+
+.foot-ar {
+  font-size: 15px;
+}
+
+@media (max-width: 900px) {
+  .pc-item,
+  .pc-item.has-av {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .pc-tick {
+    order: 1;
+  }
+
+  .pc-item > span:last-child {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pc-num {
+    order: 1;
+  }
+
+  .pc-title {
+    order: 2;
+  }
+
+  .pc-desc,
+  .pc-sub,
+  .pc-chans {
+    order: 3;
+  }
+
+  .pc-av {
+    order: 4;
+  }
+}
+
+@media (max-width: 767px) {
+  .partner-head,
+  .numbers-head {
+    margin-bottom: 24px;
+  }
+
+  .pcard {
+    padding: 18px;
+  }
+
+  .pc-item {
+    padding: 12px;
+  }
+
+  .stat {
+    min-height: 270px;
+    padding: 16px;
+  }
+
+  .join-panel {
+    min-height: 420px;
+    padding: 22px;
+  }
+
+  .join-form {
+    padding: 20px;
+  }
+
+  .site-footer {
+    padding: 32px 0 42px;
+  }
+
+  .site-footer img {
+    height: 30px;
+  }
+}
+/* Prevent Season race-card clipping below 2XL without changing flipped medal cards. */
+@media (min-width: 901px) and (max-width: 1279px) {
+  .season-pin {
+    height: max(100svh, 700px);
+    padding: 56px 0 36px;
+  }
+
+  .season-head {
+    margin-bottom: 20px;
+  }
+
+  .vcard,
+  .vcard-end {
+    width: clamp(230px, 24vw, 290px);
+    height: 390px;
+  }
+
+  .vcard-front {
+    padding: 18px;
+  }
+
+  .vc-icon {
+    width: 34%;
+  }
+}
+
+@media (max-width: 900px) {
+  .season-pin {
+    height: max(100svh, 680px);
+  }
+
+  .vc-icon {
+    width: 34%;
+  }
+}
+
+/* Keep partnership cards naturally sized and improve compact-text contrast. */
+.pair {
+  align-items: start;
+}
+
+.pcard:not(.navy) .pc-item {
+  background: #e5e9ed;
+}
+
+.pc-item {
+  font-size: 16px;
+}
+
+.pc-desc {
+  font-size: 14px;
+  color: #425362;
+}
+
+.pc-sub {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+@media (max-width: 767px) {
+  .vcard,
+  .vcard-end {
+    height: 400px;
+  }
+}
+/* Stable desktop Season card dimensions: keep every card fully visible at XL and 2XL. */
+@media (min-width: 1280px) {
+  .season-pin {
+    height: max(100svh, 760px);
+    padding: 64px 0 40px;
+  }
+
+  .season-head {
+    margin-bottom: 20px;
+  }
+
+  .vcard,
+  .vcard-end {
+    height: 400px;
+  }
+
+  .vcard-front {
+    padding: 20px;
+  }
+
+  .vc-icon {
+    width: 32%;
+  }
+}
+/* More compact Season cards with tighter internal spacing. */
+@media (min-width: 1280px) {
+  .vcard,
+  .vcard-end {
+    height: 360px;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1279px) {
+  .vcard,
+  .vcard-end {
+    height: 350px;
+  }
+}
+
+.vcard-front {
+  padding: 16px;
+}
+
+.vc-date {
+  margin-top: 12px;
+  gap: 8px;
+}
+
+.vc-date strong {
+  font-size: clamp(56px, 5vw, 76px);
+}
+
+.vc-date span {
+  font-size: 22px;
+}
+
+.vc-icon {
+  margin: 10px auto;
+}
+
+.vc-foot p {
+  margin-top: 4px;
+}
+
+.vc-hint {
+  right: 16px;
+  bottom: 16px;
+}
+
+@media (max-width: 900px) {
+  .vcard,
+  .vcard-end {
+    height: 370px;
+  }
+}
+/* Keep the flip control directly after the village name; remove the empty card-bottom gap. */
+.vc-hint {
+  position: static;
+  align-self: flex-end;
+  width: 28px;
+  height: 28px;
+  margin-top: 6px;
+}
+
+.vc-hint svg {
+  width: 14px;
+  height: 14px;
+}
+/* Use the fixed card height for content distribution, leaving no blank area after the flip control. */
+.vcard-front {
+  justify-content: space-between;
+}
+/* Keep the race date directly beneath the race label. */
+.vc-date {
+  margin-top: 0;
+}
+/* Equal-height Partnership columns and equal step-card rhythm on desktop. */
+@media (min-width: 901px) {
+  .pair {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  .pair-mid {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+    transform: translate(-50%, -50%);
+  }
+
+
+  .pcard {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pc-list {
+    flex: 1;
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+  }
+
+  .pc-item {
+    height: 100%;
+  }
+}
+
+.pc-title,
+#pcEvrs .pc-item > span:last-child {
+  font-size: 16px;
+  line-height: 1.3;
+}
+
+.pc-desc {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Remove excess bottom space after the seven-piece medal interaction. */
+.collect {
+  padding: 56px 0 32px;
+}
+
+@media (max-width: 767px) {
+  .collect {
+    padding: 40px 0 24px;
+  }
 }

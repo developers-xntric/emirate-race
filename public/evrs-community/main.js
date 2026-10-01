@@ -412,7 +412,7 @@
     cardsEl.append(route, runner);
     let len = 0, cpLens = [], routeTop = 0;
     function buildRoute() {
-      const cards = $$(".vcard, .vcard-end", cardsEl);
+      const cards = $$(".vcard", cardsEl);
       const W = cardsEl.scrollWidth;
       route.setAttribute("width", W); route.setAttribute("height", 120); route.style.width = W + "px";
       const pts = cards.map((c, i) => ({ x: c.offsetLeft + c.offsetWidth / 2, y: i % 2 ? 34 : 78 }));
@@ -440,14 +440,15 @@
       for (let i = 0; i < 22; i++) { const mid = (lo + hi) / 2; if (routeLine.getPointAtLength(mid).x < x) lo = mid; else hi = mid; }
       return lo;
     }
-    let lastX = 0;
-    function updateRunner(viewX) {
+    let lastProgress = 0;
+    function updateRunner(progress) {
       if (!len) return;
-      const L = lenAtX(viewX);
+      const clampedProgress = Math.max(0, Math.min(1, progress));
+      const L = len * clampedProgress;
       routeLine.style.strokeDashoffset = len - L;
       const p = routeLine.getPointAtLength(L), p2 = routeLine.getPointAtLength(Math.min(len, L + 4));
       const ang = Math.atan2(p2.y - p.y, p2.x - p.x) * 57.3;
-      const back = viewX < lastX; lastX = viewX;
+      const back = clampedProgress < lastProgress; lastProgress = clampedProgress;
       gsap.set(runner, { x: p.x - 32, y: routeTop + p.y - 78, rotation: ang * 0.35, scaleX: back ? -1 : 1 });
       $$("circle", cpsG).forEach((c, i) => {
         const on = L >= cpLens[i] - 2;
@@ -466,7 +467,7 @@
           scrollTrigger: {
             trigger: "#seasonPin", start: "top top", end: () => "+=" + dist(), pin: true, scrub: 0.6, invalidateOnRefresh: true,
             onRefresh: buildRoute,
-            onUpdate: () => updateRunner(-gsap.getProperty(cardsEl, "x") + innerWidth * 0.46),
+            onUpdate: (self) => updateRunner(self.progress),
           },
         });
         $$(".vcard", cardsEl).forEach((card, i) => {
@@ -479,10 +480,10 @@
             scrollTrigger: { trigger: card, containerAnimation: h, start: "left 95%", end: "left 55%", scrub: true },
           });
         });
-        updateRunner(innerWidth * 0.46);
+        updateRunner(0);
       } else {
         const track = $("#seasonTrack");
-        const onS = () => updateRunner(track.scrollLeft + innerWidth * 0.5);
+        const onS = () => updateRunner(track.scrollWidth > track.clientWidth ? track.scrollLeft / (track.scrollWidth - track.clientWidth) : 0);
         track.addEventListener("scroll", onS, { passive: true });
         onS();
         return () => track.removeEventListener("scroll", onS);
