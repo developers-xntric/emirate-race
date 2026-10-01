@@ -72,7 +72,7 @@ export default function RouteMaps({
             <div className="grid grid-cols-1 gap-3  md:grid-cols-2 md:gap-4">
               {route.images.map((image, imageIndex) => (
                 <div key={image} className="2">
-                  <div className="relative aspect-[1590/764] overflow-hidden rounded-[6px]">
+                  <div className="relative aspect-[1390/764] overflow-hidden rounded-[6px]">
                     <Image
                       src={image}
                       alt={`${route.label} route ${imageIndex + 1} in ${raceName}, showing the start, finish and course markers`}
@@ -86,7 +86,7 @@ export default function RouteMaps({
               ))}
             </div>
           ) : (
-            <div className="relative aspect-[5/4] overflow-hidden bg-[#072f4f] md:aspect-[9/4]">
+            <div className="relative aspect-[5/4] overflow-hidden bg-[#072f4f] md:aspect-[7/3.7]">
               <div
                 className="absolute inset-x-0"
                 style={{ height: route.imageHeight, top: route.imageTop ?? "0%" }}
