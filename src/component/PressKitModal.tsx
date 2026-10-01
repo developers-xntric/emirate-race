@@ -3,6 +3,9 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useLanguage } from "./LanguageProvider";
 
+const pressKitUrl =
+  "https://linkvivaevents.sharepoint.com/sites/EmiratesCouncil-EVRS2026/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FEmiratesCouncil%2DEVRS2026%2FShared%20Documents%2FPress%20Kit&viewid=990fb563%2Dc29a%2D4d76%2Db340%2Df992077bb943&p=true&ga=1";
+
 export default function PressKitModal({
   open,
   onClose,
@@ -93,8 +96,9 @@ export default function PressKitModal({
           <div className="mt-8 text-center">
             <p className="text-base text-[#072f4f]">{language === "ar" ? copy.ready : message}</p>
             <a
-              href="/press-kit/EVRS-Press-Kit.pdf"
-              download
+              href={pressKitUrl}
+              target="_blank"
+              rel="noreferrer"
               className="mt-6 inline-flex min-h-12 items-center rounded-[8px] cursor-pointer justify-center bg-[#bb0054] px-8 text-sm font-bold tracking-[0.04em] text-white transition-colors hover:bg-[#072f4f]"
             >
               {copy.download}
