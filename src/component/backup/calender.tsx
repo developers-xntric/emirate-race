@@ -4,9 +4,9 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef, useState } from "react";
-import { useHomeData, useLanguage } from "./LanguageProvider";
-import SectionHeading from "./SectionHeading";
-import Button from "./Button";
+import { useHomeData, useLanguage } from "../LanguageProvider";
+import SectionHeading from "../SectionHeading";
+import Button from "../Button";
 
 gsap.registerPlugin(ScrollTrigger);
 

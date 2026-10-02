@@ -60,7 +60,7 @@ function MarkSeven({
           const opacity = selectedVillages.has(village) ? "1" : "0";
           const animatedOpening = opening.replace(
             /style="([^"]*)"/,
-            (_match, existingStyle) =>
+            (_match: string, existingStyle: string) =>
               `style="${existingStyle};opacity:${opacity};transition:opacity 420ms ease;"`,
           );
           const coloredContents = contents.replace(
