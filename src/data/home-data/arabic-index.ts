@@ -111,7 +111,7 @@ export const arabicData = {
     comingSoon: "قريباً",
     races: [
       { ...homeData.gallery.races[0], label: "قدفع" },
-      { ...homeData.gallery.races[1], label: "الهباب" },
+      { ...homeData.gallery.races[1], label:  "لهباب" },
       { ...homeData.gallery.races[2], label: "وادي الحلو" },
       { ...homeData.gallery.races[3], label: "فلج المعلا" },
       { ...homeData.gallery.races[4], label: "مصفوت" },
