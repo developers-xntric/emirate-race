@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
     formats: ["image/webp"],
     remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io" }],
     minimumCacheTTL: 60 * 60 * 24 * 30,
-    qualities: [75, 90],
+    qualities: [100, 75, 90],
   },
   async headers() {
     const mediaCacheHeaders = [

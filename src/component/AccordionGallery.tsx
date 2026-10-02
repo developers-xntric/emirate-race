@@ -42,6 +42,7 @@ type AccordionGalleryProps = {
   autoplay?: boolean;
   autoplayDelay?: number;
   className?: string;
+  imageFit?: "cover" | "contain";
 };
 
 const DEFAULT_ITEMS: GalleryItem[] = [
@@ -74,6 +75,7 @@ export default function AccordionGallery({
   autoplay = true,
   autoplayDelay = 3000,
   className = "",
+  imageFit = "cover",
 }: AccordionGalleryProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const panelRefs = useRef<(HTMLElement | null)[]>([]);
@@ -234,7 +236,7 @@ export default function AccordionGallery({
   return (
     <div
       ref={rootRef}
-      className={`accordion-gallery${vertical ? " accordion-gallery--vertical" : ""}${className ? ` ${className}` : ""}`}
+      className={`accordion-gallery${vertical ? " accordion-gallery--vertical" : ""}${imageFit === "contain" ? " accordion-gallery--contain" : ""}${className ? ` ${className}` : ""}`}
       style={{
         "--ag-accent": accentColor,
         "--ag-overlay": overlayColor,
@@ -267,8 +269,8 @@ export default function AccordionGallery({
                   src={item.image}
                   alt={item.alt || item.label || ""}
                   fill
-                  sizes="(max-width: 520px) 52vw, 47vw"
                   quality={100}
+                  className="w-52"
                   draggable={false}
                 />
               </span>

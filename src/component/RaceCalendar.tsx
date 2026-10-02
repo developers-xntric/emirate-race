@@ -174,6 +174,7 @@ function DesktopCalendarSequence() {
   const data = useHomeData();
   const { language } = useLanguage();
   const [activeCardIndex, setActiveCardIndex] = useState(0);
+  const [isMobileCarousel, setIsMobileCarousel] = useState(false);
   const sequenceRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -184,14 +185,20 @@ function DesktopCalendarSequence() {
   const routeFillRef = useRef<SVGPathElement>(null);
 
   useEffect(() => {
-    if (window.matchMedia("(min-width: 1024px)").matches) return;
+    const media = window.matchMedia("(max-width: 1023px)");
+    const updateViewport = () => setIsMobileCarousel(media.matches);
+    updateViewport();
+    media.addEventListener("change", updateViewport);
+    return () => media.removeEventListener("change", updateViewport);
+  }, []);
 
+  useEffect(() => {
+    if (!isMobileCarousel || data.calendar.races.length < 2) return;
     const timer = window.setInterval(() => {
       setActiveCardIndex((current) => (current + 1) % data.calendar.races.length);
     }, 1500);
-
     return () => window.clearInterval(timer);
-  }, [data.calendar.races.length, setActiveCardIndex]);
+  }, [data.calendar.races.length, isMobileCarousel]);
   useEffect(() => {
     const sequence = sequenceRef.current;
     const panel = panelRef.current;

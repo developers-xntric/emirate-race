@@ -68,6 +68,9 @@
   height: var(--ag-media-size);
 }
 
+.accordion-gallery--contain .ag-panel { background: #ffffff; }
+.accordion-gallery--contain .ag-panel__media img { object-fit: contain; }
+
 .ag-panel__media img {
   width: 100%;
   height: 100%;

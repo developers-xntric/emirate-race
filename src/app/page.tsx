@@ -6,6 +6,7 @@ const About = dynamic(() => import("@/component/About"));
 const Rahhal = dynamic(() => import("@/component/Rahhal"));
 const RaceDistances = dynamic(() => import("@/component/RaceDistances"));
 const RaceCalendar = dynamic(() => import("@/component/RaceCalendar"));
+const SevenPieceMedal = dynamic(() => import("@/component/SevenPieceMedal"));
 const MedalJourney = dynamic(() => import("@/component/MedalJourney"));
 const Recognition = dynamic(() => import("@/component/Recognition"));
 const Gallery = dynamic(() => import("@/component/Gallery"));
@@ -30,6 +31,7 @@ export default function Home() {
         <Rahhal />
         <RaceDistances />
         <RaceCalendar />
+        <SevenPieceMedal />
         <MedalJourney />
         <Recognition />
         <Gallery />

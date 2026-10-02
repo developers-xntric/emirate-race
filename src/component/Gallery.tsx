@@ -149,6 +149,7 @@ export default function Gallery() {
                 orientation="horizontal"
                 autoplay
                 autoplayDelay={1500}
+                imageFit={galleryYear === "2026" ? "contain" : "cover"}
               />
 
               {images.length > DESKTOP_VISIBLE_IMAGES && (
