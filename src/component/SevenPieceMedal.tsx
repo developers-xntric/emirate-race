@@ -318,7 +318,7 @@ export default function SevenPieceMedal() {
         </div>
         {completed && (
           <div className="mt-10 grid overflow-hidden rounded-[12px] md:mt-12 md:grid-cols-[60fr_40fr]">
-            <div className="relative min-h-[220px] md:min-h-[440px]">
+            <div className="relative min-h-[320px] md:min-h-[440px]">
               <Image
                 src="/medal-7-desert.webp"
                 alt="Completed seven-piece EVRS medal in the desert"
@@ -326,21 +326,45 @@ export default function SevenPieceMedal() {
                 sizes="(min-width: 768px) 50vw, 90vw"
                 className="object-cover"
               />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#072f4f]/95 via-[#072f4f]/55 to-transparent p-5 md:pt-20 text-white sm:p-9 sm:pt-28">
+                <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#fff]">
+                  7 / 7 &middot; Unlocked
+                </p>
+                <h3 className="mt-3 text-xl md:text-2xl leading-[0.95] font-bold uppercase text-white md:text-4xl">
+                  Seven races.
+                  <br />
+                  Seven pieces.
+                  <br />
+                  One medal.
+                </h3>
+                <p className="md:mt-3 max-w-[36ch] text-base nd:leading-relaxed text-white/90 md:text-lg">
+                  Every village now has its place in your finished EVRS medal.
+                </p>
+              </div>
             </div>
-            <div className="flex flex-col justify-center bg-[#072f4f] bg-[url('/outline-navy.webp')] bg-[length:700px_auto] p-7 text-white sm:p-10">
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#4db4a8]">
-                7 / 7 &middot; Unlocked
-              </p>
-              <h3 className="mt-4 text-2xl md:text-4xl leading-[0.95] font-bold uppercase text-white">
-                Seven races.
-                <br className="md:block hidden" />
-                Seven pieces.
-                <br className="md:block hidden" />
-                One medal.
+            <div className="flex flex-col justify-center bg-[#072f4f] bg-[url('/outline-navy.webp')] bg-[length:700px_auto] p-4 text-white md:p-8">
+              <h3 className="text-2xl leading-[0.95] font-bold uppercase text-white md:text-4xl">
+                {data.prizes.title}
               </h3>
-              <p className="mt-2 md:mt-3 text-base md:text-lg leading-relaxed text-white">
-                Every village now has its place in your finished EVRS medal.
+              <p className="mt-2 text-base leading-relaxed text-white/85 md:text-lg">
+                {data.prizes.description}
               </p>
+
+              <div className="relative flex  min-h-[230px] flex-1">
+                <Image
+                  src={data.assets.prizeRahhal}
+                  alt={data.prizes.alt}
+                  fill
+                  sizes="(min-width: 768px) 30vw, 80vw"
+                  className="object-contain object-center"
+                />
+              </div>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Button href="#prize-answer">{data.prizes.cta}</Button>
+                <Button href={data.register.href} tone="pink">
+                  {data.register.label}
+                </Button>
+              </div>
             </div>
           </div>
         )}

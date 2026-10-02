@@ -8,9 +8,9 @@ export default function MedalJourney() {
   return (
     <section
       id="medal"
-      className="mx-auto grid w-[90%] scroll-mt-8 gap-5 md:gap-[30px] md:grid-cols-2 2xl:max-w-[1440px]"
+      className="mx-auto grid w-[90%] scroll-mt-8 gap-5 md:gap-[30px] md:grid-cols-1 2xl:max-w-[1440px]"
     >
-      <article className="relative isolate  md:min-h-[520px] xl:min-h-[565px] 2xl:min-h-[630px] overflow-hidden rounded-[10px] bg-[#072f4f] p-3 md:p-6 text-white">
+      <article className="relative isolate  md:min-h-[520px] xl:min-h-[565px] 2xl:min-h-[630px] overflow-hidden rounded-[10px] bg-[#072f4f] p-3 md:p-6 text-white hidden">
         <p className="mb-1 md:mb-3 text-sm font-bold text-[#bb0054] uppercase 2xl:text-lg">
           {data.medal.eyebrow}
         </p>
@@ -39,38 +39,34 @@ export default function MedalJourney() {
           </div>
         </div>
       </article>
-      <div className="grid">
-        <article
-          id="prizes"
-          className="relative isolate h-full md:min-h-[500px]  scroll-mt-8 overflow-hidden rounded-[10px] bg-[#706cb5] p-4 text-white lg:min-h-0 md:p-6 2xl:p-[20px]"
-        >
-          <div className="relative z-10 ">
-            <h2 className="text-[32px] leading-[1.02] font-bold uppercase lg:text-[36px] 2xl:text-[44px]">
-              {data.prizes.title}
-            </h2>
-            <p className="mt-3 text-lg leading-[1.25] lg:text-base 2xl:text-lg">
-              {data.prizes.description}
-            </p>
-          </div>
-          <div className="-z-0 aspect-[294.26/322.25] mx-auto w-[55%] xl:w-[60%] 2xl:w-[55%] overflow-hidden">
-            <div className="relative -top-[10.1%] h-[110.1%] w-full ">
-              <Image
-                src={data.assets.prizeRahhal}
-                alt={data.prizes.alt}
-                fill
-                sizes="200vw"
-                className="object-fill"
-              />
-            </div>
-          </div>
-          <div className="relative z-10 mt-8 flex flex-wrap gap-1 md:gap-3">
+      <article
+        id="prizes"
+        className="relative isolate grid min-h-[420px] scroll-mt-8 overflow-hidden rounded-[10px] bg-[#706cb5] text-white md:min-h-[250px] md:grid-cols-[minmax(0,1fr)_minmax(280px,.72fr)]"
+      >
+        <div className="relative z-10 flex flex-col justify-center p-5 md:p-8 lg:p-10 2xl:p-12">
+          <h2 className="text-[32px] leading-[1.02] font-bold uppercase lg:text-[36px] 2xl:text-[44px]">
+            {data.prizes.title}
+          </h2>
+          <p className="mt-3 max-w-[52ch] text-lg leading-[1.25] lg:text-base 2xl:text-lg">
+            {data.prizes.description}
+          </p>
+          <div className="mt-8 flex flex-wrap gap-2 md:gap-3">
             <Button href="#prize-answer">{data.prizes.cta}</Button>
             <Button href={data.register.href} tone="pink">
               {data.register.label}
             </Button>
           </div>
-        </article>
-      </div>
+        </div>
+        <div className="relative min-h-[300px] overflow-hidden relative mb-10 ">
+          <Image
+            src={data.assets.prizeRahhal}
+            alt={data.prizes.alt}
+            fill
+            sizes="(min-width: 768px) 38vw, 90vw"
+            className="object-contain object-bottom  "
+          />
+        </div>
+      </article>
     </section>
   );
 }
