@@ -40,7 +40,7 @@ export const homeData = {
     },
     navRaces: [
       { label: "Qidfa", href: "/races/qidfa" },
-      { label: "Al Lehbab", href: "/races/al-lehbab" },
+      { label: "Lehbab", href: "/races/lehbab" },
       { label: "Wadi Al Helo", href: "/races/wadi-al-helo" },
       { label: "Falaj Al Mualla", href: "/races/falaj-al-mualla" },
       { label: "Masfout", href: "/races/masfout" },
@@ -200,8 +200,8 @@ export const homeData = {
         ],
       },
       {
-        label: "Al Lehbab",
-        link: "/races/al-lehbab",
+        label: "Lehbab",
+        link: "/races/lehbab",
         images: [
           "/gallery/2.jpg",
           "/gallery/3.jpg",
@@ -316,7 +316,7 @@ export const homeData = {
         position: "lg:translate-y-[30px] lg:-rotate-[11.66deg]",
       },
       {
-        village: "Al Lehbab",
+        village: "Lehbab",
         emirate: "Dubai",
         day: "17",
         month: "Oct 2026",
@@ -487,7 +487,7 @@ export const homeData = {
         {
           question: "Where will the 2026 races take place?",
           answer:
-            "The series will visit Qidfa, Al Lehbab, Al-Wadi Al-Helo, Falaj Al Mualla, Masfout, Al Rams and Al Shuwaib.",
+            "The series will visit Qidfa, Lehbab, Al-Wadi Al-Helo, Falaj Al Mualla, Masfout, Al Rams and Al Shuwaib.",
         },
       ],
     ],

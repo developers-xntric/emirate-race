@@ -1,6 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/races/al-lehbab",
+        destination: "/races/lehbab",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     // WebP has broad browser support and avoids AVIF's slower first-request encoding.
     formats: ["image/webp"],

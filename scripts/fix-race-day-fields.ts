@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { createClient } from "@sanity/client";
 import { qidfa } from "../src/data/races/qidfa";
-import { alLehbab } from "../src/data/races/al-lehbab";
+import { lehbab } from "../src/data/races/lehbab";
 import { wadiAlHelo } from "../src/data/races/wadi-al-helo";
 import { falajAlMualla } from "../src/data/races/falaj-al-mualla";
 import { masfout } from "../src/data/races/masfout";
@@ -10,7 +10,7 @@ import { alShuwaib } from "../src/data/races/al-shuwaib";
 
 for (const line of readFileSync(".env", "utf8").split(/\r?\n/)) { const match = line.match(/^([^#=]+)=(.*)$/); if (match) process.env[match[1].trim()] = match[2].trim().replace(/^"|"$/g, ""); }
 const client = createClient({ projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!, dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!, apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION!, token: process.env.SANITY_API_TOKEN!, useCdn: false });
-const races = [["qidfa", qidfa], ["al-lehbab", alLehbab], ["wadi-al-helo", wadiAlHelo], ["falaj-al-mualla", falajAlMualla], ["masfout", masfout], ["al-rams", alRams], ["al-shuwaib", alShuwaib]] as const;
+const races = [["qidfa", qidfa], ["lehbab", lehbab], ["wadi-al-helo", wadiAlHelo], ["falaj-al-mualla", falajAlMualla], ["masfout", masfout], ["al-rams", alRams], ["al-shuwaib", alShuwaib]] as const;
 async function fixRaceDocuments() {
   await Promise.all(races.map(async ([slug, race]) => {
     const document = await client.getDocument(`race-${slug}`) as any;

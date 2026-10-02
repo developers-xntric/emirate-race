@@ -1,10 +1,10 @@
-﻿import { readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { createClient } from "@sanity/client";
 import { homeData } from "../src/data/home-data";
 import { arabicData } from "../src/data/home-data/arabic-index";
 import { qidfa } from "../src/data/races/qidfa";
-import { alLehbab } from "../src/data/races/al-lehbab";
+import { lehbab } from "../src/data/races/lehbab";
 import { wadiAlHelo } from "../src/data/races/wadi-al-helo";
 import { falajAlMualla } from "../src/data/races/falaj-al-mualla";
 import { masfout } from "../src/data/races/masfout";
@@ -44,7 +44,7 @@ async function seed() {
   await client.createOrReplace({ _id: "navbar", _type: "navbar", sectionName: "Navbar", logo: await localImage("/home/logo.svg"), brandEn: homeData.brand, brandAr: arabicData.brand, navigation: ["home", "about", "races", "faqs", "contact"].map((name, index) => ({ ...key("nav", index), labelEn: homeData.ui.nav[name as keyof typeof homeData.ui.nav], labelAr: arabicData.ui.nav[name as keyof typeof arabicData.ui.nav], href: ["/", "/about", "/races/qidfa", "/faqs", "/contact"][index] })), races: homeData.ui.navRaces.map((race, index) => ({ ...key("race", index), labelEn: race.label, labelAr: arabicData.ui.navRaces[index]?.label ?? race.label, href: race.href })), registerEn: homeData.register.label, registerAr: arabicData.register.label, registerHref: homeData.register.href });
   await client.createOrReplace({ _id: "footer", _type: "footer", sectionName: "Footer", logo: await localImage("/home/footer-logo.png"), descriptionEn: homeData.footer.description, descriptionAr: arabicData.footer.description, organizerEn: homeData.footer.organizer, organizerAr: arabicData.footer.organizer, quickLinksTitleEn: homeData.footer.quickLinks, quickLinksTitleAr: arabicData.footer.quickLinks, email: homeData.footer.email, emailHref: `mailto:${homeData.footer.email}`, quickLinks: homeData.ui.navRaces.map((race, index) => ({ ...key("quick", index), labelEn: race.label, labelAr: arabicData.ui.navRaces[index]?.label ?? race.label, href: race.href })), socials: homeData.footer.socials.map((social, index) => ({ ...key("social", index), ...social })), copyrightEn: homeData.footer.copyright, copyrightAr: arabicData.footer.copyright, legal: homeData.footer.legal.map((label, index) => ({ ...key("legal", index), labelEn: label, labelAr: arabicData.footer.legal[index], href: "#" })) });
   await Promise.all([
-    raceDocument(qidfa, "qidfa"), raceDocument(alLehbab, "al-lehbab"), raceDocument(wadiAlHelo, "wadi-al-helo"), raceDocument(falajAlMualla, "falaj-al-mualla"), raceDocument(masfout, "masfout"), raceDocument(alRams, "al-rams"), raceDocument(alShuwaib, "al-shuwaib"),
+    raceDocument(qidfa, "qidfa"), raceDocument(lehbab, "lehbab"), raceDocument(wadiAlHelo, "wadi-al-helo"), raceDocument(falajAlMualla, "falaj-al-mualla"), raceDocument(masfout, "masfout"), raceDocument(alRams, "al-rams"), raceDocument(alShuwaib, "al-shuwaib"),
   ]);
 }
 seed().catch((error) => { console.error(error); process.exit(1); });
