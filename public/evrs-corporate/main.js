@@ -28,7 +28,7 @@
     },
     {
       k: "lehbab",
-      name: "Al Lehbab",
+      name: "Lehbab",
       em: "Dubai",
       date: "2026-10-17",
       c: "#6c71b8",

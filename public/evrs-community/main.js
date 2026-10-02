@@ -19,7 +19,7 @@
 
   const VILLAGES = [
     { k: "qidfa",   name: "Qidfa",           em: "Fujairah",        date: "2026-10-10", c: "#3d93cf", meaning: "Coastal waves" },
-    { k: "lehbab",  name: "Al Lehbab",       em: "Dubai",           date: "2026-10-17", c: "#6c71b8", meaning: "Palm frond" },
+    { k: "lehbab",  name: "Lehbab",       em: "Dubai",           date: "2026-10-17", c: "#6c71b8", meaning: "Palm frond" },
     { k: "wadi",    name: "Wadi Al Helo",    em: "Sharjah",         date: "2026-10-24", c: "#b80356", meaning: "Ghaf tree" },
     { k: "falaj",   name: "Falaj Al Mualla", em: "Umm Al Quwain",   date: "2026-10-31", c: "#4db4a8", meaning: "The falaj channel" },
     { k: "masfout", name: "Masfout",         em: "Ajman",           date: "2026-11-14", c: "#bb866a", meaning: "The fort" },
