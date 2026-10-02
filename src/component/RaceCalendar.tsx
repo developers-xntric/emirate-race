@@ -10,374 +10,426 @@ import Button from "./Button";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function RaceCard({
+const desktopRaceColors = [
+  "#3383cb",
+  "#675ec4",
+  "#b80547",
+  "#33aba1",
+  "#b78063",
+  "#f38f69",
+  "#dac9bd",
+] as const;
+
+const desktopRaceIcons = [
+  "/races/icons/qidfa.png",
+  "/races/icons/lehbab.png",
+  "/races/icons/wadi.png",
+  "/races/icons/falaj.png",
+  "/races/icons/masfout.png",
+  "/races/icons/rams.png",
+  "/races/icons/shuwaib.png",
+] as const;
+const desktopMedalAssets = [
+  "/medals/qidfa.webp",
+  "/medals/lehbab.webp",
+  "/medals/wadi.webp",
+  "/medals/falaj.webp",
+  "/medals/masfout.webp",
+  "/medals/rams.webp",
+  "/medals/shuwaib.webp",
+] as const;
+
+function DesktopRaceCard({
   race,
   index,
-  className = "",
-  visible = true,
-  active = true,
-  mobileStackCard = false,
+  language,
 }: {
   race: ReturnType<typeof useHomeData>["calendar"]["races"][number];
   index: number;
-  className?: string;
-  visible?: boolean;
-  active?: boolean;
-  mobileStackCard?: boolean;
+  language: "en" | "ar";
 }) {
   const data = useHomeData();
+  const color = desktopRaceColors[index] ?? "#072f4f";
+  const darkText = index === desktopRaceColors.length - 1;
+  const medalAsset = desktopMedalAssets[index] ?? "/home/medal.png";
+  const raceIcon = desktopRaceIcons[index] ?? race.icon;
+
   return (
     <a
       href={race.href}
       target="_blank"
-      rel="noreferrer"      aria-label={`${data.calendar.raceLabel} ${index + 1}: ${race.village}, ${race.day} ${race.month}`}
-      data-active={active}
-      data-mobile-stack-card={mobileStackCard || undefined}
-      className={`calendar-race-card relative z-10 flex aspect-[6/5] md:aspect-square w-20 md:w-full flex-col justify-end rounded-[9px] bg-[#072f4f] p-3 text-white cursor-pointer transition-[opacity,transform] duration-700 ease-out hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#bb0054] ${visible ? "opacity-100" : "pointer-events-none opacity-0"} ${className}`}
+      rel="noreferrer"
+      dir={language === "ar" ? "rtl" : "ltr"}
+      aria-label={`${data.calendar.raceLabel} ${index + 1}: ${race.village}, ${race.day} ${race.month}. Hover or focus to view the medal.`}
+      className="group block h-[clamp(300px,38vh,410px)] w-[82vw] sm:w-[clamp(230px,45vw,310px)] lg:w-[clamp(230px,21vw,310px)] shrink-0 [perspective:1200px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#bb0054]"
     >
-      {(!mobileStackCard || active) && (
-        <>
-      <Image
-        src={race.art}
-        alt=""
-        width={race.artWidth * 0.80}
-        height={race.artHeight * 0.75}
-        className="absolute -top-8 left-1/2 -translate-x-1/2 object-contain"
-      />
-      <div className="relative pt-5 text-base md:text-xs leading-tight font-bold 2xl:text-sm">
-        <p className="uppercase">
-          {data.calendar.raceLabel} {String(index + 1).padStart(2, "0")}
-        </p>
-        <p>{race.emirate}</p>
-      </div>
-      <div className="md:mt-2 flex items-center justify-between gap-1">
-        <Image
-          src={race.icon}
-          alt=""
-          width={race.iconWidth * 0.7}
-          height={race.iconHeight * 0.7}
-          className="shrink-0 object-contain"
-        />
-        <time dateTime={race.date} className="text-center text-[14px] md:text-[10px] leading-none">
-          <span className="block">{data.calendar.dayLabel}</span>
-          <strong className="block text-[55px] md:text-[32px] 2xl:text-[40px]">
-            {race.day}
-          </strong>
-          <span>{race.month}</span>
-        </time>
-      </div>
-      <h3 className="md:mt-2 text-[26px] md:text-[17px] leading-none font-bold 2xl:text-xl">
-        {race.village}
-      </h3>
-        </>
-      )}
-    </a>
-  );
-}
+      <div className="relative size-full [transform-style:preserve-3d] transition-transform duration-700 ease-out group-hover:[transform:rotateX(180deg)] group-focus-visible:[transform:rotateX(180deg)]">
+        <div
+          className={`absolute inset-0 flex flex-col overflow-hidden rounded-[22px] p-5 shadow-[0_26px_42px_-28px_rgba(7,47,79,0.8)] [backface-visibility:hidden] ${darkText ? "text-[#072f4f]" : "text-white"}`}
+          style={{ backgroundColor: color }}
+        >
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_100%_0%,rgba(255,255,255,0.24),transparent_43%)] opacity-80" />
+          <div className="relative flex items-start justify-between gap-3 text-[10px] font-bold uppercase tracking-[0.18em]">
+            <span
+              className={`rounded-full px-3 py-2 ${darkText ? "bg-[#072f4f] text-white" : "bg-white/20"}`}
+            >
+              {data.calendar.raceLabel} {String(index + 1).padStart(2, "0")}
+            </span>
+            <span className="max-w-[45%] pt-1.5 text-right leading-tight opacity-85">
+              {race.emirate}
+            </span>
+          </div>
 
-function MobileCalendarSequence() {
-  const data = useHomeData();
-  const sequenceRef = useRef<HTMLDivElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const timelinePathRef = useRef<SVGPathElement>(null);
-  const timelineDotRef = useRef<SVGCircleElement>(null);
-  const [activeCardIndex, setActiveCardIndex] = useState(0);
+          <Image
+            src={raceIcon}
+            alt=""
+            width={180}
+            height={180}
+            className="relative mx-auto mt-2 h-[25%] w-[56%] object-contain"
+          />
 
-  useEffect(() => {
-    const sequence = sequenceRef.current;
-    const panel = panelRef.current;
-    if (!sequence || !panel || window.innerWidth >= 1024) return;
+          <div className="relative mt-auto flex items-end gap-4">
+            <time
+              dateTime={race.date}
+              className="min-w-[42%] text-left leading-none"
+            >
+              <span className="block text-[11px] font-bold uppercase tracking-[0.16em] opacity-80">
+                {data.calendar.dayLabel}
+              </span>
+              <strong className="block text-6xl font-bold tracking-[-0.06em]">
+                {race.day}
+              </strong>
+              <span className="block text-[11px] font-bold uppercase tracking-[0.12em]">
+                {race.month}
+              </span>
+            </time>
+          </div>
+          <div className="relative mt-5 flex items-end justify-between gap-3 border-t border-current/25 pt-4">
+            <h3 className="max-w-[78%] text-[clamp(18px,1.55vw,23px)] leading-[0.92] font-bold uppercase">
+              {race.village}
+            </h3>
+            <span
+              aria-hidden="true"
+              className="grid size-9 shrink-0 place-items-center rounded-full border border-current/60"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                className="size-4"
+              >
+                <path
+                  d="M4 8V4h4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path d="M4.7 4.7A8 8 0 0 1 19.3 8" strokeLinecap="round" />
+                <path
+                  d="M20 16v4h-4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path d="M19.3 19.3A8 8 0 0 1 4.7 16" strokeLinecap="round" />
+              </svg>
+            </span>
+          </div>
+        </div>
 
-    const context = gsap.context(() => {
-      const cards = cardRefs.current.filter(
-        (card): card is HTMLDivElement => card !== null,
-      );
-      const timelinePath = timelinePathRef.current;
-      const timelineDot = timelineDotRef.current;
-      if (!cards.length || !timelinePath || !timelineDot) return;
+        <div
+          className="absolute inset-0 grid overflow-hidden rounded-[22px] border-[3px] bg-[#f8faf9] p-4 text-[#072f4f] shadow-[0_26px_42px_-28px_rgba(7,47,79,0.8)] [backface-visibility:hidden] [transform:rotateX(180deg)]"
+          style={{
+            borderColor: color,
+            gridTemplateRows: "auto minmax(0, 1fr) auto",
+          }}
+        >
+          <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.18em] text-[#072f4f]/65">
+            <span>Medal piece</span>
+            <span>
+              {data.calendar.raceLabel} {String(index + 1).padStart(2, "0")}
+            </span>
+          </div>
+          <Image
+            src={medalAsset}
+            alt={`${race.village} medal`}
+            width={320}
+            height={320}
+            className="mx-auto min-h-0 h-full w-full max-h-[220px] object-contain py-3 drop-shadow-[0_14px_14px_rgba(7,47,79,0.25)]"
+          />
+          <div className="border-t border-[#072f4f]/15 pt-4">
+            <p className="text-[clamp(17px,1.45vw,22px)] leading-none font-bold uppercase">
+              {race.village} Medal
+            </p>
+            <p className="mt- text-[10px] font-bold uppercase tracking-[0.16em] text-[#072f4f]/65">
 
-      const pathLength = timelinePath.getTotalLength();
-      const drawTimeline = (progress: number) => {
-        const clampedProgress = Math.min(1, Math.max(0, progress));
-        timelinePath.style.strokeDasharray = `${pathLength}`;
-        timelinePath.style.strokeDashoffset = `${pathLength * (1 - clampedProgress)}`;
-        const point = timelinePath.getPointAtLength(pathLength * clampedProgress);
-        timelineDot.setAttribute("cx", `${point.x}`);
-        timelineDot.setAttribute("cy", `${point.y}`);
-      };
-
-      gsap.set(cards, { opacity: 0.35, zIndex: 0 });
-      gsap.set(cards[0], { opacity: 1, zIndex: 20 });
-      drawTimeline(0);
-      let activeCard = 0;
-
-      ScrollTrigger.create({
-        trigger: panel,
-        start: "top top",
-        end: "+=220%",
-        pin: true,
-        pinReparent: true,
-        pinType: "fixed",
-        pinSpacing: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onUpdate: (trigger) => {
-          drawTimeline(trigger.progress);
-          const nextCard = Math.min(
-            data.calendar.races.length - 1,
-            Math.floor(trigger.progress * (data.calendar.races.length - 1) + 0.0001),
-          );
-          if (nextCard === activeCard) return;
-
-          gsap.to(cards[activeCard], {
-            opacity: 0.35,
-            zIndex: 0,
-            duration: 0.2,
-            ease: "power2.out",
-            overwrite: "auto",
-          });
-          gsap.to(cards[nextCard], {
-            opacity: 1,
-            zIndex: 20,
-            duration: 0.25,
-            ease: "power2.out",
-            overwrite: "auto",
-          });
-          activeCard = nextCard;
-          setActiveCardIndex(nextCard);
-        },
-      });
-    }, sequence);
-
-    return () => context.revert();
-  }, [data.calendar.races.length]);
-
-  const mobileStops = [34, 142, 250, 358, 466, 574, 686];
-
-  return (
-    <div ref={sequenceRef} className="relative ml-[calc((100vw-95vw)/-2)] w-screen lg:hidden">
-      <div
-        ref={panelRef}
-        className="relative isolate flex min-h-[100svh] flex-col overflow-hidden rounded-[20px] border border-[#bb0054]/10 px-5 py-6"
-      >
-        <Image src={data.assets.calendarGrid} alt="" fill className="-z-10 object-cover" sizes="95vw" />
-        <SectionHeading eyebrow={data.calendar.eyebrow} title={data.calendar.title} centered />
-        <div className="relative flex flex-1 items-center justify-center">
-          <svg aria-hidden="true" viewBox="0 0 44 720" preserveAspectRatio="xMidYMid meet" className="absolute inset-y-5 -left-5 h-[calc(100%-2.5rem)] w-11 overflow-visible">
-            <path d="M22 34 V686" fill="none" stroke="#072F4F" strokeOpacity="0.32" strokeWidth="3" strokeDasharray="8 8" />
-            {mobileStops.map((y, index) => (
-              <g key={index}>
-                <circle className="calendar-stop-pulse" cx="22" cy={y} r="6" fill="none" stroke="#bb0054" strokeWidth="2" style={{ animationDelay: `${index * 0.16}s` }} />
-                <circle cx="22" cy={y} r="6" fill="#bb0054" stroke="white" strokeWidth="2" />
-              </g>
-            ))}
-            <path ref={timelinePathRef} d="M22 34 V686" fill="none" stroke="#bb0054" strokeWidth="4" strokeLinecap="round" />
-            <circle ref={timelineDotRef} r="8" fill="#bb0054" stroke="white" strokeWidth="3" />
-          </svg>
-          <div className="relative h-[350px] w-full max-w-[260px]">
-            {data.calendar.races.map((race, index) => (
-              <div key={race.date} ref={(element) => { cardRefs.current[index] = element; }} className="absolute inset-x-0 opacity-100"
-                style={{ top: `${index * 10}px`, zIndex: data.calendar.races.length - index }}>
-                <RaceCard race={race} index={index} active={index === activeCardIndex} mobileStackCard className="mx-auto w-[100%] border-b-[3px] border-b-[#bb0054] md:w-[250px]" />
-              </div>
-            ))}
-          </div>        </div>
-        <div className="flex flex-wrap justify-center gap-1.5">
-          <Button href={data.register.href} tone="pink">{data.calendar.register}</Button>
-          <Button href="#distances" tone="navy">{data.calendar.details}</Button>
+              {race.village}, {race.emirate}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </a>
   );
 }
 function DesktopCalendarSequence() {
   const data = useHomeData();
   const { language } = useLanguage();
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
   const sequenceRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const timelinePathRef = useRef<SVGPathElement>(null);
-  const timelineDotRef = useRef<SVGCircleElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
+  const routeRef = useRef<HTMLDivElement>(null);
+  const runnerRef = useRef<HTMLImageElement>(null);
+  const runnerPathRef = useRef<SVGPathElement>(null);
+  const routeFillRef = useRef<SVGPathElement>(null);
 
+  useEffect(() => {
+    if (window.matchMedia("(min-width: 1024px)").matches) return;
+
+    const timer = window.setInterval(() => {
+      setActiveCardIndex((current) => (current + 1) % data.calendar.races.length);
+    }, 1500);
+
+    return () => window.clearInterval(timer);
+  }, [data.calendar.races.length, setActiveCardIndex]);
   useEffect(() => {
     const sequence = sequenceRef.current;
     const panel = panelRef.current;
-    if (!sequence || !panel || window.innerWidth < 1024) return;
+    const track = trackRef.current;
+    const cards = cardsRef.current;
+    const route = routeRef.current;
+    const runner = runnerRef.current;
+    const runnerPath = runnerPathRef.current;
+    const routeFill = routeFillRef.current;
+    if (
+      !sequence ||
+      !panel ||
+      !track ||
+      !cards ||
+      !route ||
+      !runner ||
+      !runnerPath ||
+      !routeFill
+    )
+      return;
 
-    const context = gsap.context(() => {
-      const cards = cardRefs.current.filter(
-        (card): card is HTMLDivElement => card !== null,
-      );
-      const timelinePath = timelinePathRef.current;
-      const timelineDot = timelineDotRef.current;
-      if (!cards.length || !timelinePath || !timelineDot) return;
+    const media = gsap.matchMedia();
+    media.add(
+      "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
+      () => {
+        const travelDistance = () =>
+          Math.max(0, cards.scrollWidth - track.clientWidth);
+        const moveRunner = (progress: number) => {
+          const clampedProgress = Math.min(1, Math.max(0, progress));
+          const pathLength = runnerPath.getTotalLength();
+          const point = runnerPath.getPointAtLength(
+            pathLength * clampedProgress,
+          );
+          const x = (point.x / 1600) * route.clientWidth - 34;
+          const y = (point.y / 100) * route.clientHeight - 64;
+          routeFill.style.strokeDasharray = `${pathLength}`;
+          routeFill.style.strokeDashoffset = `${pathLength * (1 - clampedProgress)}`;
+          gsap.set(runner, { x, y });
+        };
 
-      const pathLength = timelinePath.getTotalLength();
-      const drawTimeline = (progress: number) => {
-        const clampedProgress = Math.min(1, Math.max(0, progress));
-        timelinePath.style.strokeDasharray = `${pathLength}`;
-        timelinePath.style.strokeDashoffset = `${pathLength * (1 - clampedProgress)}`;
-        const point = timelinePath.getPointAtLength(pathLength * clampedProgress);
-        timelineDot.setAttribute("cx", `${point.x}`);
-        timelineDot.setAttribute("cy", `${point.y}`);
-      };
+        const context = gsap.context(() => {
+          gsap.set(track, { overflow: "hidden" });
+          gsap.set(cards, { x: 0 });
+          moveRunner(0);
 
-      drawTimeline(0);
-
-      gsap.set(cards, { opacity: 0 });
-      gsap.set(cards[0], { opacity: 1 });
-
-      const cardStops = [0, 0.184, 0.336, 0.482, 0.675, 0.814, 1];
-      const cardVisibility = cards.map((_, index) => index === 0);
-      const updateCardVisibility = (progress: number) => {
-        cards.forEach((card, index) => {
-          const shouldShow = progress >= cardStops[index];
-          if (cardVisibility[index] === shouldShow) return;
-
-          cardVisibility[index] = shouldShow;
-          gsap.to(card, {
-            opacity: shouldShow ? 1 : 0,
-            duration: 0.55,
-            ease: "power2.inOut",
-            overwrite: "auto",
+          const animation = gsap.to(cards, {
+            x: () => -travelDistance(),
+            ease: "none",
+            scrollTrigger: {
+              trigger: sequence,
+              start: "top top",
+              end: () => `+=${Math.max(1200, travelDistance() * 1.15)}`,
+              pin: panel,
+              pinSpacing: true,
+              scrub: 0.35,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+              onUpdate: (trigger) => moveRunner(trigger.progress),
+            },
           });
-        });
-      };
 
-      ScrollTrigger.create({
-        trigger: sequence,
-        start: "top top",
-        end: "+=200%",
-        pin: panel,
-        pinSpacing: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onUpdate: (trigger) => {
-          drawTimeline(trigger.progress);
-          updateCardVisibility(trigger.progress);
-        },
-      });
-    }, sequence);
+          return () => {
+            animation.kill();
+            gsap.set(track, { clearProps: "overflow" });
+          };
+        }, sequence);
 
-    return () => context.revert();
-  }, []);
+        return () => context.revert();
+      },
+    );
+
+    return () => media.revert();
+  }, [data.calendar.races.length, setActiveCardIndex]);
+
+  const routePath =
+    "M0 48 C70 48 100 22 170 22 S290 78 360 78 S490 26 560 26 S690 74 760 74 S890 30 960 30 S1090 80 1160 80 S1290 28 1360 28 S1490 68 1600 68";
+  const routeStops = [
+    { x: 170, y: 22 },
+    { x: 360, y: 78 },
+    { x: 560, y: 26 },
+    { x: 760, y: 74 },
+    { x: 960, y: 30 },
+    { x: 1160, y: 80 },
+    { x: 1360, y: 28 },
+  ];
 
   return (
-    <div ref={sequenceRef} className="hidden lg:block">
+    <>
+      <div className="lg:hidden">
+        <div className="relative overflow-hidden py-6">
+          <div className="relative z-20 mx-auto w-[90%] max-w-[1440px]">
+            <SectionHeading eyebrow={data.calendar.eyebrow} title={data.calendar.title} />
+          </div>
+          <div className="mt-7 overflow-hidden">
+            <div
+              className="flex transition-transform duration-500 ease-out"
+              style={{ transform: `translateX(-${activeCardIndex * 100}%)` }}
+            >
+              {data.calendar.races.map((race, index) => (
+                <div key={race.date} className="min-w-full px-[9vw]">
+                  <DesktopRaceCard race={race} index={index} language={language} />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-5 flex justify-center gap-2" aria-label="Choose a race">
+            {data.calendar.races.map((race, index) => (
+              <button
+                key={race.date}
+                type="button"
+                aria-label={`Show ${race.village}`}
+                aria-current={activeCardIndex === index ? "true" : undefined}
+                onClick={() => setActiveCardIndex(index)}
+                className={`h-2.5 rounded-full transition-all ${activeCardIndex === index ? "w-7 bg-[#bb0054]" : "w-2.5 bg-[#072f4f]/25"}`}
+              />
+            ))}
+          </div>
+          <div className="mt-6 flex flex-wrap justify-center gap-1.5">
+            <Button href={data.register.href} tone="pink">{data.calendar.register}</Button>
+            <Button href="#distances" tone="navy">{data.calendar.details}</Button>
+          </div>
+        </div>
+      </div>
+
+      <div ref={sequenceRef} className="hidden lg:block">
       <div
         ref={panelRef}
-        className="relative isolate flex min-h-screen flex-col justify-center overflow-hidden rounded-[20px] border border-[#bb0054]/10 px-8 py-12"
+        className="relative isolate flex min-h-[100svh] flex-col justify-center overflow-hidden py-10"
       >
-        <Image
-          src={data.assets.calendarGrid}
-          alt=""
-          fill
-          className="-z-10 object-cover"
-          sizes="90vw"
-        />
-        <SectionHeading
-          eyebrow={data.calendar.eyebrow}
-          title={data.calendar.title}
-          centered
-        />
-        <div className="relative mt-[115px] mb-[125px] grid grid-cols-7 gap-2">
-          <svg
-            aria-hidden="true"
-            viewBox="0 0 1500 220"
-            preserveAspectRatio="none"
-            className="pointer-events-none absolute inset-x-0 -top-24 z-0 aspect-[1500/220] w-full overflow-visible"
-            style={language === "ar" ? { transform: "scaleX(-1)" } : undefined}
-          >
-            <path
-              d="M0 186 L286 86 L513 191 L715 61 L1013 171 L1217 66 L1500 186"
-              fill="none"
-              stroke="#072F4F"
-              strokeOpacity="0.32"
-              strokeWidth="4.8"
-              strokeDasharray="9.6 9.6"
-            />
-            {[
-              { x: 0, y: 186 },
-              { x: 286, y: 86 },
-              { x: 513, y: 191 },
-              { x: 715, y: 61 },
-              { x: 1013, y: 171 },
-              { x: 1217, y: 66 },
-              { x: 1500, y: 186 },
-            ].map((stop, index) => (
-              <g key={index}>
-                <circle
-                  className="calendar-stop-pulse"
-                  cx={stop.x}
-                  cy={stop.y}
-                  r="7"
-                  fill="none"
-                  stroke="#bb0054"
-                  strokeWidth="2.5"
-                  style={{ animationDelay: `${index * 0.05}s` }}
-                />
-                <circle
-                  cx={stop.x}
-                  cy={stop.y}
-                  r="7"
-                  fill="#bb0054"
-                  stroke="white"
-                  strokeWidth="2"
-                />
-              </g>
-            ))}
-            <path
-              ref={timelinePathRef}
-              d="M0 186 L286 86 L513 191 L715 61 L1013 171 L1217 66 L1500 186"
-              fill="none"
-              stroke="#bb0054"
-              strokeWidth="5"
-              strokeLinecap="round"
-            />
-            <circle
-              ref={timelineDotRef}
-              r="9"
-              fill="#bb0054"
-              stroke="white"
-              strokeWidth="3"
-            />
-          </svg>
-          {data.calendar.races.map((race, index) => (
-            <div
-              key={race.date}
-              ref={(element) => { cardRefs.current[index] = element; }}
-              className={index === 0 ? "opacity-100" : "opacity-0"}
-            >
-              <RaceCard
+        <div className="mx-auto w-[90%] max-w-[1440px]">
+          <SectionHeading
+            eyebrow={data.calendar.eyebrow}
+            title={data.calendar.title}
+          />
+        </div>
+
+        <div
+          ref={trackRef}
+          className="relative mt-8 overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          aria-label="Race calendar journey"
+        >
+          <div ref={cardsRef} className="flex w-max gap-6 px-0 pb-24 pt-5">
+            {data.calendar.races.map((race, index) => (
+              <DesktopRaceCard
+                key={race.date}
                 race={race}
                 index={index}
-                className={`mx-auto max-w-[195px] ${race.position}`}
+                language={language}
               />
-            </div>
-          ))}
+            ))}
+          </div>
+
+          <div
+            ref={routeRef}
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-24"
+          >
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 1600 100"
+              preserveAspectRatio="none"
+              className="absolute inset-0 h-full w-full overflow-visible"
+            >
+              <path
+                d={routePath}
+                fill="none"
+                stroke="#072f4f"
+                strokeOpacity="0.22"
+                strokeWidth="3"
+                strokeDasharray="3 10"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              {routeStops.map((stop, index) => (
+                <g key={index}>
+                  <circle
+                    cx={stop.x}
+                    cy={stop.y}
+                    r="7"
+                    fill="#f7faf9"
+                    stroke="#072f4f"
+                    strokeWidth="2"
+                  />
+                  <circle
+                    cx={stop.x}
+                    cy={stop.y}
+                    r="3"
+                    fill={desktopRaceColors[index] ?? "#bb0054"}
+                  />
+                </g>
+              ))}
+              <path
+                ref={routeFillRef}
+                d={routePath}
+                fill="none"
+                stroke="#0b2d4d"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                ref={runnerPathRef}
+                d={routePath}
+                fill="none"
+                stroke="transparent"
+                strokeWidth="14"
+              />
+            </svg>
+            <Image
+              ref={runnerRef}
+              src="/races/rahhal-kick.webp"
+              alt=""
+              width={148}
+              height={180}
+              className="absolute left-0 top-0 h-16 w-auto scale-x-[-1] object-contain object-bottom drop-shadow-[0_8px_8px_rgba(7,47,79,0.25)]"
+            />
+          </div>
         </div>
-        <div className="flex flex-wrap justify-center gap-5">
-          <Button href={data.register.href} tone="pink">{data.calendar.register}</Button>
+
+        <div className="mx-auto mt-5 flex w-[90%] max-w-[1440px] flex-wrap justify-center gap-5">
+          <Button href={data.register.href} tone="pink">
+            {data.calendar.register}
+          </Button>
           <Button href="#distances" tone="navy">
             {data.calendar.details}
           </Button>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
-
 export default function RaceCalendar() {
-  const data = useHomeData();
   return (
     <section
       id="calendar"
-      className="mx-auto w-[95%] scroll-mt-8 py-6 md:py-16 2xl:max-w-[1600px] "
+      className="mx-auto w-[95%] scroll-mt-8 py-6 md:py-16 lg:w-full"
     >
-      <MobileCalendarSequence />
       <DesktopCalendarSequence />
     </section>
   );
 }
-
