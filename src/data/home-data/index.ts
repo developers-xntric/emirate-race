@@ -176,7 +176,7 @@ export const homeData = {
         position: "lg:translate-y-[30px] lg:-rotate-[11.66deg]",
       },
       {
-        village: "Al Lehbab",
+        village: "Lehbab",
         emirate: "Dubai",
         day: "17",
         month: "Oct 2026",
@@ -341,7 +341,7 @@ export const homeData = {
         {
           question: "Where will the 2026 races take place?",
           answer:
-            "The series will visit Qidfa, Al Lehbab, Al-Wadi Al-Hilo, Falaj Al Mualla, Masfout, Al Rams and Al Shuwaib.",
+            "The series will visit Qidfa, Lehbab, Al-Wadi Al-Hilo, Falaj Al Mualla, Masfout, Al Rams and Al Shuwaib.",
         },
       ],
     ],
