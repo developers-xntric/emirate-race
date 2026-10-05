@@ -162,7 +162,7 @@ function MobileCalendarSequence() {
         className="relative isolate flex min-h-[100svh] flex-col overflow-hidden rounded-[20px] border border-[#bb0054]/10 px-5 py-6"
       >
         <Image src={data.assets.calendarGrid} alt="" fill className="-z-10 object-cover" sizes="95vw" />
-        <SectionHeading eyebrow={data.calendar.eyebrow} title={data.calendar.title} centered />
+        <SectionHeading eyebrow={data.calendar.mapEyebrow} title={data.calendar.mapTitle} centered />
         <div className="relative flex flex-1 items-center justify-center">
           <svg aria-hidden="true" viewBox="0 0 44 720" preserveAspectRatio="xMidYMid meet" className="absolute inset-y-5 -left-5 h-[calc(100%-2.5rem)] w-11 overflow-visible">
             <path d="M22 34 V686" fill="none" stroke="#072F4F" strokeOpacity="0.32" strokeWidth="3" strokeDasharray="8 8" />
@@ -185,13 +185,13 @@ function MobileCalendarSequence() {
           </div>        </div>
         <div className="flex flex-wrap justify-center gap-1.5">
           <Button href={data.register.href} tone="pink">{data.calendar.register}</Button>
-          <Button href="#distances" tone="navy">{data.calendar.details}</Button>
+          {/* <Button href="#distances" tone="navy">{data.calendar.details}</Button> */}
         </div>
       </div>
     </div>
   );
 }
-function DesktopCalendarSequence() {
+function DesktopCalendar() {
   const data = useHomeData();
   const { language } = useLanguage();
   const sequenceRef = useRef<HTMLDivElement>(null);
@@ -223,40 +223,31 @@ function DesktopCalendarSequence() {
         timelineDot.setAttribute("cy", `${point.y}`);
       };
 
-      drawTimeline(0);
-
-      gsap.set(cards, { opacity: 0 });
-      gsap.set(cards[0], { opacity: 1 });
-
-      const cardStops = [0, 0.184, 0.336, 0.482, 0.675, 0.814, 1];
-      const cardVisibility = cards.map((_, index) => index === 0);
-      const updateCardVisibility = (progress: number) => {
-        cards.forEach((card, index) => {
-          const shouldShow = progress >= cardStops[index];
-          if (cardVisibility[index] === shouldShow) return;
-
-          cardVisibility[index] = shouldShow;
-          gsap.to(card, {
-            opacity: shouldShow ? 1 : 0,
-            duration: 0.55,
-            ease: "power2.inOut",
-            overwrite: "auto",
-          });
+      gsap.set(cards, { opacity: 1 });
+      const animationState = { progress: 0 };
+      let timelineTween: gsap.core.Tween | null = null;
+      const playTimeline = () => {
+        timelineTween?.kill();
+        animationState.progress = 0;
+        drawTimeline(0);
+        timelineTween = gsap.to(animationState, {
+          progress: 1,
+          duration: 2.8,
+          ease: "power2.inOut",
+          onUpdate: () => drawTimeline(animationState.progress),
         });
       };
 
       ScrollTrigger.create({
         trigger: sequence,
-        start: "top top",
-        end: "+=200%",
-        pin: panel,
-        pinSpacing: true,
+        start: "top 80%",
+        end: "bottom 20%",
         anticipatePin: 1,
         invalidateOnRefresh: true,
-        onUpdate: (trigger) => {
-          drawTimeline(trigger.progress);
-          updateCardVisibility(trigger.progress);
-        },
+        onEnter: playTimeline,
+        onEnterBack: playTimeline,
+        onLeave: () => timelineTween?.kill(),
+        onLeaveBack: () => timelineTween?.kill(),
       });
     }, sequence);
 
@@ -267,7 +258,7 @@ function DesktopCalendarSequence() {
     <div ref={sequenceRef} className="hidden lg:block">
       <div
         ref={panelRef}
-        className="relative isolate flex min-h-screen flex-col justify-center overflow-hidden rounded-[20px] border border-[#bb0054]/10 px-8 py-12"
+        className="relative isolate flex flex-col justify-center overflow-hidden rounded-[20px] border border-[#bb0054]/10 px-8 py-12"
       >
         <Image
           src={data.assets.calendarGrid}
@@ -277,11 +268,11 @@ function DesktopCalendarSequence() {
           sizes="90vw"
         />
         <SectionHeading
-          eyebrow={data.calendar.eyebrow}
-          title={data.calendar.title}
+          eyebrow={data.calendar.mapEyebrow}
+          title={data.calendar.mapTitle}
           centered
         />
-        <div className="relative mt-[115px] mb-[125px] grid grid-cols-7 gap-2">
+        <div className="relative mt-22 mb-12 grid grid-cols-7 gap-2">
           <svg
             aria-hidden="true"
             viewBox="0 0 1500 220"
@@ -347,7 +338,7 @@ function DesktopCalendarSequence() {
             <div
               key={race.date}
               ref={(element) => { cardRefs.current[index] = element; }}
-              className={index === 0 ? "opacity-100" : "opacity-0"}
+              className="opacity-100"
             >
               <RaceCard
                 race={race}
@@ -357,26 +348,23 @@ function DesktopCalendarSequence() {
             </div>
           ))}
         </div>
-        <div className="flex flex-wrap justify-center gap-5">
+        <div className="flex flex-wrap justify-center gap-5 mt-10">
           <Button href={data.register.href} tone="pink">{data.calendar.register}</Button>
-          <Button href="#distances" tone="navy">
-            {data.calendar.details}
-          </Button>
         </div>
       </div>
     </div>
   );
 }
 
-export default function RaceCalendar() {
+export default function RaceMap() {
   const data = useHomeData();
   return (
     <section
       id="calendar"
-      className="mx-auto w-[95%] scroll-mt-8 py-6 md:py-16 2xl:max-w-[1600px] "
+      className="mx-auto w-[95%] scroll-mt-8 py-6 md:py-0 2xl:max-w-[1600px] "
     >
       <MobileCalendarSequence />
-      <DesktopCalendarSequence />
+      <DesktopCalendar />
     </section>
   );
 }

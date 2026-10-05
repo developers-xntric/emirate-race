@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { useHomeData, useLanguage } from "./LanguageProvider";
 import SectionHeading from "./SectionHeading";
 import Button from "./Button";
+import RaceMap from "./backup/calender";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -170,7 +171,7 @@ function DesktopRaceCard({
     </a>
   );
 }
-function DesktopCalendarSequence() {
+function CalendarSequence() {
   const data = useHomeData();
   const { language } = useLanguage();
   const [activeCardIndex, setActiveCardIndex] = useState(0);
@@ -232,7 +233,7 @@ function DesktopCalendarSequence() {
           const point = runnerPath.getPointAtLength(
             pathLength * clampedProgress,
           );
-          const x = (point.x / 1600) * route.clientWidth - 34;
+          const x = ((language === "ar" ? 1 - point.x / 1600 : point.x / 1600) * route.clientWidth) - 34;
           const y = (point.y / 100) * route.clientHeight - 64;
           routeFill.style.strokeDasharray = `${pathLength}`;
           routeFill.style.strokeDashoffset = `${pathLength * (1 - clampedProgress)}`;
@@ -245,7 +246,7 @@ function DesktopCalendarSequence() {
           moveRunner(0);
 
           const animation = gsap.to(cards, {
-            x: () => -travelDistance(),
+            x: () => language === "ar" ? travelDistance() : -travelDistance(),
             ease: "none",
             scrollTrigger: {
               trigger: sequence,
@@ -271,7 +272,7 @@ function DesktopCalendarSequence() {
     );
 
     return () => media.revert();
-  }, [data.calendar.races.length]);
+  }, [data.calendar.races.length, language]);
 
   const routePath =
     "M0 48 C70 48 100 22 170 22 S290 78 360 78 S490 26 560 26 S690 74 760 74 S890 30 960 30 S1090 80 1160 80 S1290 28 1360 28 S1490 68 1600 68";
@@ -292,10 +293,10 @@ function DesktopCalendarSequence() {
           <div className="relative z-20 mx-auto w-[90%] max-w-[1440px]">
             <SectionHeading eyebrow={data.calendar.eyebrow} title={data.calendar.title} />
           </div>
-          <div className="mt-7 overflow-hidden" dir="ltr">
+          <div className="mt-7 overflow-hidden" dir={language === "ar" ? "rtl" : "ltr"}>
             <div
               className="flex transition-transform duration-500 ease-out"
-              style={{ transform: `translateX(-${activeCardIndex * 100}%)` }}
+              style={{ transform: `translateX(${language === "ar" ? activeCardIndex * 100 : -activeCardIndex * 100}%)` }}
             >
               {data.calendar.races.map((race, index) => (
                 <div key={race.date} className="min-w-full px-[9vw]">
@@ -336,12 +337,12 @@ function DesktopCalendarSequence() {
         </div>
 
         <div
-          dir="ltr"
+          dir={language === "ar" ? "rtl" : "ltr"}
           ref={trackRef}
           className="relative mt-8 overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           aria-label="Race calendar journey"
         >
-          <div ref={cardsRef} dir="ltr" className="flex w-max gap-6 px-0 pb-24 pt-5">
+          <div ref={cardsRef} dir={language === "ar" ? "rtl" : "ltr"} className="flex w-max gap-6 px-0 pb-24 pt-5">
             {data.calendar.races.map((race, index) => (
               <DesktopRaceCard
                 key={race.date}
@@ -360,7 +361,7 @@ function DesktopCalendarSequence() {
               aria-hidden="true"
               viewBox="0 0 1600 100"
               preserveAspectRatio="none"
-              className="absolute inset-0 h-full w-full overflow-visible"
+              className="absolute inset-0 h-full w-full overflow-visible" style={language === "ar" ? { transform: "scaleX(-1)" } : undefined}
             >
               <path
                 d={routePath}
@@ -413,7 +414,9 @@ function DesktopCalendarSequence() {
               alt=""
               width={148}
               height={180}
-              className="absolute left-0 top-0 h-16 w-auto scale-x-[-1] object-contain object-bottom drop-shadow-[0_8px_8px_rgba(7,47,79,0.25)]"
+             className={`absolute left-0 top-0 h-16 w-auto ${
+  language === "ar" ? "scale-x-100" : "scale-x-[-1]"
+} object-contain object-bottom drop-shadow-[0_8px_8px_rgba(7,47,79,0.25)]`}
             />
           </div>
         </div>
@@ -437,7 +440,8 @@ export default function RaceCalendar() {
       id="calendar"
       className="mx-auto w-[95%] scroll-mt-8 py-6 md:py-16 lg:w-full"
     >
-      <DesktopCalendarSequence />
+      <RaceMap/>
+      <CalendarSequence />
     </section>
   );
 }

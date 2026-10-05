@@ -299,6 +299,8 @@ export const homeData = {
     details: "View Race Details",
     dayLabel: "Sat",
     raceLabel: "Race",
+    mapEyebrow: "Race Map",
+    mapTitle: "Follow the Journey",
     medalPieceLabel: "Medal piece",
     medalLabel: "Medal",
     medalAltLabel: "medal",
