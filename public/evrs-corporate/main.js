@@ -27,8 +27,8 @@
       meaning: "Coastal waves",
     },
     {
-      k: "lehbab",
-      name: "Lehbab",
+      k: "lahbab",
+      name: "Lahbab",
       em: "Dubai",
       date: "2026-10-17",
       c: "#6c71b8",
@@ -1610,7 +1610,7 @@
       {
         src: "rahhal-cheer",
         cap: "Last stretch. Keep going.",
-        c: "var(--lehbab)",
+        c: "var(--lahbab)",
       },
       {
         src: "rahhal-highfive",

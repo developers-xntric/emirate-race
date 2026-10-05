@@ -19,7 +19,7 @@
 
   const VILLAGES = [
     { k: "qidfa",   name: "Qidfa",           em: "Fujairah",        date: "2026-10-10", c: "#3d93cf", meaning: "Coastal waves" },
-    { k: "lehbab",  name: "Lehbab",       em: "Dubai",           date: "2026-10-17", c: "#6c71b8", meaning: "Palm frond" },
+    { k: "lahbab",  name: "Lahbab",       em: "Dubai",           date: "2026-10-17", c: "#6c71b8", meaning: "Palm frond" },
     { k: "wadi",    name: "Wadi Al Helo",    em: "Sharjah",         date: "2026-10-24", c: "#b80356", meaning: "Ghaf tree" },
     { k: "falaj",   name: "Falaj Al Mualla", em: "Umm Al Quwain",   date: "2026-10-31", c: "#4db4a8", meaning: "The falaj channel" },
     { k: "masfout", name: "Masfout",         em: "Ajman",           date: "2026-11-14", c: "#bb866a", meaning: "The fort" },
@@ -784,7 +784,7 @@
     const PHOTOS = [
       { src: "rahhal-startline", cap: "Race day, reporting in.", c: "var(--falaj)", wide: true },
       { src: "rahhal-selfie", cap: "Post-run selfie.", c: "var(--masfout)" },
-      { src: "rahhal-cheer", cap: "Last stretch. Keep going.", c: "var(--lehbab)" },
+      { src: "rahhal-cheer", cap: "Last stretch. Keep going.", c: "var(--lahbab)" },
       { src: "rahhal-highfive", cap: "High-fives on the course.", c: "var(--wadi)" },
       { src: "club-warmup", cap: "Warm-up, Rahhal style.", c: "var(--rams)" },
       { src: "rahhal-start", cap: "Start line energy.", c: "var(--qidfa)" },

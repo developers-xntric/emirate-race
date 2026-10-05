@@ -17,7 +17,7 @@
   --line: rgba(10, 50, 81, 0.14);
 
   --qidfa: #3d93cf;
-  --lehbab: #6c71b8;
+  --lahbab: #6c71b8;
   --wadi: #b80356;
   --falaj: #4db4a8;
   --masfout: #bb866a;
@@ -255,7 +255,7 @@ a { color: inherit; }
 .hud.is-on { transform: translate(-50%, 0); }
 .hud-track { position: relative; width: clamp(180px, 26vw, 340px); height: 30px; }
 .hud-line { position: absolute; left: 0; right: 0; top: 50%; height: 3px; margin-top: -1.5px; background: rgba(255, 255, 255, 0.18); border-radius: 3px; }
-.hud-fill { position: absolute; left: 0; top: 50%; height: 3px; margin-top: -1.5px; width: 0; border-radius: 3px; background: linear-gradient(90deg, var(--qidfa), var(--lehbab), var(--wadi), var(--falaj), var(--masfout), var(--rams), var(--shuwaib)); }
+.hud-fill { position: absolute; left: 0; top: 50%; height: 3px; margin-top: -1.5px; width: 0; border-radius: 3px; background: linear-gradient(90deg, var(--qidfa), var(--lahbab), var(--wadi), var(--falaj), var(--masfout), var(--rams), var(--shuwaib)); }
 .hud-dot {
   position: absolute; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; padding: 0;
   border-radius: 50%; border: 2px solid var(--navy); background: rgba(255, 255, 255, 0.35);
