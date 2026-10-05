@@ -124,6 +124,9 @@ export const arabicData = {
     eyebrow: "جدول السباقات", title: "سبع قرى بانتظارك",
     register: "سجّل في السلسلة", details: "تعرّف على تفاصيل السباقات",
     dayLabel: "السبت،", raceLabel: "السباق",
+    medalPieceLabel: "قطعة الميدالية", medalLabel: "ميدالية",
+    medalAltLabel: "ميدالية",
+    viewMedalLabel: "مرّر المؤشر أو انتقل للعرض لرؤية الميدالية.",
     villageLabel: "القرية", emirateLabel: "الإمارة", dateLabel: "التاريخ",
     races: homeData.calendar.races.map((race, index) => ({
       ...race,

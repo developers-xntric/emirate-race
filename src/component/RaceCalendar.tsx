@@ -51,8 +51,8 @@ function DesktopRaceCard({
   const data = useHomeData();
   const color = desktopRaceColors[index] ?? "#072f4f";
   const darkText = index === desktopRaceColors.length - 1;
-  const medalAsset = desktopMedalAssets[index] ?? "/home/medal.png";
-  const raceIcon = desktopRaceIcons[index] ?? race.icon;
+  const medalAsset = (race as any).medalImage || desktopMedalAssets[index] || "/home/medal.png";
+  const raceIcon = (race as any).icon || desktopRaceIcons[index] || race.icon;
 
   return (
     <a
@@ -60,7 +60,7 @@ function DesktopRaceCard({
       target="_blank"
       rel="noreferrer"
       dir={language === "ar" ? "rtl" : "ltr"}
-      aria-label={`${data.calendar.raceLabel} ${index + 1}: ${race.village}, ${race.day} ${race.month}. Hover or focus to view the medal.`}
+      aria-label={`${data.calendar.raceLabel} ${index + 1}: ${race.village}, ${race.day} ${race.month}. ${data.calendar.viewMedalLabel}`}
       className="group block h-[clamp(300px,38vh,410px)] w-[82vw] sm:w-[clamp(230px,45vw,310px)] lg:w-[clamp(230px,21vw,310px)] shrink-0 [perspective:1200px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#bb0054]"
     >
       <div className="relative size-full [transform-style:preserve-3d] transition-transform duration-700 ease-out group-hover:[transform:rotateX(180deg)] group-focus-visible:[transform:rotateX(180deg)]">
@@ -68,7 +68,7 @@ function DesktopRaceCard({
           className={`absolute inset-0 flex flex-col overflow-hidden rounded-[22px] p-5 shadow-[0_26px_42px_-28px_rgba(7,47,79,0.8)] [backface-visibility:hidden] ${darkText ? "text-[#072f4f]" : "text-white"}`}
           style={{ backgroundColor: color }}
         >
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_100%_0%,rgba(255,255,255,0.24),transparent_43%)] opacity-80" />
+          
           <div className="relative flex items-start justify-between gap-3 text-[10px] font-bold uppercase tracking-[0.18em]">
             <span
               className={`rounded-full px-3 py-2 ${darkText ? "bg-[#072f4f] text-white" : "bg-white/20"}`}
@@ -83,9 +83,9 @@ function DesktopRaceCard({
           <Image
             src={raceIcon}
             alt=""
-            width={180}
-            height={180}
-            className="relative mx-auto mt-2 h-[25%] w-[56%] object-contain"
+            width={2000}
+            height={2000}
+            className="relative z-10 mx-auto mt-2 h-[25%] w-[90%] object-contain"
           />
 
           <div className="relative mt-auto flex items-end gap-4">
@@ -144,21 +144,21 @@ function DesktopRaceCard({
           }}
         >
           <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.18em] text-[#072f4f]/65">
-            <span>Medal piece</span>
+            <span>{data.calendar.medalPieceLabel}</span>
             <span>
               {data.calendar.raceLabel} {String(index + 1).padStart(2, "0")}
             </span>
           </div>
           <Image
             src={medalAsset}
-            alt={`${race.village} medal`}
+            alt={`${race.village} ${data.calendar.medalAltLabel}`}
             width={320}
             height={320}
             className="mx-auto min-h-0 h-full w-full max-h-[220px] object-contain py-3 drop-shadow-[0_14px_14px_rgba(7,47,79,0.25)]"
           />
           <div className="border-t border-[#072f4f]/15 pt-4">
             <p className="text-[clamp(17px,1.45vw,22px)] leading-none font-bold uppercase">
-              {race.village} Medal
+              {race.village} {data.calendar.medalLabel}
             </p>
             <p className="mt- text-[10px] font-bold uppercase tracking-[0.16em] text-[#072f4f]/65">
 
@@ -271,7 +271,7 @@ function DesktopCalendarSequence() {
     );
 
     return () => media.revert();
-  }, [data.calendar.races.length, setActiveCardIndex]);
+  }, [data.calendar.races.length]);
 
   const routePath =
     "M0 48 C70 48 100 22 170 22 S290 78 360 78 S490 26 560 26 S690 74 760 74 S890 30 960 30 S1090 80 1160 80 S1290 28 1360 28 S1490 68 1600 68";
@@ -292,7 +292,7 @@ function DesktopCalendarSequence() {
           <div className="relative z-20 mx-auto w-[90%] max-w-[1440px]">
             <SectionHeading eyebrow={data.calendar.eyebrow} title={data.calendar.title} />
           </div>
-          <div className="mt-7 overflow-hidden">
+          <div className="mt-7 overflow-hidden" dir="ltr">
             <div
               className="flex transition-transform duration-500 ease-out"
               style={{ transform: `translateX(-${activeCardIndex * 100}%)` }}
@@ -336,11 +336,12 @@ function DesktopCalendarSequence() {
         </div>
 
         <div
+          dir="ltr"
           ref={trackRef}
           className="relative mt-8 overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           aria-label="Race calendar journey"
         >
-          <div ref={cardsRef} className="flex w-max gap-6 px-0 pb-24 pt-5">
+          <div ref={cardsRef} dir="ltr" className="flex w-max gap-6 px-0 pb-24 pt-5">
             {data.calendar.races.map((race, index) => (
               <DesktopRaceCard
                 key={race.date}

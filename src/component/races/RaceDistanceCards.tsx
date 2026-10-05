@@ -6,19 +6,16 @@ import type { RacePageData } from "@/data/races/types";
 
 const tabMeta = [
   {
-    subtitle: "Competitive / timed",
     color: "#b80356",
     tag: "The race",
     rahhal: "/races/rahhal-kick.webp",
   },
   {
-    subtitle: "Clubs and groups",
     color: "#2e8c81",
     tag: "The club run",
     rahhal: "/rahhal-run.webp",
   },
   {
-    subtitle: "Family / all ages",
     color: "#d9663a",
     tag: "The family run",
     rahhal: "/rahhal-bottle.webp",
@@ -71,7 +68,7 @@ export default function RaceDistanceCards({
               aria-selected={selected}
               aria-controls="race-distance-panel"
               onClick={() => setActiveIndex(index)}
-              className={`relative min-h-[116px] cursor-pointer overflow-hidden px-3 py-5 text-left transition-colors md:min-h-[145px] md:px-7 md:py-6 ${selected ? "bg-[#0a3251]/[.035]" : "hover:bg-[#0a3251]/[.02]"}`}
+              className={`relative min-h-[116px] cursor-pointer overflow-hidden px-3 py-5 text-left rtl:text-right transition-colors md:min-h-[145px] md:px-7 md:py-6 ${selected ? "bg-[#0a3251]/[.035]" : "hover:bg-[#0a3251]/[.02]"}`}
             >
               <strong
                 className="block text-xl leading-none font-extrabold uppercase md:text-4xl"
@@ -80,7 +77,7 @@ export default function RaceDistanceCards({
                 {distance.distance}
               </strong>
               <span className="mt-2 block text-[9px] leading-tight font-bold tracking-[.1em] text-[#5d6f80] uppercase md:text-[11px] md:tracking-[.16em]">
-                {meta.subtitle}
+                {distance.title}
               </span>
               <i
                 aria-hidden
@@ -106,7 +103,7 @@ export default function RaceDistanceCards({
           className="absolute top-5 left-5 text-[10px] font-bold tracking-[.22em] uppercase sm:top-7 sm:left-8 md:top-8 md:left-10"
           style={{ color: activeMeta.color }}
         >
-          {activeMeta.tag}
+        {activeDistance.title}
         </span>
 
         <div
@@ -178,19 +175,19 @@ export default function RaceDistanceCards({
           className="relative z-10 mx-auto grid min-h-[270px] md:mb-0 mb-16 md:mt-10 max-w-[280px] content-center text-center motion-safe:animate-[distance-readout_.5s_ease-out]"
         >
           <div className="font-bold leading-0.5 md:leading-[0.55] text-[#0a3251]  ">
-            <span className="text-[50px] md:text-[96px]">
+            <span className="text-[50px] md:text-[96px] rtl:text-[30px] md:rtl:text-[80px]">
               {activeDistance.distance.replace(/KM$/i, "")}
             </span>
             <small className="ml-1 text-[10px] font-normal">KM</small>
           </div>
-          <h3 className="mt-4 text-lg leading-snug font-semibold text-[#0a3251]">
+          <h3 className="mt-4 text-lg rtl:text-[12px] md:rtl:text-[10px] leading-snug font-semibold text-[#0a3251]">
             {activeDistance.title}
           </h3>
         </div>
 
         <Image
           key={activeMeta.rahhal}
-          src={activeMeta.rahhal}
+          src={activeDistance.tabImage || activeMeta.rahhal}
           alt=""
           width={230}
           height={260}
