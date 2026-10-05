@@ -56,7 +56,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" dir="ltr" className={`${leagueSpartan.variable} ${tajawal.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      dir="ltr"
+      className={`${leagueSpartan.variable} ${tajawal.variable} h-full antialiased`}
+    >
       <Script id="google-tag-manager" strategy="beforeInteractive">
         {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
