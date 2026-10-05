@@ -29,7 +29,7 @@ export default function AboutPage() {
   const recognitionLabel = field(recognition, "label", "Recognition & Legacy"); const recognitionTitle = field(recognition, "title", "A National Journey with International Recognition"); const recognitionParagraphs = field(recognition, "paragraph", "In its inaugural year, the Emirates Villages Run Series received international recognition through the UN Tourism Sports Tourism Award.\n\nEVRS returns in 2026 to continue connecting sport with authentic village destinations and introducing more people to the communities, landscapes and stories found across the UAE.").split("\n\n");
   return (
     <>
-      <main id="main-content" className="bg-white" lang="en" dir="ltr">
+      <main id="main-content" className="bg-white">
         <section className="relative isolate flex h-[min(100svh,1080px)] min-h-[680px] flex-col bg-[#0b2d4d] text-white max-md:h-[90svh] max-md:min-h-[620px]">
           <div className="absolute inset-0 -z-[2] overflow-hidden [&_img]:absolute [&_img]:h-auto [&_img]:w-[35%] [&_img:nth-child(1)]:-left-[12%] [&_img:nth-child(1)]:-top-[17%] [&_img:nth-child(2)]:left-[16%] [&_img:nth-child(2)]:-top-[19%] [&_img:nth-child(3)]:left-[47%] [&_img:nth-child(3)]:-top-[19%] [&_img:nth-child(4)]:-right-[9%] [&_img:nth-child(4)]:top-[28%] [&_img:nth-child(5)]:-right-[8%] [&_img:nth-child(5)]:-bottom-[20%] [&_img:nth-child(6)]:left-[47%] [&_img:nth-child(6)]:-bottom-[20%] [&_img:nth-child(7)]:left-[18%] [&_img:nth-child(7)]:-bottom-[20%]" aria-hidden="true">
             <Image
