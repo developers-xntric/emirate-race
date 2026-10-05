@@ -1,4 +1,4 @@
-import VendorFormFrame from "@/component/VendorFormFram";
+import VendorFormFrame from "@/component/VendorFormFrame";
 
 export default function VendorFormPage() {
   return (
