@@ -3,19 +3,19 @@ import { qidfa } from "./qidfa";
 
 // Figma page 341:749 and route variants 341:1278.
 export const lehbab: RacePageData = {
-  name: "Lehbab",
+  name: "Lahbab",
   heroTitle: ["Run Beyond", "the City"],
   heroPosition: "center 45%",
-  aboutAlt: "Two runners on a village trail in Lehbab, Dubai",
+  aboutAlt: "Two runners on a village trail in Lahbab, Dubai",
   registerUrl:
     "https://www.premieronline.com/event/emirates_villages_run_series_race_2_dubai_8813",
   date: "Saturday, 17 October 2026",
   introduction:
-    "Race two takes EVRS to Lehbab, revealing a different side of Dubai through movement, landscape and discovery.",
+    "Race two takes EVRS to Lahbab, revealing a different side of Dubai through movement, landscape and discovery.",
   paragraphs: [
-    "Lehbab brings the EVRS journey into a village setting that feels far removed from the city’s usual pace.",
+    "Lahbab brings the EVRS journey into a village setting that feels far removed from the city’s usual pace.",
     "As the second stop of the series, this race continues the nationwide journey across seven emirates and seven villages, welcoming competitive runners, communities and families alike.",
-    "The race takes place in Lehbab, offering participants a chance to experience a distinct village setting within Dubai.",
+    "The race takes place in Lahbab, offering participants a chance to experience a distinct village setting within Dubai.",
   ],
   distances: qidfa.distances,
   assets: {
@@ -55,16 +55,16 @@ export const lehbab: RacePageData = {
     },
   ],
   routeCta: {
-    eyebrow: "Lehbab, Dubai",
+    eyebrow: "Lahbab, Dubai",
     title: "Keep the Momentum Going",
     description:
-      "Take on race two and continue your EVRS journey through Lehbab.",
-    button: "Run Lehbab",
+      "Take on race two and continue your EVRS journey through Lahbab.",
+    button: "Run Lahbab",
   },
   location: {
-    name: "Lehbab First Park",
-    address: "Lehbab First - Lahbab - Dubai",
-    query: "Lehbab First Park Dubai",
+    name: "Lahbab First Park",
+    address: "Lahbab First - Lahbab - Dubai",
+    query: "Lahbab First Park Dubai",
   },
   journey: {
     title: "Keep the Journey Going",

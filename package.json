@@ -10,7 +10,8 @@
     "seed:sanity": "tsx scripts/seed-sanity.ts",
     "fix:footer-links": "tsx scripts/fix-footer-links.ts",
     "fix:race-day-fields": "tsx scripts/fix-race-day-fields.ts",
-    "seed:home-cms": "tsx scripts/seed-home-cms.ts"
+    "seed:home-cms": "tsx scripts/seed-home-cms.ts",
+    "seed:seven-piece-medal-cms": "tsx scripts/seed-seven-piece-medal-cms.ts"
   },
   "dependencies": {
     "@sanity/vision": "^5.31.2",

@@ -97,6 +97,7 @@ function useWindowSize() {
 }
 export default function SevenPieceMedal() {
   const data = useHomeData();
+  const copy = data.sevenPieceMedal;
   const [selected, setSelected] = useState<number[]>([]);
   const [isRunning, setIsRunning] = useState(false);
   const [markMarkup, setMarkMarkup] = useState("");
@@ -192,13 +193,11 @@ export default function SevenPieceMedal() {
         <div className="grid items-center gap-3 md:gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           <div>
             <SectionHeading
-              eyebrow="The seven-piece medal"
-              title="Seven villages. One medal to finish."
+              eyebrow={copy.eyebrow}
+              title={copy.title}
             />
             <p className="mt-2 text-base leading-[1.5] text-[#0b2d4d]/75 md:text-lg">
-              Complete all seven to collect the full seven-piece medal. Every
-              village adds its own piece. Collect them in race order, or choose
-              any order you like.
+              {copy.description}
             </p>
             <div className="mt-5 flex items-end gap-3" aria-live="polite">
               <strong className="text-[clamp(70px,8vw,120px)] leading-[0.75] font-bold tracking-[-0.06em] text-[#0b2d4d]">
@@ -206,7 +205,7 @@ export default function SevenPieceMedal() {
               </strong>
               <span className="text-3xl font-bold text-[#0b2d4d]/30">/7</span>
               <span className="mb-1 max-w-24 text-[10px] font-bold uppercase leading-snug tracking-[0.16em] text-[#0b2d4d]/65">
-                {completed ? "Full medal unlocked" : "Pieces collected"}
+                {completed ? copy.fullMedalUnlocked : copy.piecesCollected}
               </span>
             </div>
             <div className="mt-2 md:mt-7 flex flex-wrap gap-3">
@@ -238,10 +237,10 @@ export default function SevenPieceMedal() {
                         strokeLinecap="round"
                       />
                     </svg>
-                    Collecting the season
+                    {copy.collectingSeason}
                   </span>
                 ) : (
-                  "Run the whole season"
+                  copy.runWholeSeason
                 )}
               </Button>
               {selected.length > 0 && (
@@ -250,7 +249,7 @@ export default function SevenPieceMedal() {
                   onClick={reset}
                   className="border border-[#0b2d4d]/30"
                 >
-                  Reset
+                  {copy.reset}
                 </Button>
               )}
             </div>
@@ -259,7 +258,7 @@ export default function SevenPieceMedal() {
             <div className="relative mx-auto w-[min(100%,150px)] md:w-[340px]">
               <Image
                 src="/default-7-mark.png"
-                alt="EVRS seven-piece medal mark"
+                alt={copy.medalMarkAlt}
                 width={340}
                 height={340}
                 className="h-auto w-full"
@@ -274,13 +273,13 @@ export default function SevenPieceMedal() {
             </div>
             <div
               className="mt-4 md:mt-7 grid grid-cols-4 gap-2 md:grid-cols-7 md:gap-3"
-              aria-label="Medal pieces"
+              aria-label={copy.piecesLabel}
             >
-              {data.calendar.races.map((race, index) => {
+              {copy.pieces.map((piece, index) => {
                 const active = selected.includes(index);
                 return (
                   <button
-                    key={race.date}
+                    key={piece.name}
                     type="button"
                     onClick={() => toggle(index)}
                     aria-pressed={active}
@@ -293,14 +292,14 @@ export default function SevenPieceMedal() {
                     }}
                   >
                     <Image
-                      src={medalAssets[index]}
-                      alt={`${race.village} medal piece`}
+                      src={piece.image || medalAssets[index]}
+                      alt={`${piece.name} ${copy.pieceAltSuffix}`}
                       width={88}
                       height={88}
                       className="h-16 w-full object-contain sm:h-20"
                     />
                     <span className="text-center text-[8px] font-bold uppercase leading-tight tracking-[0.08em] text-[#0b2d4d]">
-                      {race.village}
+                      {piece.name}
                     </span>
                     {active && (
                       <span
@@ -320,25 +319,26 @@ export default function SevenPieceMedal() {
           <div className="mt-10 grid overflow-hidden rounded-[12px] md:mt-12 md:grid-cols-[60fr_40fr]">
             <div className="relative min-h-[320px] md:min-h-[440px]">
               <Image
-                src="/medal-7-desert.webp"
-                alt="Completed seven-piece EVRS medal in the desert"
+                src={copy.completedImage}
+                alt={copy.completedImageAlt}
                 fill
                 sizes="(min-width: 768px) 50vw, 90vw"
                 className="object-cover"
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#072f4f]/95 via-[#072f4f]/55 to-transparent p-5 md:pt-20 text-white sm:p-9 sm:pt-28">
                 <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#fff]">
-                  7 / 7 &middot; Unlocked
+                  {copy.unlocked}
                 </p>
                 <h3 className="mt-3 text-xl md:text-2xl leading-[0.95] font-bold uppercase text-white md:text-4xl">
-                  Seven races.
-                  <br />
-                  Seven pieces.
-                  <br />
-                  One medal.
+                  {copy.completedTitle.split("\n").map((line, index, lines) => (
+                    <span key={`${line}-${index}`}>
+                      {line}
+                      {index < lines.length - 1 && <br />}
+                    </span>
+                  ))}
                 </h3>
                 <p className="md:mt-3 max-w-[36ch] text-base nd:leading-relaxed text-white/90 md:text-lg">
-                  Every village now has its place in your finished EVRS medal.
+                  {copy.completedDescription}
                 </p>
               </div>
             </div>

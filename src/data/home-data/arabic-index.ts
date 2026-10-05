@@ -142,7 +142,35 @@ export const arabicData = {
     ],
     cta: "ابدأ رحلتك",
   },
-  prizes: {
+  sevenPieceMedal: {
+    eyebrow: "الميدالية المكوّنة من سبع قطع",
+    title: "سبع قرى. ميدالية واحدة تكتمل برحلتك.",
+    description:
+      "أكمل السباقات السبعة لتحصل على الميدالية الكاملة المكوّنة من سبع قطع. تضيف كل قرية قطعتها الخاصة. اجمعها بحسب ترتيب السباقات أو بالترتيب الذي تختاره.",
+    piecesCollected: "القطع المُجمَّعة",
+    fullMedalUnlocked: "تم فتح الميدالية الكاملة",
+    runWholeSeason: "أكمل الموسم كاملاً",
+    collectingSeason: "جارٍ جمع قطع الموسم",
+    reset: "إعادة الضبط",
+    medalMarkAlt: "شعار ميدالية EVRS المكوّنة من سبع قطع",
+    piecesLabel: "قطع الميدالية",
+    pieceAltSuffix: "قطعة الميدالية",
+    pieces: [
+      { name: "قدفع", image: "/medals/qidfa.webp" },
+      { name: "لهباب", image: "/medals/lehbab.webp" },
+      { name: "وادي الحلو", image: "/medals/wadi.webp" },
+      { name: "فلج المعلا", image: "/medals/falaj.webp" },
+      { name: "مصفوت", image: "/medals/masfout.webp" },
+      { name: "الرمس", image: "/medals/rams.webp" },
+      { name: "الشويب", image: "/medals/shuwaib.webp" },
+    ],
+    completedImage: homeData.sevenPieceMedal.completedImage,
+    completedImageAlt: "ميدالية EVRS المكتملة المكوّنة من سبع قطع في الصحراء",
+    unlocked: "7 / 7 · مكتملة",
+    completedTitle: "سبعة سباقات.\nسبع قطع.\nميدالية واحدة.",
+    completedDescription:
+      "أصبحت لكل قرية الآن مكانها في ميدالية EVRS المكتملة الخاصة بك.",
+  },  prizes: {
     ...homeData.prizes,
     eyebrow: "الجوائز",
     title: "إجمالي جوائز بقيمة 1,000,000 درهم إماراتي",

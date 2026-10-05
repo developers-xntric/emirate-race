@@ -47,7 +47,7 @@ export default function Footer({
   const [pressKitOpen, setPressKitOpen] = useState(false);
   const raceLinks = [
     { label: "Qidfa", href: "/races/qidfa" },
-    { label: "Lehbab", href: "/races/lehbab" },
+    { label: "Lahbab", href: "/races/lahbab" },
     { label: "Wadi Al Helo", href: "/races/wadi-al-helo" },
     { label: "Falaj Al Mualla", href: "/races/falaj-al-mualla" },
     { label: "Masfout", href: "/races/masfout" },

@@ -5,7 +5,12 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/races/al-lehbab",
-        destination: "/races/lehbab",
+        destination: "/races/lahbab",
+        permanent: true,
+      },
+      {
+        source: "/races/lehbab",
+        destination: "/races/lahbab",
         permanent: true,
       },
     ];

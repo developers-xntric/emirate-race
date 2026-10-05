@@ -40,7 +40,7 @@ export const homeData = {
     },
     navRaces: [
       { label: "Qidfa", href: "/races/qidfa" },
-      { label: "Lehbab", href: "/races/lehbab" },
+      { label: "Lahbab", href: "/races/lahbab" },
       { label: "Wadi Al Helo", href: "/races/wadi-al-helo" },
       { label: "Falaj Al Mualla", href: "/races/falaj-al-mualla" },
       { label: "Masfout", href: "/races/masfout" },
@@ -200,8 +200,8 @@ export const homeData = {
         ],
       },
       {
-        label: "Lehbab",
-        link: "/races/lehbab",
+        label: "Lahbab",
+        link: "/races/lahbab",
         images: [
           "/gallery/2.jpg",
           "/gallery/3.jpg",
@@ -316,7 +316,7 @@ export const homeData = {
         position: "lg:translate-y-[30px] lg:-rotate-[11.66deg]",
       },
       {
-        village: "Lehbab",
+        village: "Lahbab",
         emirate: "Dubai",
         day: "17",
         month: "Oct 2026",
@@ -420,7 +420,35 @@ export const homeData = {
     ],
     cta: "Start Your Journey",
   },
-  prizes: {
+  sevenPieceMedal: {
+    eyebrow: "The Seven-Piece Medal",
+    title: "Seven Villages. One Medal to Finish.",
+    description:
+      "Complete all seven to collect the full seven-piece medal. Every village adds its own piece. Collect them in race order, or choose any order you like.",
+    piecesCollected: "Pieces Collected",
+    fullMedalUnlocked: "Full Medal Unlocked",
+    runWholeSeason: "Run the Whole Season",
+    collectingSeason: "Collecting the Season",
+    reset: "Reset",
+    medalMarkAlt: "EVRS seven-piece medal mark",
+    piecesLabel: "Medal pieces",
+    pieceAltSuffix: "medal piece",
+    pieces: [
+      { name: "Qidfa", image: "/medals/qidfa.webp" },
+      { name: "Lahbab", image: "/medals/lehbab.webp" },
+      { name: "Wadi Al Helo", image: "/medals/wadi.webp" },
+      { name: "Falaj Al Mualla", image: "/medals/falaj.webp" },
+      { name: "Masfout", image: "/medals/masfout.webp" },
+      { name: "Al Rams", image: "/medals/rams.webp" },
+      { name: "Al Shuwaib", image: "/medals/shuwaib.webp" },
+    ],
+    completedImage: "/medal-7-desert.webp",
+    completedImageAlt: "Completed seven-piece EVRS medal in the desert",
+    unlocked: "7 / 7 · Unlocked",
+    completedTitle: "Seven races.\nSeven pieces.\nOne medal.",
+    completedDescription:
+      "Every village now has its place in your finished EVRS medal.",
+  },  prizes: {
     title: "AED 1,000,000 Prize Pool",
     description:
       "Compete for your place on the podium and a share of the AED 1 million prize pool across eligible EVRS race categories.",
@@ -487,7 +515,7 @@ export const homeData = {
         {
           question: "Where will the 2026 races take place?",
           answer:
-            "The series will visit Qidfa, Lehbab, Al-Wadi Al-Helo, Falaj Al Mualla, Masfout, Al Rams and Al Shuwaib.",
+            "The series will visit Qidfa, Lahbab, Al-Wadi Al-Helo, Falaj Al Mualla, Masfout, Al Rams and Al Shuwaib.",
         },
       ],
     ],
