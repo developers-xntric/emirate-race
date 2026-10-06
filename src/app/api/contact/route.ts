@@ -3,6 +3,7 @@ import { contactEmails, pressKitEmails } from "@/lib/contact/email";
 import { isEmail, raceOptions, validateContact } from "@/lib/contact/validation";
 import { sanityClient } from "@/sanity/lib/client";
 import { smtpConfig } from "@/lib/contact/smtp";
+import { saveContactLead, savePressKitLead } from "@/lib/leads/save";
 
 export const runtime = "nodejs";
 const attempts = new Map<string, { count: number; expires: number }>();
@@ -48,6 +49,7 @@ export async function POST(request: Request) {
     if (!allowed(key)) return out({ message: "Please wait 15 minutes before requesting another press kit." }, 429);
     const reference = `EVRS-PK-${requestId.slice(0, 8).toUpperCase()}`;
     await appendPressKitToSheet({ name, email, channelLink });
+    await savePressKitLead({ name, email, channelLink }).catch((error) => console.error("Press Kit lead storage failed", error));
     if (!config || !isEmail(config.admin)) {
       console.warn("Press Kit submitted without SMTP configuration", { reference });
       return out({ message: "Thank you. Your press kit is ready to download.", reference });
@@ -70,6 +72,6 @@ export async function POST(request: Request) {
   const key = createHash("sha256").update(data.email).digest("hex");
   if (!allowed(key)) return out({ message: "Please wait 15 minutes before sending another enquiry." }, 429);
   const reference = `EVRS-${requestId.slice(0, 8).toUpperCase()}`;
-  try { const [admin, visitor] = contactEmails(data, { from: config.from, admin: config.admin }, reference); await config.transporter.sendMail(admin); await config.transporter.sendMail(visitor); return out({ message: "Thank you. Your enquiry has been received by our team.", reference }); }
+  try { const [admin, visitor] = contactEmails(data, { from: config.from, admin: config.admin }, reference); await config.transporter.sendMail(admin); await config.transporter.sendMail(visitor); await saveContactLead(data).catch((error) => console.error("Contact lead storage failed", error)); return out({ message: "Thank you. Your enquiry has been received by our team.", reference }); }
   catch (error) { console.error("Contact SMTP delivery failed", { reference, error: error instanceof Error ? error.message : "unknown" }); return out({ message: "We could not send your enquiry right now. Please try again shortly or email info@emiratesvillages.ae." }, 502); }
 }

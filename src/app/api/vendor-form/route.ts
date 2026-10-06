@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { saveVendorLead } from "@/lib/leads/save";
 
 const recipients = (process.env.ADMIN_EMAIL ?? "")
   .split(",")
@@ -103,6 +104,7 @@ export async function POST(request: Request) {
       sendVendorLeadToGoogleSheet(fields),
     ]);
 
+    await saveVendorLead(data).catch((error) => console.error("Vendor lead storage failed:", error));
     return Response.json({ ok: true });
   } catch (error) {
     console.error("Vendor form delivery failed:", error);

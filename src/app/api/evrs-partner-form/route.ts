@@ -1,3 +1,4 @@
+import { saveCommunityPartnerLead, saveCorporatePartnerLead } from "@/lib/leads/save";
 const PAGE_TYPES = {
   "EVRS community partners landing page": "Community",
   "EVRS corporate partners landing page": "Corporate",
@@ -71,6 +72,12 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("EVRS partner form delivery failed:", error);
     return Response.json({ error: "Unable to submit the form." }, { status: 502 });
+  }
+
+  if (partnerType === "Corporate") {
+    await saveCorporatePartnerLead(submission).catch((error) => console.error("Corporate partner lead storage failed:", error));
+  } else {
+    await saveCommunityPartnerLead(submission).catch((error) => console.error("Community partner lead storage failed:", error));
   }
 
   return Response.json({ ok: true });

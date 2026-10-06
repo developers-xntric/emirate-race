@@ -12,4 +12,12 @@ export const structure: StructureResolver = (S) =>
     singleton(S, "5. Contact page", "contact"),
     S.listItem().title("6. FAQ page").child(S.document().schemaType("faqPage").documentId("faqs")),
     S.listItem().title("7. Race pages").child(S.documentTypeList("racePage").title("Race pages").defaultOrdering([{ field: "pageName", direction: "asc" }])),
-  ]);
+    S.listItem().title("8. Lead Submissions").child(
+      S.list().title("Lead Submissions").items([
+        S.documentTypeListItem("contactLead").title("Contact enquiries"),
+        S.documentTypeListItem("pressKitLead").title("Press Kit Downloads"),
+        S.documentTypeListItem("vendorLead").title("Vendor bookings"),
+        S.documentTypeListItem("corporatePartnerLead").title("Corporate partner enquiries"),
+        S.documentTypeListItem("communityPartnerLead").title("Community partner enquiries"),
+      ]),
+    ),  ]);
