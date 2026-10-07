@@ -8,9 +8,116 @@
   // The application forwards this request securely to the Google Apps Script web app.
   const FORM_ENDPOINT = "/api/evrs-partner-form";
 
-  const $ = (s, c = document) => c.querySelector(s);
+  // Preserve each heading’s original elements so its type styles and reveal animation remain intact.
+  const updateHeadingText = (element, value) => {
+    const lines = value.split(/\r?\n/).filter(Boolean);
+    if (!lines.length) return;
+    if (element.id === "heroTitle") {
+      element.querySelectorAll(".line > span").forEach((line, index) => {
+        if (!lines[index]) return;
+        const styled = line.querySelector("b");
+        if (styled) styled.textContent = lines[index]; else line.textContent = lines[index];
+      });
+      return;
+    }
+    const first = element.querySelector("b");
+    if (first) first.textContent = lines[0]; else element.textContent = lines[0];
+    const br = element.querySelector("br");
+    if (!br) return;
+    let existingSecond = br.nextSibling;
+    while (existingSecond && existingSecond.nodeType === Node.TEXT_NODE && !existingSecond.textContent.trim()) existingSecond = existingSecond.nextSibling;
+    const secondTemplate = existingSecond?.nodeType === Node.ELEMENT_NODE ? existingSecond.cloneNode(false) : null;
+    while (br.nextSibling) br.nextSibling.remove();
+    if (lines[1]) {
+      if (secondTemplate) { secondTemplate.textContent = lines[1]; br.after(secondTemplate); }
+      else br.after(document.createTextNode(lines[1]));
+    }
+  };
+  // Sanity CMS overrides. Static page content remains the fallback.
+  let titleAnimationsStarted = false;
+  const applyCmsSection = (section, selectors) => {
+    if (!section) return;
+    Object.entries(selectors).forEach(([field, selector]) => {
+      const value = section[field];
+      if (!value) return;
+      const element = document.querySelector(selector);
+      if (!element) return;
+      if (field === "image") {
+        if ("src" in element) element.src = value;
+        else element.style.backgroundImage = `url("${value}")`;
+        return;
+      }
+      if (field.endsWith("Href")) { element.href = value; return; }
+      if (field === "title") { if (!titleAnimationsStarted) updateHeadingText(element, value); return; }
+      if (field === "cta" && element.querySelector("svg")) {
+        const textNode = [...element.childNodes].find((node) => node.nodeType === Node.TEXT_NODE && node.textContent.trim());
+        if (textNode) textNode.textContent = value;
+        else element.prepend(document.createTextNode(value));
+        return;
+      }
+      element.textContent = value;
+    });
+  };
+  const applyInvitationStatement = (invitation) => {
+    if (!invitation) return;
+    const eyebrow = document.querySelector("#inviteStatement .eyebrow");
+    if (eyebrow && invitation.statementEyebrow) eyebrow.textContent = invitation.statementEyebrow;
+    const values = [invitation.statementLine1, invitation.statementLine2, invitation.statementLine3];
+    document.querySelectorAll("#inviteStatement .line > span").forEach((line, index) => {
+      if (!values[index]) return;
+      const styled = line.querySelector("b");
+      if (styled) styled.textContent = values[index];
+      else line.textContent = values[index];
+    });
+  };
+  const cmsContentReady = fetch("/api/cms/partner/corporate", { cache: "no-store" }).then((r) => r.ok ? r.json() : null).then((cms) => {
+    if (!cms) return;
+    if (cms.seo?.title) document.title = cms.seo.title;
+    if (cms.navbar) {
+      const nav = document.querySelector(".site-header .nav");
+      const logo = document.querySelector(".site-header .logo");
+      const logoImage = document.querySelector(".site-header .logo img");
+      const headerCta = document.querySelector(".site-header > .btn");
+      if (logo && cms.navbar.logoHref) logo.href = cms.navbar.logoHref;
+      if (logoImage && cms.navbar.logo) logoImage.src = cms.navbar.logo;
+      if (nav && Array.isArray(cms.navbar.links) && cms.navbar.links.length) nav.replaceChildren(...cms.navbar.links.filter((link) => link && link.label && link.href).map((link) => { const anchor = document.createElement("a"); anchor.href = link.href; anchor.textContent = link.label; return anchor; }));
+      if (headerCta) { if (cms.navbar.ctaHref) headerCta.href = cms.navbar.ctaHref; const label = headerCta.querySelector("span"); if (label && cms.navbar.cta) { label.replaceChildren(document.createTextNode(cms.navbar.cta)); if (cms.navbar.ctaLong) { const long = document.createElement("span"); long.className = "long"; long.textContent = cms.navbar.ctaLong; label.append(long); } } }
+    }
+    applyCmsSection(cms.hero, { eyebrow: ".hero-panel .eyebrow", title: "#heroTitle", body: ".hero-sub", cta: ".hero-ctas a:first-child", ctaHref: ".hero-ctas a:first-child", secondaryCta: ".hero-ctas a:nth-child(2)", secondaryCtaHref: ".hero-ctas a:nth-child(2)", image: "#heroRahhal img" });
+    applyCmsSection(cms.invitation, { eyebrow: ".invite-copy .eyebrow", title: "#inviteTitle", body: "#inviteBody", scrollCue: ".invite-tag", image: "#invitePhoto" });
+    applyInvitationStatement(cms.invitation);
+    applyCmsSection(cms.season, { eyebrow: ".season-head .eyebrow", title: "#seasonTitle", body: ".season-head .lead" });
+    applyCmsSection(cms.raceDay, { eyebrow: ".raceday-head .eyebrow", title: "#raceTitle", body: ".raceday-head .lead", image: "#distRahhal" });
+    applyCmsSection(cms.medal, { eyebrow: ".collect-copy .eyebrow", title: ".collect-copy h2", body: ".collect-copy .lead", cta: "#collectAuto", image: ".medal-reveal img" });
+    applyCmsSection(cms.numbers, { eyebrow: ".numbers-head .eyebrow", title: "#numbersTitle" }); applyCmsSection(cms.partnership, { eyebrow: ".partner-head .eyebrow", title: "#partnerTitle" });
+    const formCopy = cms.join?.form;
+    if (formCopy) {
+      const set = (selector, value) => { const node = document.querySelector(selector); if (node && value) node.textContent = value; };
+      set("#joinForm h3", formCopy.title); set("label[for=fClub]", formCopy.organisationLabel); set("label[for=fName]", formCopy.nameLabel); set("label[for=fEmail]", formCopy.emailLabel); set("label[for=fPhone]", formCopy.phoneLabel); set("#sizeLbl", formCopy.sizeLabel); set("#joinForm .field:nth-of-type(4) .lbl", formCopy.villagesLabel); const noteLabel = document.querySelector("label[for=fNote]"); if (noteLabel && formCopy.noteLabel) { const text = [...noteLabel.childNodes].find((node) => node.nodeType === Node.TEXT_NODE && node.textContent.trim()); if (text) text.textContent = `${formCopy.noteLabel} `; } set(".jf-fine", formCopy.finePrint); set("#jfTitle", formCopy.successTitle); set("#jfMsg", formCopy.successMessage);
+      (formCopy.raceOptions || []).forEach((name, index) => { const chip = document.querySelectorAll("#chips .chip:not(.all)")[index]; if (chip && name) chip.textContent = name; });
+      const phone = document.querySelector("#fPhone"); if (phone && formCopy.phonePlaceholder) phone.placeholder = formCopy.phonePlaceholder;
+      const submit = document.querySelector(".jf-submit"); if (submit && formCopy.submitLabel) { const text = [...submit.childNodes].find((node) => node.nodeType === Node.TEXT_NODE && node.textContent.trim()); if (text) text.textContent = formCopy.submitLabel; }
+    }    applyCmsSection(cms.moment, { eyebrow: ".moment-copy .eyebrow", title: "#momentTitle", body: ".moment-copy > p:not(.eyebrow)", image: "#peek" }); applyCmsSection(cms.join, { eyebrow: ".join-panel .eyebrow", title: "#joinTitle", body: ".join-panel > p:not(.eyebrow)", image: "#joinRahhal" });
+    document.dispatchEvent(new CustomEvent("partner-cms", { detail: cms }));
+  }).catch(() => {});  const $ = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => [...c.querySelectorAll(s)];
-  const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.addEventListener("partner-cms", ({ detail: cms }) => {
+      (cms?.numbers?.cards || []).forEach((card, index) => {
+        const stat = document.querySelectorAll("#stats .stat")[index]; if (!stat || !card) return;
+        if (card.countTo !== undefined) stat.dataset.to = card.countTo;
+        if (card.format) stat.dataset.fmt = card.format;
+        if (card.dots !== undefined) stat.dataset.dots = card.dots;
+        const unit = stat.querySelector(".stat-unit"), label = stat.querySelector(".stat-label");
+        if (unit && card.unit) unit.textContent = card.unit; if (label && card.label) label.textContent = card.label;
+      });
+      const partnership = cms?.partnership; if (!partnership) return;
+      const left = document.querySelector("#pcClub"), right = document.querySelector("#pcEvrs");
+      if (left && partnership.leftTitle) left.querySelector(".pc-tag").textContent = partnership.leftTitle;
+      if (right && partnership.rightTitle) right.querySelector(".pc-tag").textContent = partnership.rightTitle;
+      (partnership.leftItems || []).forEach((item, index) => { const row = left?.querySelectorAll(".pc-item")[index]; if (!row) return; const title = row.querySelector(".pc-title"), description = row.querySelector(".pc-desc"); if (title && item.title) title.textContent = item.title; if (description && item.description) description.textContent = item.description; const channels = row.querySelectorAll(".pc-chans i"); (item.channels || []).forEach((channel, channelIndex) => { const label = channels[channelIndex]; if (!label || !channel) return; const textNode = [...label.childNodes].find((node) => node.nodeType === Node.TEXT_NODE && node.textContent.trim()); if (textNode) textNode.textContent = channel; else label.append(document.createTextNode(channel)); }); });
+      (partnership.rightItems || []).forEach((item, index) => { const row = right?.querySelectorAll(".pc-item")[index]; if (!row) return; const text = row.querySelector(".pc-num")?.parentElement; if (text && item.text) text.childNodes[text.childNodes.length - 1].textContent = item.text; const subtext = row.querySelector(".pc-sub"); if (subtext && item.subtext) subtext.textContent = item.subtext; });
+      const footer = document.querySelector(".partner-foot"); if (footer && partnership.footer) footer.textContent = partnership.footer;
+    });  const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const FINE = matchMedia("(hover: hover) and (pointer: fine)").matches;
   const isDesk = () => innerWidth > 900;
 
@@ -92,6 +199,36 @@
   ];
   const raceStart = (v) => new Date(v.date + "T00:00:00+04:00"); // start of race day, UAE time
   const pad2 = (n) => String(n).padStart(2, "0");
+  document.addEventListener("partner-cms", ({ detail: cms }) => {
+    const endCard = cms?.season?.endCard;
+    if (endCard) {
+      const end = document.querySelector(".vcard-end");
+      const heading = end?.querySelector("h3"), body = end?.querySelector("p"), cta = end?.querySelector("a");
+      if (heading && endCard.title) heading.textContent = endCard.title; if (body && endCard.body) body.textContent = endCard.body;
+      if (cta) { if (endCard.cta) cta.textContent = endCard.cta; if (endCard.ctaHref) cta.href = endCard.ctaHref; }
+    }    const raceLabel = cms?.season?.raceLabel, medalLabel = cms?.season?.medalLabel;
+    document.querySelectorAll(".vc-top > span:first-child").forEach((element) => { if (raceLabel) element.textContent = raceLabel; });
+    document.querySelectorAll(".vb-top > span:first-child").forEach((element) => { if (medalLabel) element.textContent = medalLabel; });
+    const races = cms?.season?.races;
+    if (!Array.isArray(races) || !races.length) return;
+    races.slice(0, VILLAGES.length).forEach((race, index) => {
+      const village = VILLAGES[index];
+      if (!village || !race) return;
+      Object.assign(village, { name: race.name || village.name, em: race.emirate || village.em, date: race.date || village.date, meaning: race.meaning || village.meaning, c: race.color || village.c, icon: race.icon || village.icon, image: race.image || village.image });
+      const card = document.querySelector(`.vcard[data-v="${village.k}"]`);
+      if (card) {
+        const date = new Date(village.date + "T00:00:00");
+        const title = card.querySelector(".vc-foot h3"), emirate = card.querySelector(".vc-foot p"), day = card.querySelector(".vc-date strong"), month = card.querySelector(".vc-date span"), medal = card.querySelector(".vcard-back img"), back = card.querySelector(".vcard-back p");
+        if (title) title.textContent = village.name; if (emirate) emirate.textContent = village.em; if (day) day.textContent = pad2(date.getDate()); if (month) month.textContent = MONTHS[date.getMonth()];
+        const icon = card.querySelector(".vc-icon"); if (icon && village.icon) icon.style.setProperty("--m", `url("${village.icon}")`);
+        if (medal && village.image) medal.src = village.image;
+        if (back) { back.firstChild.nodeValue = village.name; const meaning = back.querySelector("span"); if (meaning) meaning.textContent = village.meaning; }
+      }
+      const medalButton = document.querySelector(`.medal-btn[data-v="${village.k}"]`);
+      if (medalButton) { const medal = medalButton.querySelector("img"); const icon = card.querySelector(".vc-icon"); if (icon && village.icon) icon.style.setProperty("--m", `url("${village.icon}")`);
+        if (medal && village.image) medal.src = village.image; const labels = medalButton.querySelectorAll("span"); const label = labels[labels.length - 1]; if (label) label.textContent = village.name; }
+    });
+  });
 
   const makeMark = () =>
     $("#markTpl").content.firstElementChild.cloneNode(true);
@@ -517,7 +654,7 @@
         const d = new Date(v.date + "T00:00:00");
         g.insertAdjacentHTML(
           "beforeend",
-          `<span class="mq-item" style="--c:${v.c}"><i class="ico" style="--m:url(assets/icons/${v.k}.png)"></i>${v.name}<em>${pad2(d.getDate())} ${MONTHS[d.getMonth()]}</em></span><span class="mq-sep"></span>`,
+          `<span class="mq-item" style="--c:${v.c}"><i class="ico" style="--m:url(${v.icon || `assets/icons/${v.k}.png`})"></i>${v.name}<em>${pad2(d.getDate())} ${MONTHS[d.getMonth()]}</em></span><span class="mq-sep"></span>`,
         );
       });
       return g;
@@ -661,13 +798,13 @@
             <div class="vcard-front">
               <div class="vc-top"><span>Race 0${i + 1}</span><span class="vc-status ${cls}">${status}</span></div>
               <div class="vc-date"><strong>${pad2(d.getDate())}</strong><span>${MONTHS[d.getMonth()]}</span></div>
-              <i class="ico vc-icon" style="--m:url(assets/icons/${v.k}.png)"></i>
+              <i class="ico vc-icon" style="--m:url(${v.icon || `assets/icons/${v.k}.png`})"></i>
               <div class="vc-foot"><h3>${v.name}</h3><p>${v.em}</p></div>
               <span class="vc-hint" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10a8 8 0 0 0-14-4L4 8M4 14a8 8 0 0 0 14 4l2-2"/><path d="M4 3v5h5M20 21v-5h-5"/></svg></span>
             </div>
             <div class="vcard-back">
               <div class="vb-top"><span>Medal piece</span><span>0${i + 1} / 07</span></div>
-              <img src="assets/medals/${v.k}.webp" alt="${v.name} medal piece" loading="lazy">
+              <img src="${v.image || `assets/medals/${v.k}.webp`}" alt="${v.name} medal piece" loading="lazy">
               <p>${v.name}<span>${v.meaning}</span></p>
             </div>
           </div>
@@ -1046,6 +1183,20 @@
       auto = true,
       autoTween = null,
       numObj = { v: 10 };
+    const imageSource = (source) => source && (/^(https?:|\/)/.test(source) ? source : "assets/img/" + source);
+    document.addEventListener("partner-cms", ({ detail: cms }) => {
+      const distances = cms?.raceDay?.distances;
+      if (!Array.isArray(distances) || !distances.length) return;
+      distances.slice(0, DIST.length).forEach((entry, index) => {
+        const current = DIST[index]; if (!entry || !current) return;
+        const distance = Number(entry.distance);
+        Object.assign(current, { n: Number.isFinite(distance) ? distance : current.n, dec: Number.isFinite(distance) && !Number.isInteger(distance) ? String(distance).split(".")[1].length : 0, desc: entry.description || current.desc, laps: entry.laps || current.laps, tag: entry.tagline || current.tag, img: entry.image || current.img });
+        const tab = tabs[index]; if (!tab) return;
+        const label = tab.querySelector("strong"), caption = tab.querySelector("span");
+        if (label) label.textContent = entry.tabLabel || `${current.n}KM`; if (caption && entry.tabCaption) caption.textContent = entry.tabCaption;
+      });
+      cur = -1; select(0, false);
+    });
 
     gsap.ticker.add(() => {
       const p = ((performance.now() - t0) / 1000 / lapDur) % 1;
@@ -1101,7 +1252,7 @@
           duration: 0.25,
           ease: "power2.in",
           onComplete: () => {
-            img.src = "assets/img/" + d.img;
+            img.src = imageSource(d.img);
             gsap.fromTo(
               img,
               { y: 80, opacity: 0, rotation: -8 },
@@ -1115,7 +1266,7 @@
             );
           },
         });
-      } else img.src = "assets/img/" + d.img;
+      } else img.src = imageSource(d.img);
       if (auto && !RM) runAuto();
     }
     function runAuto() {
@@ -1180,7 +1331,7 @@
         "beforeend",
         `<button class="medal-btn ${v.dark ? "dark-text" : ""}" type="button" style="--c:${v.c}" data-v="${v.k}" aria-pressed="false" data-cursor="Collect">
            <span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
-           <img src="assets/medals/${v.k}.webp" alt="" loading="lazy"><span>${v.name}</span>
+           <img src="${v.image || `assets/medals/${v.k}.webp`}" alt="" loading="lazy"><span>${v.name}</span>
          </button>`,
       );
     });
@@ -1599,7 +1750,7 @@
 
   /* ====================================================== 06 COMMUNITY PILE */
   (function pile() {
-    const PHOTOS = [
+    let PHOTOS = [
       {
         src: "rahhal-startline",
         cap: "Race day, reporting in.",
@@ -1632,7 +1783,15 @@
         `<figure class="snap ${p.wide ? "wide" : ""}" style="--c:${p.c}"><img src="assets/img/${p.src}.webp" alt="Rahhal with runners: ${p.cap}" loading="lazy" draggable="false"><figcaption>${p.cap}<i></i></figcaption></figure>`,
       ),
     );
-    const snaps = $$(".snap", el);
+    document.addEventListener("partner-cms", ({ detail: cms }) => {
+      const photos = cms?.moment?.pileImages;
+      if (!Array.isArray(photos) || !photos.length) return;
+      photos.forEach((photo, index) => {
+        const card = el.querySelectorAll(".snap")[index]; if (!card || !photo) return;
+        const image = card.querySelector("img"), caption = card.querySelector("figcaption");
+        if (image && photo.image) image.src = photo.image; if (caption && photo.caption) caption.childNodes[0].textContent = photo.caption;
+      });
+    });    const snaps = $$(".snap", el);
     let z = 10;
     const scatter = (animate) => {
       const W = el.offsetWidth,
@@ -1741,7 +1900,7 @@
     VILLAGES.forEach((v) =>
       chips.insertAdjacentHTML(
         "beforeend",
-        `<button type="button" class="chip ${v.dark ? "dark-text" : ""}" style="--cc:${v.c}" data-v="${v.k}" aria-pressed="false"><i class="ico" style="--m:url(assets/icons/${v.k}.png)"></i>${v.name}</button>`,
+        `<button type="button" class="chip ${v.dark ? "dark-text" : ""}" style="--cc:${v.c}" data-v="${v.k}" aria-pressed="false"><i class="ico" style="--m:url(${v.icon || `assets/icons/${v.k}.png`})"></i>${v.name}</button>`,
       ),
     );
     chips.insertAdjacentHTML(
@@ -2146,9 +2305,9 @@
 
   /* ------------------------------------------------------------------ Boot */
   const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
-  Promise.race([fontsReady, new Promise((r) => setTimeout(r, 900))]).then(
+  Promise.all([Promise.race([fontsReady, new Promise((r) => setTimeout(r, 900))]), Promise.race([cmsContentReady, new Promise((r) => setTimeout(r, 1500))])]).then(
     () => {
-      titleReveals();
+      titleReveals(); titleAnimationsStarted = true;
       const intro = heroIntro();
       intro.pause();
       runLoader().then(() => {

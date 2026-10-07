@@ -617,12 +617,12 @@ fbq('track', 'PageView');
             <h4 data-i18n="pm_bank_title">Bank Transfer</h4>
             <span data-i18n="pm_bank_text">All associated bank charges must be borne by the vendor.</span>
             <div class="bank-details" dir="ltr">
-              <div><strong data-i18n="bd_account_name">Account Name:</strong> LINKVIVA FZ LLC</div>
-              <div><strong data-i18n="bd_account_number">Account Number:</strong> 14199362920001</div>
-              <div><strong data-i18n="bd_iban">IBAN:</strong> AE350030014199362920001</div>
-              <div><strong data-i18n="bd_bank_name">Bank Name:</strong> Abu Dhabi Commercial Bank</div>
-              <div><strong data-i18n="bd_branch_name">Branch Name:</strong> Head Office</div>
-              <div><strong data-i18n="bd_swift">Swift Code:</strong> ADCBAEAA</div>
+              <div><strong data-i18n="bd_account_name">Account Name:</strong> <span data-i18n="bd_account_name_value">LINKVIVA FZ LLC</span></div>
+              <div><strong data-i18n="bd_account_number">Account Number:</strong> <span data-i18n="bd_account_number_value">14199362920001</span></div>
+              <div><strong data-i18n="bd_iban">IBAN:</strong> <span data-i18n="bd_iban_value">AE350030014199362920001</span></div>
+              <div><strong data-i18n="bd_bank_name">Bank Name:</strong> <span data-i18n="bd_bank_name_value">Abu Dhabi Commercial Bank</span></div>
+              <div><strong data-i18n="bd_branch_name">Branch Name:</strong> <span data-i18n="bd_branch_name_value">Head Office</span></div>
+              <div><strong data-i18n="bd_swift">Swift Code:</strong> <span data-i18n="bd_swift_value">ADCBAEAA</span></div>
             </div>
           </div>
         </div>
@@ -800,6 +800,7 @@ const I18N = {
     pm_bank_text: "All associated bank charges must be borne by the vendor.",
     bd_account_name: "Account Name:", bd_account_number: "Account Number:", bd_iban: "IBAN:",
     bd_bank_name: "Bank Name:", bd_branch_name: "Branch Name:", bd_swift: "Swift Code:",
+    bd_account_name_value: "LINKVIVA FZ LLC", bd_account_number_value: "14199362920001", bd_iban_value: "AE350030014199362920001", bd_bank_name_value: "Abu Dhabi Commercial Bank", bd_branch_name_value: "Head Office", bd_swift_value: "ADCBAEAA",
 
     s8_title: "Terms &amp; Conditions",
     term_1: "Booking is confirmed only upon written confirmation from ECBD and completion of any applicable payment requirements.",
@@ -1101,6 +1102,18 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   applyLanguage('en');
+  fetch('/api/cms/vendor-form', { cache: 'no-store' }).then(function (response) { return response.ok ? response.json() : null; }).then(function (cms) {
+    if (!cms) return;
+    if (cms.seo && cms.seo.title) document.title = cms.seo.title;
+    if (cms.logo) { var logo = document.querySelector('.site-header .logo'); if (logo) logo.src = cms.logo; }
+    (cms.translations || []).forEach(function (entry) {
+      if (!entry.key) return;
+      if (entry.valueEn) I18N.en[entry.key] = entry.valueEn;
+      if (entry.valueAr) I18N.ar[entry.key] = entry.valueAr;
+    });
+    applyLanguage(currentLang);
+    reportContentHeight();
+  }).catch(function () {});
 });
 </script>
 

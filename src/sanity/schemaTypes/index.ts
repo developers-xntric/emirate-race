@@ -2,6 +2,8 @@ import { contactPageType } from "./contactPage";
 import { homePageType } from "./homePage";
 import { aboutPageType } from "./aboutPage";
 import { faqPageType } from "./faqPage";
+import { partnerLandingPageType } from "./partnerLandingPage";
+import { vendorFormPageType } from "./vendorFormPage";
 import { defineArrayMember, defineField, defineType } from "sanity";
 import { contactLeadType, pressKitLeadType, vendorLeadType, corporatePartnerLeadType, communityPartnerLeadType } from "./leadSubmission";
 
@@ -84,4 +86,4 @@ export const raceType = defineType({ name: "racePage", title: "Race page", type:
   defineField({ name: "slug", title: "Path segment", type: "string", validation: (Rule) => Rule.required() }),
   defineField({ name: "sections", title: "Race sections", type: "array", of: [section] }),
 ] });
-export const schema = { types: [navbarType, footerType, pageType, raceType, homePageType, aboutPageType, contactPageType, faqPageType, contactLeadType, pressKitLeadType, vendorLeadType, corporatePartnerLeadType, communityPartnerLeadType] };
+export const schema = { types: [navbarType, footerType, pageType, raceType, homePageType, aboutPageType, contactPageType, faqPageType, partnerLandingPageType, vendorFormPageType, contactLeadType, pressKitLeadType, vendorLeadType, corporatePartnerLeadType, communityPartnerLeadType] };

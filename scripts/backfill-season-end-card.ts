@@ -1,0 +1,3 @@
+import { loadEnvConfig } from "@next/env"; import { createClient } from "next-sanity";
+loadEnvConfig(process.cwd()); const client=createClient({projectId:process.env.NEXT_PUBLIC_SANITY_PROJECT_ID||"",dataset:process.env.NEXT_PUBLIC_SANITY_DATASET||"production",apiVersion:process.env.NEXT_PUBLIC_SANITY_API_VERSION||"2026-09-09",token:process.env.SANITY_API_TOKEN,useCdn:false});
+async function run(){const endCard={title:"Collect all seven",body:"Seven races. One seven-piece medal for the runners who finish them all.",cta:"See the medal",ctaHref:"#collect"};await Promise.all(["evrs-community","evrs-corporate"].map(id=>client.patch(id).set({"season.endCard":endCard}).commit()));console.log("Backfilled final Season card.");}run().catch(e=>{console.error(e);process.exit(1)});

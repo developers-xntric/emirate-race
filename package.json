@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "seed:sanity": "tsx scripts/seed-sanity.ts",
+    "seed:target-cms": "tsx scripts/seed-target-cms.ts",
     "fix:footer-links": "tsx scripts/fix-footer-links.ts",
     "fix:race-day-fields": "tsx scripts/fix-race-day-fields.ts",
     "seed:home-cms": "tsx scripts/seed-home-cms.ts",
