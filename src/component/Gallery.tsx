@@ -18,11 +18,14 @@ export default function Gallery() {
   const race = data.gallery.races[activeRace];
   const comingSoonImage = (race as { comingSoonImage?: string })
     .comingSoonImage;
+  const images2026 = (race as { images2026?: string[] }).images2026 ?? [];
   const images =
     galleryYear === "2026"
-      ? comingSoonImage
-        ? race.images.map(() => comingSoonImage)
-        : []
+      ? images2026.length
+        ? images2026
+        : comingSoonImage
+          ? race.images.map(() => comingSoonImage)
+          : []
       : race.images;
   const maxDesktopStart = Math.max(images.length - DESKTOP_VISIBLE_IMAGES, 0);
   const visibleDesktopImages = images.slice(
