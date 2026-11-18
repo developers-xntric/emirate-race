@@ -35,7 +35,6 @@ export default function Video({
       loop
       playsInline
       preload="metadata"
-      onCanPlay={() => { const video = ref.current; if (video && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) void video.play().catch(() => {}); }}
       aria-label={data.ui.video}
       className="absolute inset-0 size-full object-cover"
     />

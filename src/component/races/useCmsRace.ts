@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import type { RacePageData } from "@/data/races/types";
+import { previewQuery } from "@/lib/payload/preview-client";
+import { usePayloadCmsPreview } from "@/component/usePayloadCmsPreview";
 
 type CmsSection = Record<string, any>;
 export type CmsRacePageData = RacePageData & { cms: { heroCta: string; aboutEyebrow: string; aboutTitle: string; distancesEyebrow: string; distancesTitle: string; distancesCta: string; distancesHref: string; mapsEyebrow: string; mapsTitle: string; routeCtaEyebrow: string; journeyCta: string; journeyHref: string; raceDayTitle: string; dateLabel: string; dateValue: string; arrivalLabel: string; arrivalValue: string; startLabel: string; startValue: string } };
@@ -9,7 +11,8 @@ const localize = (section: CmsSection | undefined, name: "title" | "paragraph" |
 
 export function useCmsRace(race: RacePageData, slug: string, language: "en" | "ar"): CmsRacePageData {
   const [document, setDocument] = useState<{ sections?: CmsSection[]; seo?: CmsSection } | null>(null);
-  useEffect(() => { fetch(`/api/cms/race/${slug}`, { cache: "no-store" }).then((response) => response.ok ? response.json() : null).then(setDocument).catch(() => {}); }, [slug]);
+  usePayloadCmsPreview((sourceId, content, raw) => { if (sourceId.startsWith("race-") && raw.slug === slug) setDocument(content as { sections?: CmsSection[]; seo?: CmsSection }); });
+  useEffect(() => { fetch(`/api/cms/race/${slug}${previewQuery()}`, { cache: "no-store" }).then((response) => response.ok ? response.json() : null).then(setDocument).catch(() => {}); }, [slug]);
   useEffect(() => { const seo = document?.seo; if (!seo) return; const suffix = language === "en" ? "En" : "Ar"; const title = seo[`title${suffix}`]; const description = seo[`description${suffix}`]; if (title) window.document.title = title; if (description) window.document.querySelector('meta[name="description"]')?.setAttribute("content", description); }, [document, language]);
   const fallback = { heroCta: `Register for ${race.name}`, aboutEyebrow: "About the Race", aboutTitle: `Discover ${race.name}`, distancesEyebrow: "Distances", distancesTitle: "Choose Your Challenge", distancesCta: "Register Now", distancesHref: race.registerUrl, mapsEyebrow: "Race Maps", mapsTitle: "Explore the Route", routeCtaEyebrow: race.routeCta.eyebrow || "", journeyCta: "Register to Race", journeyHref: race.registerUrl, raceDayTitle: "Race Day Information", dateLabel: "Date:", dateValue: race.date, arrivalLabel: "Arrival Time:", arrivalValue: "2:30 PM", startLabel: "Race Start:", startValue: "4:00 PM" };
   if (!document?.sections) return { ...race, cms: fallback };

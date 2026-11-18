@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { contactEmails, pressKitEmails } from "@/lib/contact/email";
 import { isEmail, raceOptions, validateContact } from "@/lib/contact/validation";
-import { sanityClient } from "@/sanity/lib/client";
+import { cmsBySourceId } from "@/lib/payload/cms";
 import { smtpConfig } from "@/lib/contact/smtp";
 import { saveContactLead, savePressKitLead } from "@/lib/leads/save";
 
@@ -65,7 +65,8 @@ export async function POST(request: Request) {
     }
   }
   if (!config || !isEmail(config.admin)) return out({ message: "Our form is temporarily unavailable. Please email info@emiratesvillages.ae." }, 503);
-  const cmsOptions = await sanityClient.fetch<string[]>(`*[_type == "contactPage" && _id == "contact"][0].form.raceOptions[].labelEn`).catch(() => raceOptions);
+  const contactPage = await cmsBySourceId("contact").catch(() => null);
+  const cmsOptions = (contactPage as { form?: { raceOptions?: { labelEn?: string }[] } } | null)?.form?.raceOptions?.map((option) => option.labelEn || "");
   const allowedOptions = cmsOptions?.filter(Boolean).map((option) => option.trim()) || raceOptions;
   const { data, errors } = validateContact(input, allowedOptions);
   if (Object.keys(errors).length) return out({ message: "Please review the highlighted fields.", errors }, 422);

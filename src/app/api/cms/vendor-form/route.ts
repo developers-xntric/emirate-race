@@ -1,6 +1,8 @@
-import { NextResponse } from "next/server";
-import { sanityClient } from "@/sanity/lib/client";
-export async function GET() {
-  const content = await sanityClient.fetch(`*[_type == "vendorFormPage" && _id == "vendor-form-2026"][0]{seo,"logo":logo.asset->url,translations[]{key,label,valueEn,valueAr}}`);
-  return NextResponse.json(content ?? null, { headers: { "Cache-Control": "no-store" } });
+import { NextRequest, NextResponse } from "next/server";
+import { cmsBySourceId } from "@/lib/payload/cms";
+import { isValidPreview } from "@/lib/preview";
+export const dynamic = "force-dynamic";
+export async function GET(request: NextRequest) {
+  const preview = isValidPreview("/vendor-form-2026", request.nextUrl.searchParams.get("preview"));
+  return NextResponse.json(await cmsBySourceId("vendor-form-2026", preview));
 }

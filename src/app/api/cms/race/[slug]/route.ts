@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { sanityClient } from "@/sanity/lib/client";
-
-export async function GET(_: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+import { cmsRace } from "@/lib/payload/cms";
+import { isValidPreview } from "@/lib/preview";
+export const dynamic = "force-dynamic";
+export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const race = await sanityClient.fetch(`*[_type == "racePage" && slug == $slug][0]{pageName,slug,seo{titleEn,titleAr,descriptionEn,descriptionAr},sections[]{sectionName,eyebrowEn,eyebrowAr,titleEn,titleAr,paragraphEn,paragraphAr,heroDateEn,heroDateAr,raceDayInformationEn,raceDayInformationAr,dateLabelEn,dateLabelAr,dateValueEn,dateValueAr,arrivalTimeLabelEn,arrivalTimeLabelAr,arrivalTimeValueEn,arrivalTimeValueAr,raceStartLabelEn,raceStartLabelAr,raceStartValueEn,raceStartValueAr,ctaEn,ctaAr,ctaHref,"image": image.asset->url,items[]{itemName,itemNameEn,itemNameAr,titleEn,titleAr,paragraphEn,paragraphAr,ctaEn,ctaAr,ctaHref,"image": image.asset->url,"images": images[].asset->url},"images": images[].asset->url}}`, { slug });
-  return NextResponse.json(race ?? null, { headers: { "Cache-Control": "no-store" } });
+  const preview = isValidPreview(`/races/${slug}`, request.nextUrl.searchParams.get("preview"));
+  return NextResponse.json(await cmsRace(slug, preview));
 }

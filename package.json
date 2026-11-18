@@ -9,22 +9,29 @@
     "lint": "eslint",
     "seed:sanity": "tsx scripts/seed-sanity.ts",
     "seed:target-cms": "tsx scripts/seed-target-cms.ts",
+    "postinstall": "node scripts/patch-payload-env.cjs",
+    "migrate:payload": "node scripts/patch-payload-env.cjs && tsx scripts/run-payload-migration.ts",
+    "backfill:cloudinary": "tsx scripts/backfill-cloudinary-media.ts",
     "fix:footer-links": "tsx scripts/fix-footer-links.ts",
     "fix:race-day-fields": "tsx scripts/fix-race-day-fields.ts",
     "seed:home-cms": "tsx scripts/seed-home-cms.ts",
-    "seed:seven-piece-medal-cms": "tsx scripts/seed-seven-piece-medal-cms.ts"
+    "seed:seven-piece-medal-cms": "tsx scripts/seed-seven-piece-medal-cms.ts",
+    "seed:terms-cms": "tsx scripts/seed-terms-cms.ts",
+    "order:cms-fields": "tsx scripts/order-cms-editor-fields.ts"
   },
   "dependencies": {
-    "@sanity/vision": "^5.31.2",
+    "@payloadcms/db-postgres": "3.91.0",
+    "@payloadcms/next": "3.91.0",
+    "cloudinary": "^2.11.0",
     "gsap": "^3.15.0",
     "lenis": "^1.3.26",
     "next": "16.3.4",
-    "next-sanity": "^12.4.5",
     "nodemailer": "^10.0.10",
+    "payload": "3.91.0",
     "react": "19.2.8",
     "react-confetti": "^6.4.0",
     "react-dom": "19.2.8",
-    "sanity": "^5.31.2"
+    "sharp": "^0.34.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

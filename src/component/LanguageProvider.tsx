@@ -4,6 +4,8 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 import { usePathname } from "next/navigation";
 import { homeData } from "@/data/home-data";
 import { arabicData } from "@/data/home-data/arabic-index";
+import { previewQuery } from "@/lib/payload/preview-client";
+import { usePayloadCmsPreview } from "@/component/usePayloadCmsPreview";
 
 type Language = "en" | "ar";
 type Cms = any;
@@ -55,9 +57,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>("en");
   const pathname = usePathname();
   const [cms, setCms] = useState<Cms>(null);
+  usePayloadCmsPreview((sourceId, content) => {
+    const key = sourceId === "home" ? "home" : sourceId === "navbar" ? "navbar" : sourceId === "footer" ? "footer" : null;
+    if (key) setCms((current: Cms) => ({ ...(current || {}), [key]: content }));
+  });
   const base = language === "ar" ? arabicData : homeData;
   const data = applyHomeContent(applySharedContent(base, cms, language), cms, language) as typeof homeData;
-  useEffect(() => { fetch("/api/cms/site").then((response) => response.ok ? response.json() : null).then(setCms).catch(() => {}); }, []);
+  useEffect(() => { fetch("/api/cms/site" + previewQuery()).then((response) => response.ok ? response.json() : null).then(setCms).catch(() => {}); }, []);
   useEffect(() => { try { if (localStorage.getItem("evrs-language") === "ar") queueMicrotask(() => setLanguage("ar")); } catch {} }, []);
   useEffect(() => { document.documentElement.lang = language; document.documentElement.dir = language === "ar" ? "rtl" : "ltr"; if (pathname === "/") { document.title = data.metadata.title; document.querySelector('meta[name="description"]')?.setAttribute("content", data.metadata.description); } }, [language, data, pathname]);
   function toggleLanguage() { const next = language === "en" ? "ar" : "en"; setLanguage(next); try { localStorage.setItem("evrs-language", next); } catch {} }

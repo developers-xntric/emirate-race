@@ -1,2 +1,8 @@
-import {NextResponse} from "next/server"; import {sanityClient} from "@/sanity/lib/client";
-export async function GET(){const about=await sanityClient.fetch(`*[_type=="aboutPage"&&_id=="about"][0]{seo{titleEn,titleAr,descriptionEn,descriptionAr},hero{...,"heroVideo":heroVideo.asset->url,"aboutVideo":aboutVideo.asset->url,"images":images[].asset->url},journey,challenges{...,items[]{...,"image":image.asset->url}},races{...,items[]{...,"image":image.asset->url}},recognition{...,"image":image.asset->url,"decorativeImages":decorativeImages[].asset->url}}`);return NextResponse.json(about)}
+import { NextRequest, NextResponse } from "next/server";
+import { cmsBySourceId } from "@/lib/payload/cms";
+import { isValidPreview } from "@/lib/preview";
+export const dynamic = "force-dynamic";
+export async function GET(request: NextRequest) {
+  const preview = isValidPreview("/about", request.nextUrl.searchParams.get("preview"));
+  return NextResponse.json(await cmsBySourceId("about", preview));
+}

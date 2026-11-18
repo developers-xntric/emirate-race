@@ -68,10 +68,10 @@ export default function RouteMaps({
           tabIndex={0}
           className="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#bb0054]"
         >
-          {route.images ? (
+          {route.images?.some((image) => typeof image === "string" && image) ? (
             <div className="grid grid-cols-1 gap-3  md:grid-cols-2 md:gap-4">
-              {route.images.map((image, imageIndex) => (
-                <div key={image} className="2">
+              {route.images.filter((image): image is string => typeof image === "string" && Boolean(image)).map((image, imageIndex) => (
+                <div key={`${route.id}-${imageIndex}-${image}`} className="2">
                   <div className="relative aspect-[1390/764] overflow-hidden rounded-[6px]">
                     <Image
                       src={image}

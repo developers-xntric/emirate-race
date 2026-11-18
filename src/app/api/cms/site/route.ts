@@ -1,10 +1,14 @@
-import { NextResponse } from "next/server";
-import { sanityClient } from "@/sanity/lib/client";
-
+import { NextRequest, NextResponse } from "next/server";
+import { cmsBySourceId } from "@/lib/payload/cms";
+import { isValidPreview } from "@/lib/preview";
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
-export async function GET() {
-  const data = await sanityClient.fetch(`{"navbar": *[_type == "navbar" && _id == "navbar"][0]{brandEn,brandAr,"logo": logo.asset->url,navigation[]{labelEn,labelAr,href},races[]{labelEn,labelAr,href},registerEn,registerAr,registerHref},"home": *[_type == "homePage" && _id == "home"][0]{seo{titleEn,titleAr,descriptionEn,descriptionAr},hero{...,"video":video.asset->url,"poster":poster.asset->url},about{...,"video":video.asset->url,"videoPoster":videoPoster.asset->url},rahhal{...,items[]{...,"video":video.asset->url}},distances{...,items[]{...,"image":image.asset->url}},calendar{...,items[]{...,"icon":icon.asset->url,"medalImage":medalImage.asset->url}},medal{...,"image":image.asset->url},sevenPieceMedal{...,items[]{titleEn,titleAr,"image":image.asset->url},"completedImage":completedImage.asset->url},prizes{...,"image":image.asset->url},recognition{...,"videoA":videoA.asset->url,"videoB":videoB.asset->url},gallery{...,items[]{...,"images":images[].asset->url,"images2026":images2026[].asset->url,"comingSoonImage":comingSoonImage.asset->url}},faq,cta},"footer": *[_type == "footer" && _id == "footer"][0]{"logo": logo.asset->url,"preFooterLogo": preFooterLogo.asset->url,descriptionEn,descriptionAr,organizerEn,organizerAr,quickLinksTitleEn,quickLinksTitleAr,quickLinksPrimary[]{labelEn,labelAr,href,isPressKit},quickLinksRaces[]{labelEn,labelAr,href},email,emailHref,socials,copyrightEn,copyrightAr,legal[]{labelEn,labelAr,href}}}`, {}, { cache: "no-store" });
-  return NextResponse.json(data, { headers: { "Cache-Control": "no-store" } });
+export async function GET(request: NextRequest) {
+  const path = request.nextUrl.searchParams.get("path") || "";
+  const preview = isValidPreview(path, request.nextUrl.searchParams.get("preview"));
+  const [navbar, home, footer] = await Promise.all([
+    cmsBySourceId("navbar", preview),
+    cmsBySourceId("home", preview),
+    cmsBySourceId("footer", preview),
+  ]);
+  return NextResponse.json({ navbar, home, footer }, { headers: { "Cache-Control": "no-store" } });
 }

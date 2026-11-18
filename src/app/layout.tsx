@@ -7,6 +7,7 @@ import { LanguageProvider } from "@/component/LanguageProvider";
 import SmoothScroll from "@/component/SmoothScroll";
 import FloatingCTA from "@/component/FloatingCTA";
 import MetaPixelPageView from "@/component/MetaPixelPageView";
+import PayloadLivePreviewListener from "@/component/PayloadLivePreviewListener";
 
 const leagueSpartan = localFont({
   src: [
@@ -106,6 +107,7 @@ fbq('track', 'PageView');`,
           />
         </noscript>
         <SmoothScroll />
+        <PayloadLivePreviewListener />
         <MetaPixelPageView />
         <LanguageProvider>
           {children}

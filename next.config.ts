@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: ["@payloadcms/db-postgres", "drizzle-kit"],
   async rewrites() {
     return {
       beforeFiles: [
@@ -26,9 +27,9 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
+    remotePatterns: [new URL("https://res.cloudinary.com/**")],
     // WebP has broad browser support and avoids AVIF's slower first-request encoding.
     formats: ["image/webp"],
-    remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io" }],
     minimumCacheTTL: 60 * 60 * 24 * 30,
     qualities: [100, 75, 90],
   },

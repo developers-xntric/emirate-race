@@ -10,12 +10,15 @@ import Video from "@/component/Video";
 import { homeData } from "@/data/home-data";
 import { challenges, villages } from "./data";
 import CircularGallery from "./CircularGallery";
+import { previewQuery } from "@/lib/payload/preview-client";
+import { usePayloadCmsPreview } from "@/component/usePayloadCmsPreview";
 
 import ScrollCharacterReveal from "./ScrollCharacterReveal";
 export default function AboutPage() {
   const { language } = useLanguage();
   const [cms, setCms] = useState<any>(null);
-  useEffect(() => { fetch("/api/cms/about").then(r => r.ok ? r.json() : null).then(setCms).catch(() => {}); }, []);
+  usePayloadCmsPreview((sourceId, content) => { if (sourceId === "about") setCms(content); });
+  useEffect(() => { fetch("/api/cms/about" + previewQuery()).then(r => r.ok ? r.json() : null).then(setCms).catch(() => {}); }, []);
   const field = (item: any, name: string, fallback: string) => item?.[`${name}${language === "ar" ? "Ar" : "En"}`] || fallback;
   useEffect(() => { const seo = cms?.seo; if (!seo) return; const suffix = language === "ar" ? "Ar" : "En"; const title = seo[`title${suffix}`]; const description = seo[`description${suffix}`]; if (title) window.document.title = title; if (description) window.document.querySelector('meta[name="description"]')?.setAttribute("content", description); }, [cms, language]);
   const challengeCards = cms?.challenges?.items?.length ? cms.challenges.items.map((item: any, index: number) => ({ ...challenges[index], distance: field(item, "title", `${challenges[index].distance}\n${challenges[index].title}`).split("\n")[0], title: field(item, "title", `${challenges[index].distance}\n${challenges[index].title}`).split("\n").slice(1).join(" "), description: field(item, "paragraph", challenges[index].description), image: item.image || challenges[index].image, cta: field(item, "cta", `Register for the ${challenges[index].distance}`) })) : challenges;

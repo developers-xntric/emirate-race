@@ -5,6 +5,8 @@ import Navbar from "@/component/Navbar";
 import Footer from "@/component/Footer";
 import { raceOptions } from "@/lib/contact/validation";
 import { useLanguage } from "@/component/LanguageProvider";
+import { previewQuery } from "@/lib/payload/preview-client";
+import { usePayloadCmsPreview } from "@/component/usePayloadCmsPreview";
 type FormState = {
   name: string;
   email: string;
@@ -27,7 +29,8 @@ const empty: FormState = {
 export default function ContactPage() {
   const { language } = useLanguage();
   const [cms, setCms] = useState<CmsContact | null>(null);
-  useEffect(() => { fetch("/api/cms/contact").then((response) => response.ok ? response.json() : null).then(setCms).catch(() => {}); }, []);
+  usePayloadCmsPreview((sourceId, content) => { if (sourceId === "contact") setCms(content as CmsContact); });
+  useEffect(() => { fetch("/api/cms/contact" + previewQuery()).then((response) => response.ok ? response.json() : null).then(setCms).catch(() => {}); }, []);
   useEffect(() => { const seo = cms?.seo; if (!seo) return; const title = localized(seo, "title", language, ""); const description = localized(seo, "description", language, ""); if (title) window.document.title = title; if (description) window.document.querySelector('meta[name="description"]')?.setAttribute("content", description); }, [cms, language]);
   const fallbackCopy =
     language === "ar"

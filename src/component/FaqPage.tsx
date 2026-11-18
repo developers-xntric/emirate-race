@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useHomeData, useLanguage } from "./LanguageProvider";
+import { previewQuery } from "@/lib/payload/preview-client";
+import { usePayloadCmsPreview } from "@/component/usePayloadCmsPreview";
 
 type CmsText = Record<string, string | undefined>;
 type CmsFaq = {
@@ -20,11 +22,12 @@ export default function FaqPage() {
   const data = useHomeData();
   const { language } = useLanguage();
   const [cms, setCms] = useState<CmsFaq | null>(null);
+  usePayloadCmsPreview((sourceId, content) => { if (sourceId === "faqs") setCms(content as CmsFaq); });
   const [openQuestion, setOpenQuestion] = useState<number | null>(0);
   const fallbackQuestions = data.faq.columns.flat();
 
   useEffect(() => {
-    fetch("/api/cms/faqs")
+    fetch("/api/cms/faqs" + previewQuery(), { cache: "no-store" })
       .then((response) => (response.ok ? response.json() : null))
       .then(setCms)
       .catch(() => {});

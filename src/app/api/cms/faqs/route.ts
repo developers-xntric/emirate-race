@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server";
-import { sanityClient } from "@/sanity/lib/client";
-
-export async function GET() {
-  const faq = await sanityClient.fetch(`*[_type == "faqPage" && _id == "faqs"][0]{seo{titleEn,titleAr,descriptionEn,descriptionAr},hero{titleEn,titleAr,"image":image.asset->url},questions[]{questionEn,questionAr,answerEn,answerAr}}`);
-  return NextResponse.json(faq ?? null, { headers: { "Cache-Control": "no-store" } });
+import { NextRequest, NextResponse } from "next/server";
+import { cmsBySourceId } from "@/lib/payload/cms";
+import { isValidPreview } from "@/lib/preview";
+export const dynamic = "force-dynamic";
+export async function GET(request: NextRequest) {
+  const preview = isValidPreview("/faqs", request.nextUrl.searchParams.get("preview"));
+  return NextResponse.json(await cmsBySourceId("faqs", preview), { headers: { "Cache-Control": "no-store, max-age=0" } });
 }
