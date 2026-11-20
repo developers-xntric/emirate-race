@@ -198,6 +198,21 @@ const groupContentFields = (fields: ContentEntry[] = [], content?: Record<string
 };
 
 const whenPresent = (key: keyof ContentEntry) => (_data: unknown, siblingData: ContentEntry) => hasContent(siblingData?.[key]);
+const pathParts = (path = "") => path.match(/[^.[\]]+/g) || [];
+const contentAtPath = (content: unknown, path: string | undefined) => pathParts(path).reduce<unknown>((value, part) => {
+  if (Array.isArray(value)) return value[Number(part)];
+  return value && typeof value === "object" ? (value as Record<string, unknown>)[part] : undefined;
+}, content);
+const isMediaReference = (value: unknown): boolean =>
+  Array.isArray(value)
+    ? value.some(isMediaReference)
+    : Boolean(value && typeof value === "object" && typeof (value as Record<string, unknown>)._payloadMediaSourceId === "string");
+
+// Only actual media rows get this control. It remains visible after removal
+// because the original content still identifies the path as media.
+const hasMediaControl = (data: unknown, siblingData: ContentEntry) =>
+  hasContent(siblingData?.media)
+  || isMediaReference(contentAtPath((data as { content?: unknown } | undefined)?.content, siblingData?.path));
 // Direct uploads are deliberately limited to the two Home Gallery year fields.
 // Other content entries retain their existing single-media selector.
 const isHomeGalleryImageList = (_data: unknown, siblingData: ContentEntry) =>
@@ -210,10 +225,9 @@ const contentEntryFields = (): Field[] => [
   { name: "arabic", label: "Arabic", type: "textarea", admin: { condition: (_data, siblingData: ContentEntry) => hasContent(siblingData?.english) || hasContent(siblingData?.arabic) } },
   { name: "value", label: "Value", type: "textarea", admin: { condition: whenPresent("value") } },
   {
-    name: "media", label: "Shared media", type: "relationship", relationTo: "media",
+    name: "media", label: "Shared media", type: "upload", relationTo: "media", displayPreview: true,
     admin: {
-      condition: whenPresent("media"),
-      description: "One shared image, video, or file for English and Arabic. The selected media is previewed in the picker.",
+      condition: hasMediaControl,
     },
   },
   {

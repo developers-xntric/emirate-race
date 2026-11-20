@@ -16,7 +16,15 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     importMap: { baseDir: path.resolve(root, "src"), importMapFile: path.resolve(root, "src", "app", "(payload)", "admin", "importMap.ts") },
-    components: { beforeNavLinks: ["@/payload/components/PageNavigation"] },
+    components: {
+      beforeNavLinks: ["@/payload/components/PageNavigation"],
+      views: {
+        analytics: {
+          Component: "@/payload/components/AnalyticsDashboard",
+          path: "/analytics",
+        },
+      },
+    },
     livePreview: { breakpoints: [{ label: "Mobile", name: "mobile", width: 375, height: 667 }, { label: "Desktop", name: "desktop", width: 1440, height: 900 }] },
   },
   collections: [Users, Media, CmsDocuments, Submissions],
