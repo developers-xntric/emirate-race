@@ -17,7 +17,7 @@ export default buildConfig({
     user: Users.slug,
     importMap: { baseDir: path.resolve(root, "src"), importMapFile: path.resolve(root, "src", "app", "(payload)", "admin", "importMap.ts") },
     components: {
-      beforeNavLinks: ["@/payload/components/PageNavigation"],
+      beforeNavLinks: ["@/payload/components/AnalyticsNavigation", "@/payload/components/PageNavigation"],
       views: {
         analytics: {
           Component: "@/payload/components/AnalyticsDashboard",

@@ -20,7 +20,7 @@ const pages = [
 
 export default function PageNavigation() {
   return (
-    <nav aria-label="Site pages and analytics" style={{ margin: "0 0 12px", padding: "0 8px" }}>
+    <nav aria-label="Site pages" style={{ margin: "0 0 12px", padding: "0 8px" }}>
       <p style={{ fontSize: 12, fontWeight: 700, margin: "0 0 6px", opacity: 0.7, textTransform: "uppercase" }}>
         Site pages
       </p>
@@ -33,12 +33,7 @@ export default function PageNavigation() {
           {label}
         </a>
       ))}
-      <a
-        href="/admin/analytics"
-        style={{ display: "block", marginTop: 8, padding: "5px 8px", textDecoration: "none" }}
-      >
-        Analytics
-      </a>
+
     </nav>
   );
 }
