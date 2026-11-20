@@ -20,6 +20,22 @@ export default buildConfig({
     livePreview: { breakpoints: [{ label: "Mobile", name: "mobile", width: 375, height: 667 }, { label: "Desktop", name: "desktop", width: 1440, height: 900 }] },
   },
   collections: [Users, Media, CmsDocuments, Submissions],
-  db: postgresAdapter({ pool: { connectionString: process.env.DATABASE_URL } }),
+  db: postgresAdapter({
+    // Do not introspect/push the complete schema on every dev-server start.
+    // The deployed Neon database is managed through Payload migrations.
+    push: false,
+    pool: {
+      connectionString: process.env.DATABASE_URL,
+      // Neon pooler connections can be closed while the dev server is idle.
+      // Keep the pool deliberately small, detect failed connects quickly, and
+      // rotate clients before a stale session reaches an admin request.
+      max: 5,
+      idleTimeoutMillis: 10_000,
+      connectionTimeoutMillis: 10_000,
+      keepAlive: true,
+      keepAliveInitialDelayMillis: 10_000,
+      maxLifetimeSeconds: 300,
+    },
+  }),
   typescript: { outputFile: path.resolve(root, "src", "payload-types.ts") },
 });

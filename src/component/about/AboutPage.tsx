@@ -11,22 +11,39 @@ import { homeData } from "@/data/home-data";
 import { challenges, villages } from "./data";
 import CircularGallery from "./CircularGallery";
 import { previewQuery } from "@/lib/payload/preview-client";
-import { usePayloadCmsPreview } from "@/component/usePayloadCmsPreview";
+import { mergePayloadCmsPreview, usePayloadCmsPreview } from "@/component/usePayloadCmsPreview";
 
 import ScrollCharacterReveal from "./ScrollCharacterReveal";
 export default function AboutPage() {
   const { language } = useLanguage();
   const [cms, setCms] = useState<any>(null);
-  usePayloadCmsPreview((sourceId, content) => { if (sourceId === "about") setCms(content); });
-  useEffect(() => { fetch("/api/cms/about" + previewQuery()).then(r => r.ok ? r.json() : null).then(setCms).catch(() => {}); }, []);
+  usePayloadCmsPreview((sourceId, content) => { if (sourceId === "about") setCms((current: any) => mergePayloadCmsPreview(current, content)); });
+  useEffect(() => { fetch("/api/cms/about" + previewQuery(), { cache: "no-store", headers: { "Cache-Control": "no-cache" } }).then(r => r.ok ? r.json() : null).then(setCms).catch(() => {}); }, []);
   const field = (item: any, name: string, fallback: string) => item?.[`${name}${language === "ar" ? "Ar" : "En"}`] || fallback;
   useEffect(() => { const seo = cms?.seo; if (!seo) return; const suffix = language === "ar" ? "Ar" : "En"; const title = seo[`title${suffix}`]; const description = seo[`description${suffix}`]; if (title) window.document.title = title; if (description) window.document.querySelector('meta[name="description"]')?.setAttribute("content", description); }, [cms, language]);
-  const challengeCards = cms?.challenges?.items?.length ? cms.challenges.items.map((item: any, index: number) => ({ ...challenges[index], distance: field(item, "title", `${challenges[index].distance}\n${challenges[index].title}`).split("\n")[0], title: field(item, "title", `${challenges[index].distance}\n${challenges[index].title}`).split("\n").slice(1).join(" "), description: field(item, "paragraph", challenges[index].description), image: item.image || challenges[index].image, cta: field(item, "cta", `Register for the ${challenges[index].distance}`) })) : challenges;
+  // The original CMS used a two-line title ("5KM\nCommunity Run"); Payload
+  // stores the editor's natural one-line title. Support both without dropping
+  // English or Arabic text, and accept the migrated `distances` section name.
+  const challengesSection = cms?.challenges || cms?.distances;
+  const challengeCards = challengesSection?.items?.length ? challengesSection.items.map((item: any, index: number) => {
+    const fallback = challenges[index];
+    const title = field(item, "title", `${fallback.distance}\n${fallback.title}`);
+    const lines = title.split("\n").map((line: string) => line.trim()).filter(Boolean);
+    const englishDistanceTitle = lines.length === 1 ? lines[0].match(/^(\d+(?:\.\d+)?\s*KM)\s+(.+)$/i) : null;
+    return {
+      ...fallback,
+      distance: lines.length > 1 ? lines[0] : englishDistanceTitle?.[1] || fallback.distance,
+      title: lines.length > 1 ? lines.slice(1).join(" ") : englishDistanceTitle?.[2] || lines[0] || fallback.title,
+      description: field(item, "paragraph", fallback.description),
+      image: item.image || fallback.image,
+      cta: field(item, "cta", `Register for the ${fallback.distance}`),
+    };
+  }) : challenges;
   const raceCards = cms?.races?.items?.length ? cms.races.items.map((item: any, index: number) => ({ name: field(item, "title", villages[index].name), description: field(item, "paragraph", villages[index].description), image: item.image || villages[index].image, registerUrl: item.ctaHref || villages[index].registerUrl, cta: field(item, "cta", "Register Now"), color: villages[index].color })) : villages;
   const hero = cms?.hero; const journey = cms?.journey; const recognition = cms?.recognition;
   const heroLabel = field(hero, "label", "Emirates Village Run Series 2026"); const heroTitle = field(hero, "title", "Seven Races. One Journey Across the UAE."); const heroParagraph = field(hero, "paragraph", "The Emirates Villages Run Series is the UAE's nationwide running challenge, bringing together sport, community, heritage and discovery across all seven emirates.");
   const journeyLabel = field(journey, "label", "More Than a Running Series"); const journeyTitle = field(journey, "title", "Discover the UAE, One Village at a Time"); const journeyParagraph = field(journey, "paragraph", "From the first start line in Qidfa to the final race in Al Shuwaib, participants travel across the UAE and experience a different village, landscape and community at every stop.");
-  const challengesSection = cms?.challenges; const racesSection = cms?.races;
+  const racesSection = cms?.races;
   const challengesLabel = field(challengesSection, "label", "Built for Everyone"); const challengesTitle = field(challengesSection, "title", "Choose Your Challenge");
   const racesLabel = field(racesSection, "label", "The Seven Races"); const racesTitle = field(racesSection, "title", "Seven Villages. One Journey Across the UAE.");
   const recognitionLabel = field(recognition, "label", "Recognition & Legacy"); const recognitionTitle = field(recognition, "title", "A National Journey with International Recognition"); const recognitionParagraphs = field(recognition, "paragraph", "In its inaugural year, the Emirates Villages Run Series received international recognition through the UN Tourism Sports Tourism Award.\n\nEVRS returns in 2026 to continue connecting sport with authentic village destinations and introducing more people to the communities, landscapes and stories found across the UAE.").split("\n\n");

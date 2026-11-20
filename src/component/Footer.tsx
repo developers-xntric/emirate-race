@@ -56,18 +56,24 @@ export default function Footer({
   ];
   const localizedRaceLinks = raceLinks.map((race, index) => ({ ...race, label: data.ui.navRaces[index]?.label ?? race.label }));
   const pressKitLabel = language === "ar" ? "\u0627\u0644\u062d\u0642\u064a\u0628\u0629 \u0627\u0644\u0625\u0639\u0644\u0627\u0645\u064a\u0629" : "Press Kit";
-  const cmsQuickLinks = (data.footer as { links?: { label: string; href: string }[] }).links;
-  const preFooterLogo = (data.footer as { preFooterLogo?: string }).preFooterLogo ?? data.assets.preFooterLogo;
-  const columns = cmsQuickLinks?.length ? [cmsQuickLinks.slice(0, Math.ceil(cmsQuickLinks.length / 2)), cmsQuickLinks.slice(Math.ceil(cmsQuickLinks.length / 2))] : [
-    [
-      { label: data.ui.nav.home, href: `${homeHrefPrefix}/` },
-      { label: data.ui.nav.about, href: `${homeHrefPrefix}/about` },
-      { label: data.ui.nav.contact, href: `${homeHrefPrefix}/contact` },
-      { label: data.ui.nav.faqs, href: `${homeHrefPrefix}/faqs` },
-      { label: pressKitLabel, pressKit: true },
-    ],
-    localizedRaceLinks,
+  type FooterLink = { label: string; href?: string; pressKit?: boolean };
+  const footerContent = data.footer as typeof data.footer & { links?: FooterLink[]; linksPrimary?: FooterLink[]; linksRaces?: FooterLink[]; preFooterLogo?: string };
+  const cmsQuickLinks = footerContent.links;
+  const cmsPrimaryLinks = footerContent.linksPrimary;
+  const cmsRaceLinks = footerContent.linksRaces;
+  const defaultPrimaryLinks: FooterLink[] = [
+    { label: data.ui.nav.home, href: `${homeHrefPrefix}/` },
+    { label: data.ui.nav.about, href: `${homeHrefPrefix}/about` },
+    { label: data.ui.nav.contact, href: `${homeHrefPrefix}/contact` },
+    { label: data.ui.nav.faqs, href: `${homeHrefPrefix}/faqs` },
+    { label: pressKitLabel, pressKit: true },
   ];
+  const preFooterLogo = footerContent.preFooterLogo ?? data.assets.preFooterLogo;
+  const columns: FooterLink[][] = cmsQuickLinks?.length
+    ? [cmsQuickLinks.slice(0, Math.ceil(cmsQuickLinks.length / 2)), cmsQuickLinks.slice(Math.ceil(cmsQuickLinks.length / 2))]
+    : cmsPrimaryLinks?.length || cmsRaceLinks?.length
+      ? [cmsPrimaryLinks?.length ? cmsPrimaryLinks : defaultPrimaryLinks, cmsRaceLinks?.length ? cmsRaceLinks : localizedRaceLinks]
+      : [defaultPrimaryLinks, localizedRaceLinks];
   return (
     <footer id="contact" className="overflow-hidden bg-[#f8f8f8] text-white">
       <div

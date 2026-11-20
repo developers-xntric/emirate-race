@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Tajawal } from "next/font/google";
 import localFont from "next/font/local";
-import "./globals.css";
+import "../globals.css";
 import { homeData } from "@/data/home-data";
 import { LanguageProvider } from "@/component/LanguageProvider";
 import SmoothScroll from "@/component/SmoothScroll";
@@ -12,27 +12,27 @@ import PayloadLivePreviewListener from "@/component/PayloadLivePreviewListener";
 const leagueSpartan = localFont({
   src: [
     {
-      path: "../../public/fonts/LeagueSpartan-Light.ttf",
+      path: "../../../public/fonts/LeagueSpartan-Light.ttf",
       weight: "300",
       style: "normal",
     },
     {
-      path: "../../public/fonts/LeagueSpartan-Regular.ttf",
+      path: "../../../public/fonts/LeagueSpartan-Regular.ttf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../../public/fonts/LeagueSpartan-Medium.ttf",
+      path: "../../../public/fonts/LeagueSpartan-Medium.ttf",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../../public/fonts/LeagueSpartan-SemiBold.ttf",
+      path: "../../../public/fonts/LeagueSpartan-SemiBold.ttf",
       weight: "600",
       style: "normal",
     },
     {
-      path: "../../public/fonts/LeagueSpartan-Bold.ttf",
+      path: "../../../public/fonts/LeagueSpartan-Bold.ttf",
       weight: "700",
       style: "normal",
     },
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"

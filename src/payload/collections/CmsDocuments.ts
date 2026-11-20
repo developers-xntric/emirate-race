@@ -33,6 +33,8 @@ const visibleToEditors = (field: ContentEntry) => {
     && !segments.some((segment) => segment.startsWith("_"))
     && !segments.includes("pageName")
     && !segments.includes("sectionName")
+    // SEO is edited in the dedicated top-level group, never as a page section.
+    && segments[0] !== "seo"
     && !String(field.label || "").startsWith("_")
     && !rawValue.startsWith("image@file://")
     && !rawValue.startsWith("file@file://");
@@ -57,6 +59,12 @@ const sectionForPath = (path: string | undefined, content: Record<string, unknow
   if (match && Array.isArray(content?.sections)) {
     const item = content.sections[Number(match[1])] as { sectionName?: unknown } | undefined;
     if (typeof item?.sectionName === "string" && item.sectionName) return item.sectionName;
+  }
+  const galleryMatch = path?.match(/^gallery\.items\[(\d+)\]\./);
+  if (galleryMatch) {
+    const item = (content?.gallery as { items?: Array<{ titleEn?: unknown; titleAr?: unknown }> } | undefined)?.items?.[Number(galleryMatch[1])];
+    const title = typeof item?.titleEn === "string" ? item.titleEn : typeof item?.titleAr === "string" ? item.titleAr : `Race ${Number(galleryMatch[1]) + 1}`;
+    return `Gallery — ${title}`;
   }
   return sectionName(path);
 };
@@ -91,9 +99,89 @@ const orderSectionFields = (fields: ContentEntry[]) => {
     .map(({ field }) => field);
 };
 
+// Payload renders each selected upload using the Media ID as its React key.
+// Preserve gallery order while removing accidental duplicate media references.
+const mediaKey = (media: unknown) => {
+  if (media && typeof media === "object") {
+    const value = media as { id?: unknown; value?: unknown };
+    if (value.id !== undefined) return `id:${String(value.id)}`;
+    if (value.value !== undefined) return `value:${String(value.value)}`;
+  }
+  return `${typeof media}:${String(media)}`;
+};
+
+const uniqueMediaList = (media: unknown[] = []) => {
+  const keys = new Set<string>();
+  return media.filter((item) => {
+    const key = mediaKey(item);
+    if (keys.has(key)) return false;
+    keys.add(key);
+    return true;
+  });
+};
+const galleryImagePath = /^gallery\.items\[(\d+)\]\.(images|images2026)\[(\d+)\]$/;
+const galleryImageListPath = /^gallery\.items\[(\d+)\]\.(images|images2026)$/;
+
+const normalizeGalleryMediaFields = (fields: ContentEntry[], content?: Record<string, unknown>) => {
+  const mediaLists = new Map<string, ContentEntry>();
+  for (const field of fields) {
+    const indexed = field.path?.match(galleryImagePath);
+    const existing = field.path?.match(galleryImageListPath);
+    const path = indexed ? `gallery.items[${indexed[1]}].${indexed[2]}` : existing ? field.path! : undefined;
+    if (!path) continue;
+    const type = (indexed?.[2] || existing?.[2]) as "images" | "images2026";
+    const list = mediaLists.get(path) || { path, label: type === "images2026" ? "2026 gallery images" : "2025 gallery images", mediaList: [] };
+    // A previous backfill may have left an empty duplicate row. Never let it replace a populated gallery list.
+    if (Array.isArray(field.mediaList) && field.mediaList.length > 0) list.mediaList = uniqueMediaList(field.mediaList);
+    else if (field.media) list.mediaList = uniqueMediaList([...(list.mediaList || []), field.media]);
+    mediaLists.set(path, list);
+  }
+
+  const races = (content?.gallery as { items?: unknown[] } | undefined)?.items || [];
+  for (let index = 0; index < races.length; index += 1) {
+    for (const type of ["images", "images2026"] as const) {
+      const path = `gallery.items[${index}].${type}`;
+      if (!mediaLists.has(path)) mediaLists.set(path, { path, label: type === "images2026" ? "2026 gallery images" : "2025 gallery images", mediaList: [] });
+    }
+  }
+
+  const emitted = new Set<string>();
+  const normalized = fields.flatMap((field) => {
+    const indexed = field.path?.match(galleryImagePath);
+    const existing = field.path?.match(galleryImageListPath);
+    const path = indexed ? `gallery.items[${indexed[1]}].${indexed[2]}` : existing ? field.path! : undefined;
+    if (!path) return [field];
+    const list = mediaLists.get(path);
+    if (!list || emitted.has(path)) return [];
+    emitted.add(path);
+    return [list];
+  });
+  for (const [path, field] of mediaLists) if (!emitted.has(path)) normalized.push(field);
+  return normalized;
+};
+
+// Data written during an interrupted older backfill can contain repeated field
+// rows. For the editor, retain the one carrying real content so each race is
+// represented once and its selected gallery images remain visible.
+const contentScore = (field: ContentEntry) =>
+  (Array.isArray(field.mediaList) ? field.mediaList.length + 1 : 0)
+  + (field.media ? 1 : 0)
+  + (hasContent(field.english) ? 1 : 0)
+  + (hasContent(field.arabic) ? 1 : 0)
+  + (hasContent(field.value) ? 1 : 0);
+
+const deduplicateEditorFields = (fields: ContentEntry[]) => {
+  const unique = new Map<string, ContentEntry>();
+  for (const field of fields) {
+    const key = field.path || `__untitled_${unique.size}`;
+    const current = unique.get(key);
+    if (!current || contentScore(field) > contentScore(current)) unique.set(key, field);
+  }
+  return [...unique.values()];
+};
 const groupContentFields = (fields: ContentEntry[] = [], content?: Record<string, unknown>): ContentSection[] => {
   const sections = new Map<string, ContentSection>();
-  for (const field of fields.filter(visibleToEditors)) {
+  for (const field of deduplicateEditorFields(normalizeGalleryMediaFields(fields, content)).filter(visibleToEditors)) {
     const name = sectionForPath(field.path, content);
     const section = sections.get(name) || { sectionName: name, fields: [], sourceOrder: sections.size };
     section.fields?.push(field);
@@ -110,6 +198,10 @@ const groupContentFields = (fields: ContentEntry[] = [], content?: Record<string
 };
 
 const whenPresent = (key: keyof ContentEntry) => (_data: unknown, siblingData: ContentEntry) => hasContent(siblingData?.[key]);
+// Direct uploads are deliberately limited to the two Home Gallery year fields.
+// Other content entries retain their existing single-media selector.
+const isHomeGalleryImageList = (_data: unknown, siblingData: ContentEntry) =>
+  Array.isArray(siblingData?.mediaList) && /^gallery\.items\[\d+\]\.(images|images2026)$/.test(siblingData.path || "");
 
 const contentEntryFields = (): Field[] => [
   { name: "path", type: "text", admin: { hidden: true } },
@@ -125,10 +217,10 @@ const contentEntryFields = (): Field[] => [
     },
   },
   {
-    name: "mediaList", label: "Shared media gallery", type: "relationship", relationTo: "media", hasMany: true,
+    name: "mediaList", label: "Gallery images — upload or select", type: "upload", relationTo: "media", hasMany: true, displayPreview: true,
     admin: {
-      condition: whenPresent("mediaList"),
-      description: "Shared gallery media for both languages. The selected media is previewed in the picker.",
+      condition: isHomeGalleryImageList,
+      description: "Upload images directly here or select existing Media items. Drag to set their gallery order.",
     },
   },
 ];
@@ -159,6 +251,7 @@ const legacyContentFields: Field = {
 
 const seo: Field = {
   name: "seo", label: "SEO", type: "group",
+  admin: { condition: (data) => data?.documentType !== "navbar" && data?.documentType !== "footer" },
   fields: [
     { name: "titleEn", label: "English meta title", type: "text" },
     { name: "titleAr", label: "Arabic meta title", type: "text" },
@@ -176,9 +269,12 @@ export const CmsDocuments: CollectionConfig = {
     defaultColumns: ["adminTitle", "documentType", "slug", "updatedAt"],
     livePreview: {
       openByDefault: true,
-      url: ({ data }) => {
+      url: ({ data, req }) => {
         const slug = typeof data?.slug === "string" ? data.slug : "";
-        const origin = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
+        const host = req.headers.get("x-forwarded-host") || req.headers.get("host");
+        const protocol = req.headers.get("x-forwarded-proto") || "http";
+        const requestOrigin = host ? `${protocol}://${host}` : "http://localhost:3000";
+        const origin = process.env.NEXT_PUBLIC_SERVER_URL || requestOrigin;
         const preview = (path: string) => `${origin}/api/preview?secret=${encodeURIComponent(process.env.PAYLOAD_PREVIEW_SECRET || "")}&path=${encodeURIComponent(path)}`;
         if (data?.documentType === "homePage") return preview("/");
         if (data?.documentType === "aboutPage") return preview("/about");

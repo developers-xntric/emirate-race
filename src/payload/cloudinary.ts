@@ -32,6 +32,8 @@ export const cloudinaryDeliveryURL = (publicId?: string, resourceType?: Cloudina
   const base = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/${resourceType}/upload/${publicId}`;
   return resourceType === "image" ? base.replace("/image/upload/", "/image/upload/f_auto,q_auto/") : base;
 };
+
+
 const deliveryUrl = (secureUrl: string, resourceType: CloudinaryResourceType) => {
   // Leave the original intact in Cloudinary. These delivery-only parameters let
   // Cloudinary select an efficient browser format and quality for images.
@@ -49,16 +51,25 @@ export async function uploadToCloudinary(file: CloudinaryFile) {
     : originalBuffer;
   const source = optimizedBuffer ? Readable.from([optimizedBuffer]) : file.tempFilePath ? createReadStream(file.tempFilePath) : Readable.from([file.data]);
   return new Promise<{ publicId: string; resourceType: CloudinaryResourceType; secureUrl: string }>((resolve, reject) => {
-    const callback = (error: Error | undefined, result?: { public_id: string; secure_url: string }) => {
+    let settled = false;
+    const finish = (error?: Error, result?: { public_id: string; secure_url: string }) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timeout);
       if (error || !result) return reject(error || new Error("Cloudinary did not return an upload result."));
       resolve({ publicId: result.public_id, resourceType, secureUrl: deliveryUrl(result.secure_url, resourceType) });
     };
+    // Avoid an indefinitely spinning Payload upload control when a remote
+    // stream is dropped before Cloudinary can invoke its callback.
+    const timeout = setTimeout(() => finish(new Error("Media upload timed out after 60 seconds. Please try again.")), 60_000);
     const options = { folder: "evrs", public_id: safePublicId(file.name), resource_type: resourceType, overwrite: false } as const;
     const fileSize = Number(optimizedBuffer?.length ?? originalBuffer?.length ?? (file as { size?: number; filesize?: number }).size ?? (file as { filesize?: number }).filesize ?? 0);
     const destination = resourceType === "video" || fileSize > 10_000_000
-      ? cloudinary.uploader.upload_chunked_stream({ ...options, chunk_size: 6_000_000 }, callback)
-      : cloudinary.uploader.upload_stream(options, callback);
-    source.on("error", reject).pipe(destination);
+      ? cloudinary.uploader.upload_chunked_stream({ ...options, chunk_size: 6_000_000 }, finish)
+      : cloudinary.uploader.upload_stream(options, finish);
+    source.once("error", finish);
+    destination.once("error", finish);
+    source.pipe(destination);
   });
 }
 

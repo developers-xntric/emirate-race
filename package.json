@@ -17,7 +17,8 @@
     "seed:home-cms": "tsx scripts/seed-home-cms.ts",
     "seed:seven-piece-medal-cms": "tsx scripts/seed-seven-piece-medal-cms.ts",
     "seed:terms-cms": "tsx scripts/seed-terms-cms.ts",
-    "order:cms-fields": "tsx scripts/order-cms-editor-fields.ts"
+    "order:cms-fields": "tsx scripts/order-cms-editor-fields.ts",
+    "backfill:gallery-images": "tsx scripts/backfill-gallery-image-lists.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.91.0",

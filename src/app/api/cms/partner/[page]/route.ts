@@ -11,5 +11,5 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   const target = pages[page];
   const preview = target ? isValidPreview(target.path, request.nextUrl.searchParams.get("preview")) : false;
   const content = target ? await cmsBySourceId(target.sourceId, preview) : null;
-  return NextResponse.json(content, { status: content ? 200 : 404 });
+  return NextResponse.json(content, { status: content ? 200 : 404, headers: { "Cache-Control": "no-store, max-age=0" } });
 }

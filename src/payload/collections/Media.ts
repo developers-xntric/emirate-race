@@ -15,6 +15,12 @@ export const Media: CollectionConfig = {
     staticDir: path.resolve(process.cwd(), "media"),
     disableLocalStorage: cloudinaryEnabled,
     mimeTypes: ["image/*", "video/*", "application/pdf", "application/zip"],
+    // Supplies compact thumbnails anywhere an editor selects Media, without
+    // changing the field type or adding an additional upload control.
+    adminThumbnail: ({ doc }) => {
+      const media = doc as { thumbnailURL?: unknown; url?: unknown };
+      return typeof media.thumbnailURL === "string" ? media.thumbnailURL : typeof media.url === "string" ? media.url : null;
+    },
   },
   hooks: {
     beforeChange: [async ({ data, originalDoc, req }) => {

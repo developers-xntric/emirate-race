@@ -55,9 +55,13 @@ const resolveSourceMedia = (value: unknown, mediaBySourceID: Map<string, unknown
 export async function cmsDocument(where: Record<string, unknown>, preview = false) {
   const payload = await getPayload({ config });
   const result = await payload.find({ collection: "cms-documents", where: where as never, limit: 1, depth: 2, overrideAccess: true, draft: preview });
-  const document = result.docs[0] as unknown as { content?: Record<string, unknown>; contentFields?: ContentField[]; contentSections?: ContentSection[] };
+  const document = result.docs[0] as unknown as { content?: Record<string, unknown>; contentFields?: ContentField[]; contentSections?: ContentSection[]; seo?: Record<string, unknown> };
   if (!document?.content) return null;
   let content = clone(document.content);
+  // SEO is deliberately edited in its own top-level admin group instead of
+  // appearing again in Page sections. Apply those values to the delivered
+  // content so both published pages and draft requests use the one editor.
+  if (document.seo) content.seo = { ...(content.seo as Record<string, unknown> | undefined), ...document.seo };
   const unresolvedMediaSourceIDs = [...sourceMediaIDs(content)];
   if (unresolvedMediaSourceIDs.length) {
     const media = await payload.find({ collection: "media", where: { sourceId: { in: unresolvedMediaSourceIDs } }, pagination: false, depth: 0, overrideAccess: true });

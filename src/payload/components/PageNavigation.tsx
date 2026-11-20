@@ -1,4 +1,6 @@
 const pages = [
+  ["Navbar", "navbar"],
+  ["Footer", "footer"],
   ["Home", "home"],
   ["About", "about"],
   ["Contact", "contact"],

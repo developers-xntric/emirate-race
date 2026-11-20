@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { previewQuery } from "@/lib/payload/preview-client";
-import { usePayloadCmsPreview } from "@/component/usePayloadCmsPreview";
+import { mergePayloadCmsPreview, usePayloadCmsPreview } from "@/component/usePayloadCmsPreview";
 import { useLanguage } from "@/component/LanguageProvider";
 
 type TermsContent = { titleEn?: string; titleAr?: string; rulesEn?: string; rulesAr?: string };
@@ -23,7 +23,7 @@ function Rules({ rules }: { rules: string }) {
 export default function TermsRulesContent({ fallbackRules }: { fallbackRules: string }) {
   const { language } = useLanguage();
   const [cms, setCms] = useState<TermsContent | null>(null);
-  usePayloadCmsPreview((sourceId, content) => { if (sourceId === "terms-and-conditions") setCms(content as TermsContent); });
+  usePayloadCmsPreview((sourceId, content) => { if (sourceId === "terms-and-conditions") setCms((current) => mergePayloadCmsPreview(current, content as TermsContent)); });
   useEffect(() => { fetch("/api/cms/terms-and-conditions" + previewQuery(), { cache: "no-store" }).then((response) => response.ok ? response.json() : null).then(setCms).catch(() => {}); }, []);
   return <Rules rules={(language === "ar" ? cms?.rulesAr : cms?.rulesEn) || fallbackRules} />;
 }

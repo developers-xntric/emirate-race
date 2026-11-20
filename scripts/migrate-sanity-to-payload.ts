@@ -28,6 +28,18 @@ const unique = <T>(values: T[]) => [...new Set(values)];
 
 function editableFields(value: unknown, pathValue = "", fields: Record<string, unknown>[] = []): Record<string, unknown>[] {
   if (Array.isArray(value)) {
+    // A gallery is one editor-controlled media list, not a collection of
+    // technical images[0], images[1], ... fields. This also covers video
+    // galleries and keeps the original source order.
+    const mediaSourceIds = value.map((entry) => {
+      if (!entry || typeof entry !== "object") return undefined;
+      const reference = (entry as Record<string, unknown>)._sanityAsset;
+      return typeof reference === "string" ? assetID(reference) || undefined : undefined;
+    });
+    if (mediaSourceIds.length > 0 && mediaSourceIds.every(Boolean)) {
+      fields.push({ path: pathValue, label: label(pathValue), mediaSourceIds });
+      return fields;
+    }
     value.forEach((entry, index) => editableFields(entry, pathValue + "[" + index + "]", fields));
     return fields;
   }
@@ -117,11 +129,14 @@ export async function migrateSanityBackup(): Promise<Report> {
       const sourceData = rewriteAssets(source, report);
       const found = await payload.find({ collection: collection as "cms-documents" | "submissions", where: { sourceId: { equals: source._id } }, limit: 1, overrideAccess: true });
       const fields = collection === "cms-documents" ? editableFields(source) : [];
-      const mediaSourceIds = unique(fields.map((field) => field.mediaSourceId).filter((sourceId): sourceId is string => typeof sourceId === "string"));
-      for (const sourceId of mediaSourceIds) {
+      const referencedMediaSourceIds = unique(fields.flatMap((field) => [
+        field.mediaSourceId,
+        ...(Array.isArray(field.mediaSourceIds) ? field.mediaSourceIds : []),
+      ]).filter((sourceId): sourceId is string => typeof sourceId === "string"));
+      for (const sourceId of referencedMediaSourceIds) {
         if (!mediaIds.has(sourceId)) report.unresolvedReferences.push(`Missing Payload media for ${sourceId} used by ${source._id}`);
       }
-      report.resolvedMediaReferences += mediaSourceIds.filter((sourceId) => mediaIds.has(sourceId)).length;
+      report.resolvedMediaReferences += referencedMediaSourceIds.filter((sourceId) => mediaIds.has(sourceId)).length;
       const data = collection === "cms-documents"
         ? {
             adminTitle: String(source.pageName || source.sectionName || source._type),
@@ -130,6 +145,12 @@ export async function migrateSanityBackup(): Promise<Report> {
             contentSections: [],
             contentFields: fields.map((field) => {
               const sourceId = field.mediaSourceId as string | undefined;
+              const sourceIds = Array.isArray(field.mediaSourceIds)
+                ? field.mediaSourceIds.filter((item): item is string => typeof item === "string")
+                : [];
+              if (sourceIds.length) {
+                return { path: field.path, label: field.label, mediaList: sourceIds.map((item) => mediaIds.get(item)).filter(Boolean) };
+              }
               return sourceId ? { path: field.path, label: field.label, media: mediaIds.get(sourceId) } : field;
             }),
           }
