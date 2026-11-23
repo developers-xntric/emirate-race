@@ -30,7 +30,10 @@ export default function Rahhal() {
   const data = useHomeData();
   const sectionRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [shouldPreloadVideos, setShouldPreloadVideos] = useState(false);
+  const [shouldLoadDefaultVideo, setShouldLoadDefaultVideo] = useState(false);
+  const [loadedTraits, setLoadedTraits] = useState<Set<number>>(
+    () => new Set(),
+  );
   const [animationCycle, setAnimationCycle] = useState(0);
   const videoFrameRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
@@ -42,49 +45,41 @@ export default function Rahhal() {
   const [activeTrait, setActiveTrait] = useState<number | null>(null);
   const [playingTrait, setPlayingTrait] = useState<number | null>(null);
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShouldPreloadVideos(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "1200px 0px" },
-    );
-
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!shouldPreloadVideos) return;
+    if (!shouldLoadDefaultVideo) return;
 
     const defaultVideo = defaultVideoRef.current;
-    videoFrameRef.current
-      ?.querySelectorAll<HTMLVideoElement>("video")
-      .forEach((video) => video.load());
+    defaultVideo?.load();
 
     if (videoIsVisibleRef.current && activeTraitRef.current === null) {
       void defaultVideo?.play().catch(() => {});
     }
-  }, [shouldPreloadVideos]);
+  }, [shouldLoadDefaultVideo]);
 
   const previewTrait = useCallback((index: number | null) => {
     activeTraitRef.current = index;
     setActiveTrait(index);
     setPlayingTrait(null);
     videoRefs.current.forEach((video) => video?.pause());
-    const video = index === null ? null : videoRefs.current[index];
-    if (video && !video.error) {
-      video.currentTime = 0;
-      void video.play().catch(() => {
-        // Keep the default video visible if the card preview cannot play.
+    if (index !== null) {
+      setLoadedTraits((current) => {
+        if (current.has(index)) return current;
+        return new Set(current).add(index);
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (activeTrait === null || !loadedTraits.has(activeTrait)) return;
+
+    const video = videoRefs.current[activeTrait];
+    if (!video || video.error) return;
+
+    video.load();
+    video.currentTime = 0;
+    void video.play().catch(() => {
+      // Keep the default video visible if the card preview cannot play.
+    });
+  }, [activeTrait, loadedTraits]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -118,11 +113,7 @@ export default function Rahhal() {
         if (entry.isIntersecting) {
           videoIsVisibleRef.current = true;
           defaultVideoEndedRef.current = false;
-          const defaultVideo = defaultVideoRef.current;
-          if (activeTraitRef.current === null && defaultVideo) {
-            defaultVideo.currentTime = 0;
-            void defaultVideo.play().catch(() => {});
-          }
+          setShouldLoadDefaultVideo(true);
         } else {
           videoIsVisibleRef.current = false;
           defaultVideoRef.current?.pause();
@@ -193,8 +184,12 @@ export default function Rahhal() {
               />
               <video
                 ref={defaultVideoRef}
-                src={data.assets.rahhalDefaultVideo}
-                preload={shouldPreloadVideos ? "auto" : "none"}
+                src={
+                  shouldLoadDefaultVideo
+                    ? data.assets.rahhalDefaultVideo
+                    : undefined
+                }
+                preload="auto"
                 muted
                 playsInline
                 aria-hidden="true"
@@ -220,8 +215,8 @@ export default function Rahhal() {
                   ref={(element) => {
                     videoRefs.current[index] = element;
                   }}
-                  src={trait.video}
-                  preload={shouldPreloadVideos ? "auto" : "none"}
+                  src={loadedTraits.has(index) ? trait.video : undefined}
+                  preload="auto"
                   muted
                   loop
                   playsInline
