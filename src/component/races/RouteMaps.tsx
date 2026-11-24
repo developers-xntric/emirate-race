@@ -32,11 +32,8 @@ export default function RouteMaps({
       <div
         role="tablist"
         aria-label={raceName + " race routes"}
-     className={`mx-auto mb-6 grid max-w-[1050px] grid-cols-2 items-center gap-3 md:mb-8 md:flex md:justify-center md:gap-5 ${
-  routes.length === 3
-    ? "[&>button:last-child]:col-span-2 [&>button:last-child]:justify-self-center"
-    : ""
-}`}
+        className="mx-auto mb-6 grid max-w-[1050px] grid-cols-2 items-center gap-3 md:mb-8 md:flex md:justify-center md:gap-5"
+
       >
         {routes.map((route, index) => (
           <button
@@ -52,7 +49,7 @@ export default function RouteMaps({
             tabIndex={active === index ? 0 : -1}
             onClick={() => setActive(index)}
             onKeyDown={(event) => handleKey(event, index)}
-            className={`cursor-pointer rounded-[5px] px-3 py-3 text-[11px] leading-tight font-bold text-white uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#bb0054] md:px-4 md:text-base 2xl:text-xl ${active === index ? "bg-[#bb0054]" : "bg-[#072f4f] hover:bg-[#12486f]"}`}
+            className={`cursor-pointer rounded-[5px] px-3 py-3 text-[11px] leading-tight font-bold text-white uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#bb0054] md:px-4 md:text-base 2xl:text-xl ${routes.length === 3 && index === 2 ? "col-span-2 justify-self-center" : ""} ${active === index ? "bg-[#bb0054]" : "bg-[#072f4f] hover:bg-[#12486f]"}`}
           >
             {route.label}
           </button>
